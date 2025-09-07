@@ -10,6 +10,7 @@ import {
   Dimensions,
   Alert,
 } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 // import { LinearGradient } from 'react-native-linear-gradient';
 import PhraseService, { SearchFilters } from '../services/PhraseService';
 import { PhraseCategory, PhraseTone } from '../data/phrases';
@@ -121,7 +122,12 @@ const NewHomeScreen: React.FC = () => {
           {/* Search Bar */}
           <View style={styles.searchContainer}>
             <View style={styles.searchInputContainer}>
-              <Text style={styles.searchIcon}>🔍</Text>
+              <Icon
+                name="search"
+                size={20}
+                color="#999"
+                style={styles.searchIcon}
+              />
               <TextInput
                 style={styles.searchInput}
                 placeholder="Search"
@@ -268,7 +274,6 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   searchIcon: {
-    fontSize: 16,
     marginRight: 10,
   },
   searchInput: {

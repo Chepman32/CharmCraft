@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { Phrase } from '../data/phrases';
 import PhraseService from '../services/PhraseService';
@@ -73,14 +74,11 @@ const PhraseCard: React.FC<PhraseCardProps> = ({
           onPress={handleFavoriteToggle}
           style={styles.favoriteButton}
         >
-          <Text
-            style={[
-              styles.favoriteIcon,
-              { color: isFavorite ? '#F44336' : '#757575' },
-            ]}
-          >
-            {isFavorite ? '♥' : '♡'}
-          </Text>
+          <Icon
+            name={isFavorite ? 'favorite' : 'favorite-border'}
+            size={20}
+            color={isFavorite ? '#F44336' : '#757575'}
+          />
         </TouchableOpacity>
       </View>
 
@@ -134,9 +132,6 @@ const styles = StyleSheet.create({
   },
   favoriteButton: {
     padding: 4,
-  },
-  favoriteIcon: {
-    fontSize: 20,
   },
   phraseText: {
     fontSize: 16,

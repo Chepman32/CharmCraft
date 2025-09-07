@@ -1,7 +1,7 @@
 import React from 'react';
-import { Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import NewHomeScreen from '../screens/NewHomeScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
 import CollectionsScreen from '../screens/CollectionsScreen';
@@ -21,13 +21,14 @@ const AppNavigator: React.FC = () => {
             backgroundColor: '#FFFFFF',
             borderTopWidth: 1,
             borderTopColor: '#E0E0E0',
-            paddingBottom: 5,
-            paddingTop: 5,
-            height: 60,
+            paddingBottom: 8,
+            paddingTop: 8,
+            height: 70,
           },
           tabBarLabelStyle: {
-            fontSize: 12,
+            fontSize: 11,
             fontWeight: '500',
+            marginTop: 2,
           },
         }}
       >
@@ -64,21 +65,21 @@ const AppNavigator: React.FC = () => {
   );
 };
 
-// Simple icon components using text
+// Icon components using vector icons
 const HomeIcon: React.FC<{ color: string }> = ({ color }) => (
-  <Text style={{ fontSize: 20, color }}>🏠</Text>
+  <Icon name="home" size={24} color={color} />
 );
 
 const FavoritesIcon: React.FC<{ color: string }> = ({ color }) => (
-  <Text style={{ fontSize: 20, color }}>❤️</Text>
+  <Icon name="favorite" size={24} color={color} />
 );
 
 const CollectionsIcon: React.FC<{ color: string }> = ({ color }) => (
-  <Text style={{ fontSize: 20, color }}>📚</Text>
+  <Icon name="collections" size={24} color={color} />
 );
 
 const BuilderIcon: React.FC<{ color: string }> = ({ color }) => (
-  <Text style={{ fontSize: 20, color }}>🔧</Text>
+  <Icon name="build" size={24} color={color} />
 );
 
 export default AppNavigator;
