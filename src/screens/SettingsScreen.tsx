@@ -80,7 +80,7 @@ const SettingsScreen: React.FC = () => {
         {/* Theme Section */}
         <SettingSection
           title={t('settings.theme')}
-          description="Choose your preferred visual style"
+          description={t('settings.themeDescription')}
         >
           <ThemeSelector onThemeChange={handleThemeChange} />
         </SettingSection>
@@ -88,7 +88,7 @@ const SettingsScreen: React.FC = () => {
         {/* Language Section */}
         <SettingSection
           title={t('settings.language')}
-          description="Select your preferred language"
+          description={t('settings.languageDescription')}
         >
           <LanguageSelector onLanguageChange={handleLanguageChange} />
         </SettingSection>
@@ -96,7 +96,7 @@ const SettingsScreen: React.FC = () => {
         {/* Sound Section */}
         <SettingSection
           title={t('settings.sound')}
-          description="Enable or disable sound effects"
+          description={t('settings.soundDescription')}
         >
           <View style={styles.toggleRow}>
             <View style={styles.toggleInfo}>
@@ -109,7 +109,7 @@ const SettingsScreen: React.FC = () => {
                   { color: theme.colors.textSecondary },
                 ]}
               >
-                Play sounds for button taps and interactions
+                {t('settings.soundToggleDescription')}
               </Text>
             </View>
             <ToggleSwitch
@@ -122,7 +122,7 @@ const SettingsScreen: React.FC = () => {
         {/* Haptics Section */}
         <SettingSection
           title={t('settings.haptics')}
-          description="Enable or disable haptic feedback"
+          description={t('settings.hapticsDescription')}
         >
           <View style={styles.toggleRow}>
             <View style={styles.toggleInfo}>
@@ -135,7 +135,7 @@ const SettingsScreen: React.FC = () => {
                   { color: theme.colors.textSecondary },
                 ]}
               >
-                Feel vibrations for button taps and interactions
+                {t('settings.hapticsToggleDescription')}
               </Text>
             </View>
             <ToggleSwitch
@@ -148,7 +148,7 @@ const SettingsScreen: React.FC = () => {
         {/* About Section */}
         <SettingSection
           title={t('settings.about')}
-          description="App information and version"
+          description={t('settings.aboutDescription')}
         >
           <View style={styles.aboutContent}>
             <Text style={[styles.appName, { color: theme.colors.text }]}>
@@ -165,7 +165,7 @@ const SettingsScreen: React.FC = () => {
                 { color: theme.colors.textSecondary },
               ]}
             >
-              Perfect words for every moment in your relationship
+              {t('settings.appDescription')}
             </Text>
           </View>
         </SettingSection>

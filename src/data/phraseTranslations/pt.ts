@@ -1,0 +1,23 @@
+export const phraseTranslationsPt: Record<string, string> = {
+  '1': 'Eu estava pensando em você e não consegui evitar sorrir. Como está seu dia?',
+  '2': 'Qual foi a coisa mais interessante que te aconteceu hoje?',
+  '3': 'Você tem uma maneira incrível de fazer tudo ficar melhor só por ser você.',
+  '4': 'Seu sorriso é absolutamente contagiante — ilumina o meu dia inteiro.',
+  '5': 'Hoje não consigo me concentrar em nada porque não paro de pensar em você.',
+  '6': 'Sou só eu, ou a nossa química é incrível?',
+  '7': 'Cada momento com você parece um lindo sonho do qual eu nunca quero acordar.',
+  '8': 'Você não é apenas meu/minha parceiro(a); é meu/minha melhor amigo(a) e o amor da minha vida.',
+  '9': 'Eu acredito completamente em você. Você consegue, e eu estarei aqui para você, aconteça o que acontecer.',
+  '10': 'Você é mais forte do que imagina, e tenho muito orgulho de estar ao seu lado.',
+  '11': 'Eu era normal antes de te conhecer. Agora olha pra mim — completamente apaixonado(a) e amando cada segundo!',
+  '12': 'Aviso: pensar em você pode causar sorrisos excessivos e risadinhas aleatórias.',
+  '13': 'Bom dia, linda(o)! Espero que seu dia seja tão incrível quanto você.',
+  '14': 'Acordar pensando em você é a melhor forma de começar o dia.',
+  '15': 'Bons sonhos, linda(o). Mal posso esperar para falar com você amanhã.',
+  '16': 'Ao adormecer, saiba que você é a última coisa em que penso hoje e a primeira de amanhã.',
+  '17': 'Você mudou minha perspectiva sobre tantas coisas, e sou grato(a) pela pessoa que estou me tornando com você.',
+  '18': 'Amo como podemos falar sobre qualquer coisa. Você realmente me entende.',
+  '19': 'A distância entre nós é apenas um teste de até onde o amor pode viajar.',
+  '20': 'Senti sua falta — é o jeito do meu coração me lembrar o quanto você significa para mim.',
+};
+

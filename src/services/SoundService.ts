@@ -101,6 +101,23 @@ class SoundService {
     // Set global volume (0.0 to 1.0)
     console.log(`Setting volume to: ${volume}`);
   }
+
+  // Convenience methods for specific sound types
+  async playButtonTap(): Promise<void> {
+    return this.playSound('tap');
+  }
+
+  async playSuccess(): Promise<void> {
+    return this.playSound('success');
+  }
+
+  async playError(): Promise<void> {
+    return this.playSound('error');
+  }
+
+  async playNotification(): Promise<void> {
+    return this.playSound('notification');
+  }
 }
 
 export default new SoundService();

@@ -8,10 +8,18 @@ export const ru = {
   settings: {
     title: 'Настройки',
     theme: 'Тема',
+    themeDescription: 'Выберите предпочитаемый визуальный стиль',
     language: 'Язык',
+    languageDescription: 'Выберите предпочитаемый язык',
     sound: 'Звуковые эффекты',
+    soundDescription: 'Включить или отключить звуковые эффекты',
     haptics: 'Тактильная обратная связь',
+    hapticsDescription: 'Включить или отключить тактильную обратную связь',
+    soundToggleDescription: 'Воспроизводить звуки при нажатиях кнопок и взаимодействиях',
+    hapticsToggleDescription: 'Чувствовать вибрации при нажатиях кнопок и взаимодействиях',
     about: 'О приложении',
+    aboutDescription: 'Информация о приложении и версия',
+    appDescription: 'Идеальные слова для каждого момента в ваших отношениях',
   },
   themes: {
     light: 'Светлая',

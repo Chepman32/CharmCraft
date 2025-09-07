@@ -198,7 +198,7 @@ const NewHomeScreen: React.FC = () => {
     }
   };
 
-  const categoryButtons = [
+  const categoryButtons = React.useMemo(() => [
     {
       key: PhraseCategory.CONVERSATION_STARTER,
       label: t('categories.icebreakers'),
@@ -208,7 +208,7 @@ const NewHomeScreen: React.FC = () => {
     { key: PhraseCategory.ROMANTIC, label: t('categories.longDistance') },
     { key: PhraseCategory.CASUAL, label: t('categories.everyday') },
     { key: PhraseCategory.GOOD_MORNING, label: t('categories.birthday') },
-  ];
+  ], [t]);
 
   const intensityToTone = (intensity: string): PhraseTone => {
     switch (intensity) {

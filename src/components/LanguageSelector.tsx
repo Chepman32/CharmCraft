@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  Pressable,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useTheme } from '../contexts/ThemeContext';
@@ -21,30 +22,33 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
   const { theme } = useTheme();
   const { language, setLanguage, availableLanguages } = useTranslation();
 
-  const handleLanguageSelect = (selectedLanguage: string) => {
+  const handleLanguageSelect = async (selectedLanguage: string) => {
+    console.log('Language selection triggered for:', selectedLanguage);
     SettingsService.triggerHapticFeedback('medium');
     SettingsService.triggerSoundFeedback('tap');
-    setLanguage(selectedLanguage);
+    await setLanguage(selectedLanguage);
     onLanguageChange(selectedLanguage);
+    console.log('Language change completed for:', selectedLanguage);
   };
 
   const renderLanguageOption = (lang: (typeof availableLanguages)[0]) => {
     const isSelected = language === lang.code;
 
     return (
-      <TouchableOpacity
+      <Pressable
         key={lang.code}
-        style={[
+        style={({ pressed }) => [
           styles.languageOption,
           {
             backgroundColor: isSelected
               ? theme.colors.primary + '20'
+              : pressed
+              ? theme.colors.border + '20'
               : 'transparent',
             borderColor: theme.colors.border,
           },
         ]}
         onPress={() => handleLanguageSelect(lang.code)}
-        activeOpacity={0.7}
       >
         <View style={styles.languageInfo}>
           <Text
@@ -70,29 +74,20 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
         {isSelected && (
           <Icon name="check" size={24} color={theme.colors.primary} />
         )}
-      </TouchableOpacity>
+      </Pressable>
     );
   };
 
   return (
     <View style={styles.container}>
-      <ScrollView
-        style={styles.scrollView}
-        showsVerticalScrollIndicator={false}
-        nestedScrollEnabled={true}
-      >
-        {availableLanguages.map(renderLanguageOption)}
-      </ScrollView>
+      {availableLanguages.map(renderLanguageOption)}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    maxHeight: 300,
-  },
-  scrollView: {
-    flex: 1,
+    // Remove maxHeight since we're not scrolling
   },
   languageOption: {
     flexDirection: 'row',
@@ -103,6 +98,8 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderRadius: 8,
     marginBottom: 4,
+    minHeight: 44, // Minimum touch target size for iOS
+    backgroundColor: 'rgba(255, 0, 0, 0.1)', // Temporary background to see if elements are rendered
   },
   languageInfo: {
     flex: 1,

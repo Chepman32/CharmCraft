@@ -1,0 +1,23 @@
+export const phraseTranslationsFr: Record<string, string> = {
+  '1': "Je pensais justement à toi et je n'ai pas pu m'empêcher de sourire. Comment se passe ta journée ?",
+  '2': "Quelle est la chose la plus intéressante qui t'est arrivée aujourd'hui ?",
+  '3': "Tu as cette façon incroyable d'améliorer tout, simplement en étant toi-même.",
+  '4': 'Ton sourire est absolument contagieux — il illumine toute ma journée.',
+  '5': "Je n'arrive à me concentrer sur rien aujourd'hui, je ne fais que penser à toi.",
+  '6': 'C’est moi ou il y a une alchimie incroyable entre nous ?',
+  '7': "Chaque moment avec toi ressemble à un beau rêve dont je ne veux jamais me réveiller.",
+  '8': "Tu n'es pas seulement mon/ma partenaire, tu es mon/ma meilleur(e) ami(e) et l'amour de ma vie.",
+  '9': "Je crois en toi entièrement. Tu vas y arriver, et je suis là pour toi quoi qu'il arrive.",
+  '10': "Tu es plus fort(e) que tu ne le penses, et je suis tellement fier/fière d'être à tes côtés.",
+  '11': "J'étais normal(e) avant de te rencontrer. Regarde-moi maintenant : complètement accro et j'adore chaque seconde !",
+  '12': 'Avertissement : penser à toi peut provoquer des sourires excessifs et des fous rires.',
+  '13': 'Bonjour, beauté ! J’espère que ta journée sera aussi incroyable que toi.',
+  '14': 'Me réveiller en pensant à toi est la meilleure façon de commencer la journée.',
+  '15': 'Fais de beaux rêves, magnifique. J’ai hâte de te parler demain.',
+  '16': "En t'endormant, sache que tu es ma dernière pensée ce soir et la première de demain.",
+  '17': "Tu as changé ma façon de voir tant de choses, et je suis reconnaissant(e) de la personne que je deviens avec toi.",
+  '18': 'J’adore le fait que nous puissions parler de tout. Tu me comprends vraiment.',
+  '19': "La distance entre nous n’est qu’un test pour voir jusqu’où l’amour peut voyager.",
+  '20': "Le fait de te manquer est la façon dont mon cœur me rappelle combien tu comptes pour moi.",
+};
+

@@ -10,6 +10,7 @@ import {
   handleAsyncStorageError,
   handleDatabaseError,
 } from '../utils/errorHandler';
+import { getLocalizedPhraseText } from '../data/phraseTranslations';
 
 const PHRASES_STORAGE_KEY = 'charmcraft_phrases';
 const FAVORITES_STORAGE_KEY = 'charmcraft_favorites';
@@ -34,6 +35,15 @@ class PhraseService {
   private favorites: string[] = [];
   private usageStats: Map<string, UsageStats> = new Map();
   private initialized = false;
+
+  private async getCurrentLanguage(): Promise<string> {
+    try {
+      const savedLanguage = await AsyncStorage.getItem('charmcraft_language');
+      return savedLanguage || 'en';
+    } catch {
+      return 'en';
+    }
+  }
 
   private async loadLargeDatabase(): Promise<void> {
     try {
@@ -187,7 +197,12 @@ class PhraseService {
       );
     }
 
-    return filteredPhrases;
+    // Apply localization to phrase text based on selected language
+    const lang = await this.getCurrentLanguage();
+    return filteredPhrases.map(p => ({
+      ...p,
+      text: getLocalizedPhraseText(p, lang),
+    }));
   }
 
   async getRandomPhrase(filters: SearchFilters = {}): Promise<Phrase | null> {
@@ -214,7 +229,10 @@ class PhraseService {
 
   async getFavorites(): Promise<Phrase[]> {
     await this.initialize();
-    return this.phrases.filter(phrase => this.favorites.includes(phrase.id));
+    const lang = await this.getCurrentLanguage();
+    return this.phrases
+      .filter(phrase => this.favorites.includes(phrase.id))
+      .map(p => ({ ...p, text: getLocalizedPhraseText(p, lang) }));
   }
 
   isFavorite(phraseId: string): boolean {
@@ -246,9 +264,10 @@ class PhraseService {
       .sort((a, b) => b.usageCount - a.usageCount)
       .slice(0, limit);
 
-    return this.phrases.filter(phrase =>
-      sortedStats.some(stat => stat.phraseId === phrase.id),
-    );
+    const lang = await this.getCurrentLanguage();
+    return this.phrases
+      .filter(phrase => sortedStats.some(stat => stat.phraseId === phrase.id))
+      .map(p => ({ ...p, text: getLocalizedPhraseText(p, lang) }));
   }
 
   async getAllCategories(): Promise<PhraseCategory[]> {

@@ -8,10 +8,18 @@ export const en = {
   settings: {
     title: 'Settings',
     theme: 'Theme',
+    themeDescription: 'Choose your preferred visual style',
     language: 'Language',
+    languageDescription: 'Select your preferred language',
     sound: 'Sound Effects',
+    soundDescription: 'Enable or disable sound effects',
     haptics: 'Haptic Feedback',
+    hapticsDescription: 'Enable or disable haptic feedback',
+    soundToggleDescription: 'Play sounds for button taps and interactions',
+    hapticsToggleDescription: 'Feel vibrations for button taps and interactions',
     about: 'About',
+    aboutDescription: 'App information and version',
+    appDescription: 'Perfect words for every moment in your relationship',
   },
   themes: {
     light: 'Light',

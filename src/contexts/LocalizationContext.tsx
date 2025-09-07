@@ -50,9 +50,9 @@ export const LocalizationProvider: React.FC<LocalizationProviderProps> = ({
         translations[savedLanguage as keyof typeof translations]
       ) {
         setLanguageState(savedLanguage);
-        setCurrentTranslations(
-          translations[savedLanguage as keyof typeof translations],
-        );
+        setCurrentTranslations({
+          ...translations[savedLanguage as keyof typeof translations],
+        });
       }
     } catch (error) {
       console.error('Error loading language:', error);
@@ -66,16 +66,17 @@ export const LocalizationProvider: React.FC<LocalizationProviderProps> = ({
       try {
         await AsyncStorage.setItem(LANGUAGE_STORAGE_KEY, newLanguage);
         setLanguageState(newLanguage);
-        setCurrentTranslations(
-          translations[newLanguage as keyof typeof translations],
-        );
+        // Create a new object reference to ensure re-renders
+        setCurrentTranslations({
+          ...translations[newLanguage as keyof typeof translations],
+        });
       } catch (error) {
         console.error('Error saving language:', error);
         // Still apply language in memory even if saving fails
         setLanguageState(newLanguage);
-        setCurrentTranslations(
-          translations[newLanguage as keyof typeof translations],
-        );
+        setCurrentTranslations({
+          ...translations[newLanguage as keyof typeof translations],
+        });
         console.warn('Language applied in memory only due to storage error');
       }
     } else {

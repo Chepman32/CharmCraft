@@ -1,0 +1,23 @@
+export const phraseTranslationsDe: Record<string, string> = {
+  '1': 'Ich habe gerade an dich gedacht und musste lächeln. Wie läuft dein Tag?',
+  '2': 'Was war heute das Interessanteste, das dir passiert ist?',
+  '3': 'Du hast diese erstaunliche Art, alles besser zu machen, einfach indem du du selbst bist.',
+  '4': 'Dein Lächeln ist absolut ansteckend – es erhellt meinen ganzen Tag.',
+  '5': 'Ich kann mich heute auf nichts konzentrieren, weil ich ständig an dich denken muss.',
+  '6': 'Bild ich mir das ein, oder haben wir unglaubliche Chemie?',
+  '7': 'Jeder Moment mit dir fühlt sich an wie ein schöner Traum, aus dem ich nie aufwachen möchte.',
+  '8': 'Du bist nicht nur mein(e) Partner(in), du bist mein(e) beste(r) Freund(in) und die Liebe meines Lebens.',
+  '9': 'Ich glaube fest an dich. Du schaffst das, und ich bin an deiner Seite – egal was passiert.',
+  '10': 'Du bist stärker, als du glaubst, und ich bin so stolz, an deiner Seite zu sein.',
+  '11': 'Früher war ich normal. Seit ich dich kenne: völlig verrückt nach dir – und ich liebe jede Sekunde!',
+  '12': 'Achtung: An dich zu denken kann zu übermäßigem Lächeln und spontanen Kicheranfällen führen.',
+  '13': 'Guten Morgen, Schöne(r)! Ich hoffe, dein Tag wird so großartig wie du.',
+  '14': 'Mit Gedanken an dich aufzuwachen ist der perfekte Start in den Tag.',
+  '15': 'Süße Träume, Hübsche(r). Ich kann es kaum erwarten, morgen mit dir zu sprechen.',
+  '16': 'Wenn du einschläfst, denk daran: Du bist mein letzter Gedanke heute und der erste morgen.',
+  '17': 'Du hast meine Sicht auf so vieles verändert, und ich bin dankbar für den Menschen, der ich mit dir werde.',
+  '18': 'Ich liebe es, dass wir über alles reden können. Du verstehst mich wirklich.',
+  '19': 'Die Entfernung zwischen uns ist nur ein Test dafür, wie weit Liebe reisen kann.',
+  '20': 'Dich zu vermissen ist die Art meines Herzens, mich daran zu erinnern, wie viel du mir bedeutest.',
+};
+
