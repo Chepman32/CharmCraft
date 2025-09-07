@@ -1,97 +1,187 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# CharmCraft - Relationship Advice App
 
-# Getting Started
+Perfect words for every moment in your relationship. CharmCraft helps you find the right phrases for conversations, compliments, flirty messages, and romantic expressions.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+## Features
 
-## Step 1: Start Metro
+- **800,000+ Phrases**: Massive local database (200+ MB) of relationship advice phrases
+- **Smart Filtering**: Filter by category, situation, tone, and search text
+- **Favorites System**: Save your favorite phrases for quick access
+- **Usage Tracking**: See your most-used phrases
+- **Random Suggestions**: Get surprise phrase recommendations
+- **Offline First**: All data stored locally, no internet required
+- **Copy to Clipboard**: Easy sharing of phrases
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## Categories
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+- **Conversation Starters**: Break the ice and start meaningful conversations
+- **Compliments**: Make them feel special and appreciated
+- **Flirty Messages**: Add some playful charm to your interactions
+- **Romantic Expressions**: Deep, heartfelt messages for special moments
+- **Supportive Messages**: Be there for them during tough times
+- **Funny Messages**: Lighten the mood with humor
+- **Good Morning/Night**: Start and end the day sweetly
+- **Deep Conversations**: Meaningful phrases for deeper connections
 
-```sh
-# Using npm
+## Situations
+
+- First Message
+- Early Dating
+- Established Relationship
+- Long Distance
+- After Argument
+- Special Occasion
+- Daily Chat
+- Missing Them
+
+## Tones
+
+- Sweet
+- Playful
+- Sincere
+- Confident
+- Gentle
+- Passionate
+- Humorous
+- Caring
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (>= 20)
+- React Native development environment
+- iOS Simulator or Android Emulator
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone <repository-url>
+cd CharmCraft
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Generate the large phrase database:
+
+```bash
+node scripts/generatePhrases.js
+```
+
+4. Start the Metro bundler:
+
+```bash
 npm start
-
-# OR using Yarn
-yarn start
 ```
 
-## Step 2: Build and run your app
+5. Run the app:
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+For iOS:
 
-### Android
-
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
-```
-
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
+```bash
 npm run ios
-
-# OR using Yarn
-yarn ios
 ```
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+For Android:
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+```bash
+npm run android
+```
 
-## Step 3: Modify your app
+## Project Structure
 
-Now that you have successfully run the app, let's make changes!
+```
+src/
+├── components/
+│   ├── PhraseCard.tsx      # Individual phrase display component
+│   └── FilterModal.tsx     # Filter selection modal
+├── data/
+│   ├── phrases.ts          # Type definitions and sample data
+│   ├── extendedPhrases.ts  # Extended phrase collection
+│   └── largePhraseDatabase.ts # Generated large database (200+ MB)
+├── screens/
+│   └── HomeScreen.tsx      # Main app screen
+└── services/
+    └── PhraseService.ts    # Data management and search logic
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+scripts/
+└── generatePhrases.js      # Database generation script
+```
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+## How It Works
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+1. **Local Storage**: All phrases are stored locally using AsyncStorage for offline access
+2. **Smart Search**: Advanced filtering by multiple criteria simultaneously
+3. **Template Generation**: The large database is generated using phrase templates with variable substitution
+4. **Usage Analytics**: Track which phrases are used most frequently
+5. **Favorites Management**: Personal collection of preferred phrases
 
-## Congratulations! :tada:
+## Database Generation
 
-You've successfully run and modified your React Native App. :partying_face:
+The app includes a script that generates 800,000+ unique phrases using:
 
-### Now what?
+- Template-based generation
+- Word bank substitution
+- Category-appropriate content
+- Automatic tag generation
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+Run the generation script:
 
-# Troubleshooting
+```bash
+node scripts/generatePhrases.js
+```
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+## Customization
 
-# Learn More
+### Adding New Categories
 
-To learn more about React Native, take a look at the following resources:
+1. Update `PhraseCategory` enum in `src/data/phrases.ts`
+2. Add templates in `scripts/generatePhrases.js`
+3. Regenerate the database
 
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+### Adding New Phrase Templates
+
+Edit the `phraseTemplates` object in `scripts/generatePhrases.js` and regenerate.
+
+### Modifying Word Banks
+
+Update the `wordBanks` object in `scripts/generatePhrases.js` for different vocabulary.
+
+## Performance
+
+- **Lazy Loading**: Phrases loaded on-demand
+- **Efficient Search**: Optimized filtering algorithms
+- **Memory Management**: Large database handled efficiently
+- **Smooth UI**: Responsive interface with proper loading states
+
+## Privacy
+
+- **Fully Offline**: No data sent to external servers
+- **Local Storage**: All preferences stored on device
+- **No Tracking**: No analytics or user tracking
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Add tests if applicable
+5. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Support
+
+For support, please open an issue on the GitHub repository or contact the development team.
+
+---
+
+**CharmCraft** - Because the right words at the right time can make all the difference. ❤️

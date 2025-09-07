@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.json",
+  "exclude": [
+    "node_modules",
+    "src/data/largePhraseDatabase.ts",
+    "scripts/**/*"
+  ],
+  "compilerOptions": {
+    "noEmit": true,
+    "skipLibCheck": true
+  }
+}
