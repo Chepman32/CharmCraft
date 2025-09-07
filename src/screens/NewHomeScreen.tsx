@@ -11,14 +11,25 @@ import {
   Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-// import { LinearGradient } from 'react-native-linear-gradient';
+import { useTheme } from '../contexts/ThemeContext';
+import { useTranslation } from '../contexts/LocalizationContext';
+import { useFeedback } from '../hooks/useFeedback';
 import PhraseService, { SearchFilters } from '../services/PhraseService';
 import { PhraseCategory, PhraseTone } from '../data/phrases';
 import Clipboard from '@react-native-clipboard/clipboard';
+import SettingsService from '../services/SettingsService';
 
 const { width } = Dimensions.get('window');
 
 const NewHomeScreen: React.FC = () => {
+  const { theme } = useTheme();
+  const { t } = useTranslation();
+
+  // Don't render until theme is ready
+  if (!theme || !theme.colors) {
+    return null;
+  }
+  const { playButtonTap, playSuccess } = useFeedback();
   const [searchText, setSearchText] = useState('');
   const [selectedCategory, setSelectedCategory] =
     useState<PhraseCategory | null>(null);
@@ -29,6 +40,148 @@ const NewHomeScreen: React.FC = () => {
     'You make my day so much brighter',
   );
   const [initializing, setInitializing] = useState(true);
+
+  const styles = React.useMemo(() => {
+    if (!theme || !theme.colors) {
+      // Return basic styles if theme is not ready
+      return StyleSheet.create({
+        container: { flex: 1, backgroundColor: '#F0F8FF' },
+        gradient: { flex: 1, backgroundColor: '#F0F8FF' },
+        scrollView: { flex: 1 },
+        loadingContainer: {
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#2196F3',
+        },
+        loadingTitle: {
+          fontSize: 32,
+          fontWeight: 'bold',
+          color: '#FFFFFF',
+          marginBottom: 16,
+        },
+        loadingText: { fontSize: 16, color: '#E3F2FD' },
+        header: { alignItems: 'center', paddingTop: 20, paddingBottom: 30 },
+        title: { fontSize: 32, fontWeight: 'bold', color: '#333333' },
+        searchContainer: { paddingHorizontal: 20, marginBottom: 30 },
+        searchInputContainer: {
+          flexDirection: 'row',
+          alignItems: 'center',
+          backgroundColor: '#FFFFFF',
+          borderRadius: 25,
+          paddingHorizontal: 20,
+          paddingVertical: 12,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+          elevation: 3,
+        },
+        searchIcon: { marginRight: 10 },
+        searchInput: { flex: 1, fontSize: 16, color: '#333333' },
+        categoryContainer: {
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          paddingHorizontal: 20,
+          marginBottom: 30,
+          justifyContent: 'space-between',
+        },
+        categoryButton: {
+          backgroundColor: '#FFFFFF',
+          borderRadius: 20,
+          paddingHorizontal: 20,
+          paddingVertical: 10,
+          marginBottom: 10,
+          minWidth: (width - 60) / 2,
+          alignItems: 'center',
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 1 },
+          shadowOpacity: 0.1,
+          shadowRadius: 2,
+          elevation: 2,
+        },
+        categoryButtonActive: { backgroundColor: '#E3F2FD' },
+        categoryButtonText: {
+          fontSize: 14,
+          color: '#666666',
+          fontWeight: '500',
+        },
+        categoryButtonTextActive: { color: '#2196F3', fontWeight: 'bold' },
+        phraseContainer: {
+          backgroundColor: '#FFFFFF',
+          borderRadius: 20,
+          padding: 25,
+          marginHorizontal: 20,
+          marginBottom: 30,
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: 0.1,
+          shadowRadius: 8,
+          elevation: 5,
+        },
+        phraseText: {
+          fontSize: 20,
+          color: '#333333',
+          textAlign: 'center',
+          lineHeight: 28,
+          fontWeight: '500',
+        },
+        intensityContainer: { paddingHorizontal: 20, marginBottom: 40 },
+        intensityLabel: {
+          fontSize: 16,
+          color: '#333333',
+          fontWeight: '600',
+          marginBottom: 15,
+        },
+        intensitySlider: { position: 'relative' },
+        intensityTrack: {
+          height: 4,
+          backgroundColor: '#E0E0E0',
+          borderRadius: 2,
+          marginVertical: 20,
+        },
+        intensityButtons: {
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+        },
+        intensityButton: {
+          backgroundColor: 'transparent',
+          paddingVertical: 8,
+          paddingHorizontal: 12,
+        },
+        intensityButtonActive: { backgroundColor: 'transparent' },
+        intensityButtonText: {
+          fontSize: 14,
+          color: '#666666',
+          fontWeight: '500',
+        },
+        intensityButtonTextActive: { color: '#333333', fontWeight: 'bold' },
+        suggestionButton: {
+          backgroundColor: '#FF9800',
+          borderRadius: 25,
+          paddingVertical: 15,
+          marginHorizontal: 20,
+          marginBottom: 30,
+          shadowColor: '#FF9800',
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: 0.3,
+          shadowRadius: 8,
+          elevation: 5,
+        },
+        suggestionButtonText: {
+          color: '#FFFFFF',
+          fontSize: 18,
+          fontWeight: 'bold',
+          textAlign: 'center',
+        },
+      });
+    }
+    return createStyles(theme);
+  }, [theme]);
 
   useEffect(() => {
     initializeApp();
@@ -46,12 +199,15 @@ const NewHomeScreen: React.FC = () => {
   };
 
   const categoryButtons = [
-    { key: PhraseCategory.CONVERSATION_STARTER, label: 'Icebreakers' },
-    { key: PhraseCategory.COMPLIMENT, label: 'Compliments' },
-    { key: PhraseCategory.APOLOGY, label: 'Apologies' },
-    { key: PhraseCategory.ROMANTIC, label: 'Long-distance' },
-    { key: PhraseCategory.CASUAL, label: 'Everyday' },
-    { key: PhraseCategory.GOOD_MORNING, label: 'Birthday' },
+    {
+      key: PhraseCategory.CONVERSATION_STARTER,
+      label: t('categories.icebreakers'),
+    },
+    { key: PhraseCategory.COMPLIMENT, label: t('categories.compliments') },
+    { key: PhraseCategory.APOLOGY, label: t('categories.apologies') },
+    { key: PhraseCategory.ROMANTIC, label: t('categories.longDistance') },
+    { key: PhraseCategory.CASUAL, label: t('categories.everyday') },
+    { key: PhraseCategory.GOOD_MORNING, label: t('categories.birthday') },
   ];
 
   const intensityToTone = (intensity: string): PhraseTone => {
@@ -91,17 +247,16 @@ const NewHomeScreen: React.FC = () => {
 
   const handleCopyPhrase = () => {
     Clipboard.setString(currentPhrase);
-    Alert.alert('Copied!', 'Phrase copied to clipboard');
+    playSuccess();
+    Alert.alert(t('common.copied'), t('common.phraseCopied'));
   };
 
   if (initializing) {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.loadingContainer}>
-          <Text style={styles.loadingTitle}>CharmCraft</Text>
-          <Text style={styles.loadingText}>
-            Loading your perfect phrases...
-          </Text>
+          <Text style={styles.loadingTitle}>{t('home.loadingTitle')}</Text>
+          <Text style={styles.loadingText}>{t('home.loadingText')}</Text>
         </View>
       </SafeAreaView>
     );
@@ -116,7 +271,7 @@ const NewHomeScreen: React.FC = () => {
         >
           {/* Header */}
           <View style={styles.header}>
-            <Text style={styles.title}>CharmCraft</Text>
+            <Text style={styles.title}>{t('home.title')}</Text>
           </View>
 
           {/* Search Bar */}
@@ -130,10 +285,10 @@ const NewHomeScreen: React.FC = () => {
               />
               <TextInput
                 style={styles.searchInput}
-                placeholder="Search"
+                placeholder={t('home.search')}
                 value={searchText}
                 onChangeText={setSearchText}
-                placeholderTextColor="#999"
+                placeholderTextColor={theme?.colors?.textSecondary || '#999'}
               />
             </View>
           </View>
@@ -148,11 +303,12 @@ const NewHomeScreen: React.FC = () => {
                   selectedCategory === category.key &&
                     styles.categoryButtonActive,
                 ]}
-                onPress={() =>
+                onPress={() => {
+                  playButtonTap();
                   setSelectedCategory(
                     selectedCategory === category.key ? null : category.key,
-                  )
-                }
+                  );
+                }}
               >
                 <Text
                   style={[
@@ -178,7 +334,7 @@ const NewHomeScreen: React.FC = () => {
 
           {/* Intensity Selector */}
           <View style={styles.intensityContainer}>
-            <Text style={styles.intensityLabel}>Intensity</Text>
+            <Text style={styles.intensityLabel}>{t('home.intensity')}</Text>
             <View style={styles.intensitySlider}>
               <View style={styles.intensityTrack} />
               <View style={styles.intensityButtons}>
@@ -189,7 +345,10 @@ const NewHomeScreen: React.FC = () => {
                       styles.intensityButton,
                       intensity === level && styles.intensityButtonActive,
                     ]}
-                    onPress={() => setIntensity(level as any)}
+                    onPress={() => {
+                      playButtonTap();
+                      setIntensity(level as any);
+                    }}
                   >
                     <Text
                       style={[
@@ -197,7 +356,7 @@ const NewHomeScreen: React.FC = () => {
                         intensity === level && styles.intensityButtonTextActive,
                       ]}
                     >
-                      {level.charAt(0).toUpperCase() + level.slice(1)}
+                      {t(`home.${level}`)}
                     </Text>
                   </TouchableOpacity>
                 ))}
@@ -208,9 +367,14 @@ const NewHomeScreen: React.FC = () => {
           {/* Get Suggestion Button */}
           <TouchableOpacity
             style={styles.suggestionButton}
-            onPress={generateNewPhrase}
+            onPress={() => {
+              playButtonTap();
+              generateNewPhrase();
+            }}
           >
-            <Text style={styles.suggestionButtonText}>Get Suggestion</Text>
+            <Text style={styles.suggestionButtonText}>
+              {t('home.getSuggestion')}
+            </Text>
           </TouchableOpacity>
         </ScrollView>
       </View>
@@ -218,183 +382,184 @@ const NewHomeScreen: React.FC = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-  },
-  gradient: {
-    flex: 1,
-    backgroundColor: '#F0F8FF',
-  },
-  scrollView: {
-    flex: 1,
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#2196F3',
-  },
-  loadingTitle: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-    marginBottom: 16,
-  },
-  loadingText: {
-    fontSize: 16,
-    color: '#E3F2FD',
-  },
-  header: {
-    alignItems: 'center',
-    paddingTop: 20,
-    paddingBottom: 30,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#333333',
-  },
-  searchContainer: {
-    paddingHorizontal: 20,
-    marginBottom: 30,
-  },
-  searchInputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 25,
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  searchIcon: {
-    marginRight: 10,
-  },
-  searchInput: {
-    flex: 1,
-    fontSize: 16,
-    color: '#333333',
-  },
-  categoryContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    paddingHorizontal: 20,
-    marginBottom: 30,
-    justifyContent: 'space-between',
-  },
-  categoryButton: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 20,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    marginBottom: 10,
-    minWidth: (width - 60) / 2,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
-    elevation: 2,
-  },
-  categoryButtonActive: {
-    backgroundColor: '#E3F2FD',
-  },
-  categoryButtonText: {
-    fontSize: 14,
-    color: '#666666',
-    fontWeight: '500',
-  },
-  categoryButtonTextActive: {
-    color: '#2196F3',
-    fontWeight: 'bold',
-  },
-  phraseContainer: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 20,
-    padding: 25,
-    marginHorizontal: 20,
-    marginBottom: 30,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  phraseText: {
-    fontSize: 20,
-    color: '#333333',
-    textAlign: 'center',
-    lineHeight: 28,
-    fontWeight: '500',
-  },
-  intensityContainer: {
-    paddingHorizontal: 20,
-    marginBottom: 40,
-  },
-  intensityLabel: {
-    fontSize: 16,
-    color: '#333333',
-    fontWeight: '600',
-    marginBottom: 15,
-  },
-  intensitySlider: {
-    position: 'relative',
-  },
-  intensityTrack: {
-    height: 4,
-    backgroundColor: '#E0E0E0',
-    borderRadius: 2,
-    marginVertical: 20,
-  },
-  intensityButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-  },
-  intensityButton: {
-    backgroundColor: 'transparent',
-    paddingVertical: 8,
-    paddingHorizontal: 12,
-  },
-  intensityButtonActive: {
-    backgroundColor: 'transparent',
-  },
-  intensityButtonText: {
-    fontSize: 14,
-    color: '#666666',
-    fontWeight: '500',
-  },
-  intensityButtonTextActive: {
-    color: '#333333',
-    fontWeight: 'bold',
-  },
-  suggestionButton: {
-    backgroundColor: '#FF9800',
-    borderRadius: 25,
-    paddingVertical: 15,
-    marginHorizontal: 20,
-    marginBottom: 30,
-    shadowColor: '#FF9800',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  suggestionButtonText: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-});
+const createStyles = (theme: any) =>
+  StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme.colors.background,
+    },
+    gradient: {
+      flex: 1,
+      backgroundColor: theme.colors.background,
+    },
+    scrollView: {
+      flex: 1,
+    },
+    loadingContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+      backgroundColor: theme.colors.primary,
+    },
+    loadingTitle: {
+      fontSize: 32,
+      fontWeight: 'bold',
+      color: theme.colors.surface,
+      marginBottom: 16,
+    },
+    loadingText: {
+      fontSize: 16,
+      color: theme.colors.surface,
+    },
+    header: {
+      alignItems: 'center',
+      paddingTop: 20,
+      paddingBottom: 30,
+    },
+    title: {
+      fontSize: 32,
+      fontWeight: 'bold',
+      color: theme.colors.text,
+    },
+    searchContainer: {
+      paddingHorizontal: 20,
+      marginBottom: 30,
+    },
+    searchInputContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      backgroundColor: theme.colors.surface,
+      borderRadius: 25,
+      paddingHorizontal: 20,
+      paddingVertical: 12,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 4,
+      elevation: 3,
+    },
+    searchIcon: {
+      marginRight: 10,
+    },
+    searchInput: {
+      flex: 1,
+      fontSize: 16,
+      color: theme.colors.text,
+    },
+    categoryContainer: {
+      flexDirection: 'row',
+      flexWrap: 'wrap',
+      paddingHorizontal: 20,
+      marginBottom: 30,
+      justifyContent: 'space-between',
+    },
+    categoryButton: {
+      backgroundColor: theme.colors.surface,
+      borderRadius: 20,
+      paddingHorizontal: 20,
+      paddingVertical: 10,
+      marginBottom: 10,
+      minWidth: (width - 60) / 2,
+      alignItems: 'center',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 1 },
+      shadowOpacity: 0.1,
+      shadowRadius: 2,
+      elevation: 2,
+    },
+    categoryButtonActive: {
+      backgroundColor: theme.colors.primary + '20',
+    },
+    categoryButtonText: {
+      fontSize: 14,
+      color: theme.colors.textSecondary,
+      fontWeight: '500',
+    },
+    categoryButtonTextActive: {
+      color: theme.colors.primary,
+      fontWeight: 'bold',
+    },
+    phraseContainer: {
+      backgroundColor: theme.colors.cardBackground,
+      borderRadius: 20,
+      padding: 25,
+      marginHorizontal: 20,
+      marginBottom: 30,
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.1,
+      shadowRadius: 8,
+      elevation: 5,
+    },
+    phraseText: {
+      fontSize: 20,
+      color: theme.colors.text,
+      textAlign: 'center',
+      lineHeight: 28,
+      fontWeight: '500',
+    },
+    intensityContainer: {
+      paddingHorizontal: 20,
+      marginBottom: 40,
+    },
+    intensityLabel: {
+      fontSize: 16,
+      color: theme.colors.text,
+      fontWeight: '600',
+      marginBottom: 15,
+    },
+    intensitySlider: {
+      position: 'relative',
+    },
+    intensityTrack: {
+      height: 4,
+      backgroundColor: theme.colors.border,
+      borderRadius: 2,
+      marginVertical: 20,
+    },
+    intensityButtons: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+    },
+    intensityButton: {
+      backgroundColor: 'transparent',
+      paddingVertical: 8,
+      paddingHorizontal: 12,
+    },
+    intensityButtonActive: {
+      backgroundColor: 'transparent',
+    },
+    intensityButtonText: {
+      fontSize: 14,
+      color: theme.colors.textSecondary,
+      fontWeight: '500',
+    },
+    intensityButtonTextActive: {
+      color: theme.colors.text,
+      fontWeight: 'bold',
+    },
+    suggestionButton: {
+      backgroundColor: theme.colors.secondary,
+      borderRadius: 25,
+      paddingVertical: 15,
+      marginHorizontal: 20,
+      marginBottom: 30,
+      shadowColor: theme.colors.secondary,
+      shadowOffset: { width: 0, height: 4 },
+      shadowOpacity: 0.3,
+      shadowRadius: 8,
+      elevation: 5,
+    },
+    suggestionButtonText: {
+      color: theme.colors.surface,
+      fontSize: 18,
+      fontWeight: 'bold',
+      textAlign: 'center',
+    },
+  });
 
 export default NewHomeScreen;

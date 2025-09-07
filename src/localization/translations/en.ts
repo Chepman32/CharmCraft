@@ -1,0 +1,62 @@
+export const en = {
+  navigation: {
+    home: 'Home',
+    favorites: 'Favorites',
+    collections: 'Collections',
+    settings: 'Settings',
+  },
+  settings: {
+    title: 'Settings',
+    theme: 'Theme',
+    language: 'Language',
+    sound: 'Sound Effects',
+    haptics: 'Haptic Feedback',
+    about: 'About',
+  },
+  themes: {
+    light: 'Light',
+    dark: 'Dark',
+    solar: 'Solar',
+    mono: 'Mono',
+  },
+  home: {
+    title: 'CharmCraft',
+    search: 'Search',
+    getSuggestion: 'Get Suggestion',
+    intensity: 'Intensity',
+    soft: 'Soft',
+    neutral: 'Neutral',
+    bold: 'Bold',
+    loadingTitle: 'CharmCraft',
+    loadingText: 'Loading your perfect phrases...',
+  },
+  categories: {
+    icebreakers: 'Icebreakers',
+    compliments: 'Compliments',
+    apologies: 'Apologies',
+    longDistance: 'Long-distance',
+    everyday: 'Everyday',
+    birthday: 'Birthday',
+  },
+  favorites: {
+    title: 'Favorites',
+    empty: 'No favorites yet',
+    emptyDescription:
+      'Start adding phrases to your favorites from the home screen!',
+  },
+  collections: {
+    title: 'Collections',
+  },
+  common: {
+    copy: 'Copy',
+    copied: 'Copied!',
+    phraseCopied: 'Phrase copied to clipboard',
+    error: 'Error',
+    close: 'Close',
+    cancel: 'Cancel',
+    save: 'Save',
+    delete: 'Delete',
+    edit: 'Edit',
+    done: 'Done',
+  },
+};

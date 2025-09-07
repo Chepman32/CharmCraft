@@ -203,8 +203,8 @@ function generateLargePhraseDatabase() {
     'caring',
   ];
 
-  // Generate 800,000+ phrases to reach 200-300MB
-  for (let i = 0; i < 800000; i++) {
+  // Generate 20,000 phrases for optimized size
+  for (let i = 0; i < 20000; i++) {
     const category = categories[Math.floor(Math.random() * categories.length)];
     const templates = phraseTemplates[category];
     const template = templates[Math.floor(Math.random() * templates.length)];

@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, SafeAreaView } from 'react-native';
+import { useTheme } from '../contexts/ThemeContext';
+import { useTranslation } from '../contexts/LocalizationContext';
 import { Phrase } from '../data/phrases';
 import PhraseService from '../services/PhraseService';
 import PhraseCard from '../components/PhraseCard';
 
 const FavoritesScreen: React.FC = () => {
+  const { theme } = useTheme();
+  const { t } = useTranslation();
   const [favorites, setFavorites] = useState<Phrase[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // Don't render until theme is ready
+  if (!theme || !theme.colors) {
+    return null;
+  }
 
   useEffect(() => {
     loadFavorites();
@@ -30,17 +39,35 @@ const FavoritesScreen: React.FC = () => {
 
   const renderEmptyState = () => (
     <View style={styles.emptyState}>
-      <Text style={styles.emptyStateTitle}>No favorites yet</Text>
-      <Text style={styles.emptyStateText}>
-        Start adding phrases to your favorites from the home screen!
+      <Text
+        style={[styles.emptyStateTitle, { color: theme.colors.textSecondary }]}
+      >
+        {t('favorites.empty')}
+      </Text>
+      <Text
+        style={[styles.emptyStateText, { color: theme.colors.textSecondary }]}
+      >
+        {t('favorites.emptyDescription')}
       </Text>
     </View>
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Favorites</Text>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.colors.background }]}
+    >
+      <View
+        style={[
+          styles.header,
+          {
+            backgroundColor: theme.colors.surface,
+            borderBottomColor: theme.colors.border,
+          },
+        ]}
+      >
+        <Text style={[styles.title, { color: theme.colors.text }]}>
+          {t('favorites.title')}
+        </Text>
       </View>
 
       <FlatList
@@ -62,18 +89,14 @@ const FavoritesScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
   },
   header: {
     padding: 20,
-    backgroundColor: '#FFFFFF',
     borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333333',
   },
   emptyState: {
     alignItems: 'center',
@@ -82,12 +105,10 @@ const styles = StyleSheet.create({
   emptyStateTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#666666',
     marginBottom: 8,
   },
   emptyStateText: {
     fontSize: 14,
-    color: '#999999',
     textAlign: 'center',
     lineHeight: 20,
   },

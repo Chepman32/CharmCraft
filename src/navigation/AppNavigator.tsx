@@ -2,25 +2,35 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useTheme } from '../contexts/ThemeContext';
+import { useTranslation } from '../contexts/LocalizationContext';
 import NewHomeScreen from '../screens/NewHomeScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
 import CollectionsScreen from '../screens/CollectionsScreen';
-import BuilderScreen from '../screens/BuilderScreen';
+import SettingsScreen from '../screens/SettingsScreen';
 
 const Tab = createBottomTabNavigator();
 
 const AppNavigator: React.FC = () => {
+  const { theme } = useTheme();
+  const { t } = useTranslation();
+
+  // Don't render until theme is ready
+  if (!theme || !theme.colors) {
+    return null;
+  }
+
   return (
     <NavigationContainer>
       <Tab.Navigator
         screenOptions={{
           headerShown: false,
-          tabBarActiveTintColor: '#2196F3',
-          tabBarInactiveTintColor: '#666666',
+          tabBarActiveTintColor: theme.colors.primary,
+          tabBarInactiveTintColor: theme.colors.textSecondary,
           tabBarStyle: {
-            backgroundColor: '#FFFFFF',
+            backgroundColor: theme.colors.tabBarBackground,
             borderTopWidth: 1,
-            borderTopColor: '#E0E0E0',
+            borderTopColor: theme.colors.border,
             paddingBottom: 8,
             paddingTop: 8,
             height: 70,
@@ -36,6 +46,7 @@ const AppNavigator: React.FC = () => {
           name="Home"
           component={NewHomeScreen}
           options={{
+            tabBarLabel: t('navigation.home'),
             tabBarIcon: ({ color }) => <HomeIcon color={color} />,
           }}
         />
@@ -43,6 +54,7 @@ const AppNavigator: React.FC = () => {
           name="Favorites"
           component={FavoritesScreen}
           options={{
+            tabBarLabel: t('navigation.favorites'),
             tabBarIcon: ({ color }) => <FavoritesIcon color={color} />,
           }}
         />
@@ -50,14 +62,16 @@ const AppNavigator: React.FC = () => {
           name="Collections"
           component={CollectionsScreen}
           options={{
+            tabBarLabel: t('navigation.collections'),
             tabBarIcon: ({ color }) => <CollectionsIcon color={color} />,
           }}
         />
         <Tab.Screen
-          name="Builder"
-          component={BuilderScreen}
+          name="Settings"
+          component={SettingsScreen}
           options={{
-            tabBarIcon: ({ color }) => <BuilderIcon color={color} />,
+            tabBarLabel: t('navigation.settings'),
+            tabBarIcon: ({ color }) => <SettingsIcon color={color} />,
           }}
         />
       </Tab.Navigator>
@@ -78,8 +92,8 @@ const CollectionsIcon: React.FC<{ color: string }> = ({ color }) => (
   <Icon name="collections" size={24} color={color} />
 );
 
-const BuilderIcon: React.FC<{ color: string }> = ({ color }) => (
-  <Icon name="build" size={24} color={color} />
+const SettingsIcon: React.FC<{ color: string }> = ({ color }) => (
+  <Icon name="settings" size={24} color={color} />
 );
 
 export default AppNavigator;

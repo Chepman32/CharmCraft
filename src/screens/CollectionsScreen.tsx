@@ -7,16 +7,68 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
+import { useTheme } from '../contexts/ThemeContext';
+import { useTranslation } from '../contexts/LocalizationContext';
 import { Phrase, PhraseCategory } from '../data/phrases';
 import PhraseService from '../services/PhraseService';
 import PhraseCard from '../components/PhraseCard';
 
 const CollectionsScreen: React.FC = () => {
+  const { theme } = useTheme();
+  const { t } = useTranslation();
   const [phrases, setPhrases] = useState<Phrase[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<PhraseCategory>(
     PhraseCategory.COMPLIMENT,
   );
   const [loading, setLoading] = useState(true);
+
+  // Don't render until theme is ready
+  if (!theme || !theme.colors) {
+    return null;
+  }
+
+  const styles = React.useMemo(() => StyleSheet.create({
+    container: {
+      flex: 1,
+      backgroundColor: theme.colors.background,
+    },
+    header: {
+      padding: 20,
+      backgroundColor: theme.colors.surface,
+      borderBottomWidth: 1,
+      borderBottomColor: theme.colors.border,
+    },
+    title: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      color: theme.colors.text,
+    },
+    categoryContainer: {
+      backgroundColor: theme.colors.surface,
+      paddingVertical: 10,
+      borderBottomWidth: 1,
+      borderBottomColor: theme.colors.border,
+    },
+    categoryTab: {
+      paddingHorizontal: 16,
+      paddingVertical: 8,
+      marginHorizontal: 4,
+      borderRadius: 20,
+      backgroundColor: theme.colors.cardBackground,
+    },
+    categoryTabActive: {
+      backgroundColor: theme.colors.primary,
+    },
+    categoryTabText: {
+      fontSize: 14,
+      color: theme.colors.textSecondary,
+      fontWeight: '500',
+    },
+    categoryTabTextActive: {
+      color: theme.colors.surface,
+      fontWeight: 'bold',
+    },
+  }), [theme]);
 
   const categories = [
     { key: PhraseCategory.COMPLIMENT, label: 'Compliments' },
@@ -95,47 +147,5 @@ const CollectionsScreen: React.FC = () => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F5F5F5',
-  },
-  header: {
-    padding: 20,
-    backgroundColor: '#FFFFFF',
-    borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333333',
-  },
-  categoryContainer: {
-    backgroundColor: '#FFFFFF',
-    paddingVertical: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#E0E0E0',
-  },
-  categoryTab: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    marginHorizontal: 4,
-    borderRadius: 20,
-    backgroundColor: '#F5F5F5',
-  },
-  categoryTabActive: {
-    backgroundColor: '#2196F3',
-  },
-  categoryTabText: {
-    fontSize: 14,
-    color: '#666666',
-    fontWeight: '500',
-  },
-  categoryTabTextActive: {
-    color: '#FFFFFF',
-    fontWeight: 'bold',
-  },
-});
 
 export default CollectionsScreen;

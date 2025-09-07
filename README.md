@@ -4,11 +4,15 @@ Perfect words for every moment in your relationship. CharmCraft helps you find t
 
 ## Features
 
-- **800,000+ Phrases**: Massive local database (200+ MB) of relationship advice phrases
+- **20,000+ Phrases**: Optimized local database (5MB) of relationship advice phrases
+- **4 Beautiful Themes**: Light, Dark, Solar, and Mono themes for personalized experience
+- **10 Languages**: Full localization support (English, Russian, Spanish, German, French, Portuguese, Japanese, Chinese, Korean, Ukrainian)
 - **Smart Filtering**: Filter by category, situation, tone, and search text
 - **Favorites System**: Save your favorite phrases for quick access
 - **Usage Tracking**: See your most-used phrases
 - **Random Suggestions**: Get surprise phrase recommendations
+- **Sound & Haptic Feedback**: Customizable audio and tactile feedback
+- **Settings Screen**: Comprehensive settings with theme, language, sound, and haptic controls
 - **Offline First**: All data stored locally, no internet required
 - **Copy to Clipboard**: Easy sharing of phrases
 

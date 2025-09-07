@@ -1,0 +1,62 @@
+export const es = {
+  navigation: {
+    home: 'Inicio',
+    favorites: 'Favoritos',
+    collections: 'Colecciones',
+    settings: 'Configuración',
+  },
+  settings: {
+    title: 'Configuración',
+    theme: 'Tema',
+    language: 'Idioma',
+    sound: 'Efectos de sonido',
+    haptics: 'Retroalimentación háptica',
+    about: 'Acerca de',
+  },
+  themes: {
+    light: 'Claro',
+    dark: 'Oscuro',
+    solar: 'Solar',
+    mono: 'Mono',
+  },
+  home: {
+    title: 'CharmCraft',
+    search: 'Buscar',
+    getSuggestion: 'Obtener sugerencia',
+    intensity: 'Intensidad',
+    soft: 'Suave',
+    neutral: 'Neutral',
+    bold: 'Audaz',
+    loadingTitle: 'CharmCraft',
+    loadingText: 'Cargando tus frases perfectas...',
+  },
+  categories: {
+    icebreakers: 'Rompehielos',
+    compliments: 'Cumplidos',
+    apologies: 'Disculpas',
+    longDistance: 'Larga distancia',
+    everyday: 'Cotidianas',
+    birthday: 'Cumpleaños',
+  },
+  favorites: {
+    title: 'Favoritos',
+    empty: 'Aún no hay favoritos',
+    emptyDescription:
+      '¡Comienza a agregar frases a tus favoritos desde la pantalla principal!',
+  },
+  collections: {
+    title: 'Colecciones',
+  },
+  common: {
+    copy: 'Copiar',
+    copied: '¡Copiado!',
+    phraseCopied: 'Frase copiada al portapapeles',
+    error: 'Error',
+    close: 'Cerrar',
+    cancel: 'Cancelar',
+    save: 'Guardar',
+    delete: 'Eliminar',
+    edit: 'Editar',
+    done: 'Hecho',
+  },
+};

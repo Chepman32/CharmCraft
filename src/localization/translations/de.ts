@@ -1,0 +1,62 @@
+export const de = {
+  navigation: {
+    home: 'Startseite',
+    favorites: 'Favoriten',
+    collections: 'Sammlungen',
+    settings: 'Einstellungen',
+  },
+  settings: {
+    title: 'Einstellungen',
+    theme: 'Design',
+    language: 'Sprache',
+    sound: 'Soundeffekte',
+    haptics: 'Haptisches Feedback',
+    about: 'Über',
+  },
+  themes: {
+    light: 'Hell',
+    dark: 'Dunkel',
+    solar: 'Solar',
+    mono: 'Mono',
+  },
+  home: {
+    title: 'CharmCraft',
+    search: 'Suchen',
+    getSuggestion: 'Vorschlag erhalten',
+    intensity: 'Intensität',
+    soft: 'Sanft',
+    neutral: 'Neutral',
+    bold: 'Kühn',
+    loadingTitle: 'CharmCraft',
+    loadingText: 'Lade deine perfekten Phrasen...',
+  },
+  categories: {
+    icebreakers: 'Eisbrecher',
+    compliments: 'Komplimente',
+    apologies: 'Entschuldigungen',
+    longDistance: 'Fernbeziehung',
+    everyday: 'Alltäglich',
+    birthday: 'Geburtstag',
+  },
+  favorites: {
+    title: 'Favoriten',
+    empty: 'Noch keine Favoriten',
+    emptyDescription:
+      'Beginne damit, Phrasen zu deinen Favoriten vom Startbildschirm hinzuzufügen!',
+  },
+  collections: {
+    title: 'Sammlungen',
+  },
+  common: {
+    copy: 'Kopieren',
+    copied: 'Kopiert!',
+    phraseCopied: 'Phrase in die Zwischenablage kopiert',
+    error: 'Fehler',
+    close: 'Schließen',
+    cancel: 'Abbrechen',
+    save: 'Speichern',
+    delete: 'Löschen',
+    edit: 'Bearbeiten',
+    done: 'Fertig',
+  },
+};
