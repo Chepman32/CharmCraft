@@ -22,10 +22,12 @@ const HomeScreen: React.FC = () => {
   const [filters, setFilters] = useState<SearchFilters>({});
   const [showFilters, setShowFilters] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
   const [initializing, setInitializing] = useState(true);
   const [activeTab, setActiveTab] = useState<'all' | 'favorites' | 'popular'>(
     'all',
   );
+  const [totalPhraseCount, setTotalPhraseCount] = useState(0);
 
   useEffect(() => {
     initializeApp();
@@ -41,6 +43,8 @@ const HomeScreen: React.FC = () => {
     try {
       setInitializing(true);
       await PhraseService.initialize();
+      const totalCount = await PhraseService.getTotalPhraseCount();
+      setTotalPhraseCount(totalCount);
     } catch (error) {
       console.error('Error initializing app:', error);
     } finally {
@@ -71,6 +75,28 @@ const HomeScreen: React.FC = () => {
       Alert.alert('Error', 'Failed to load phrases');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadMorePhrases = async () => {
+    if (activeTab !== 'all') return; // Only load more for main tab
+    
+    try {
+      setLoadingMore(true);
+      await PhraseService.loadMorePhrasesOnDemand(filters.category);
+      
+      // Reload phrases to get the newly loaded ones
+      const searchFilters = { ...filters };
+      if (searchText.trim()) {
+        searchFilters.searchText = searchText.trim();
+      }
+      const result = await PhraseService.searchPhrases(searchFilters);
+      setPhrases(result);
+    } catch (error) {
+      console.error('Error loading more phrases:', error);
+      Alert.alert('Error', 'Failed to load more phrases');
+    } finally {
+      setLoadingMore(false);
     }
   };
 
@@ -123,6 +149,22 @@ const HomeScreen: React.FC = () => {
       </Text>
     </View>
   );
+
+  const renderLoadMoreButton = () => {
+    if (activeTab !== 'all' || phrases.length >= totalPhraseCount) return null;
+    
+    return (
+      <TouchableOpacity
+        style={styles.loadMoreButton}
+        onPress={loadMorePhrases}
+        disabled={loadingMore}
+      >
+        <Text style={styles.loadMoreButtonText}>
+          {loadingMore ? 'Loading...' : `Load More (${phrases.length}/${totalPhraseCount})`}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
 
   if (initializing) {
     return (
@@ -225,6 +267,7 @@ const HomeScreen: React.FC = () => {
         renderItem={renderPhraseItem}
         keyExtractor={item => item.id}
         ListEmptyComponent={renderEmptyState}
+        ListFooterComponent={renderLoadMoreButton}
         refreshing={loading}
         onRefresh={loadPhrases}
         showsVerticalScrollIndicator={false}
@@ -352,6 +395,19 @@ const styles = StyleSheet.create({
   emptyListContainer: {
     flexGrow: 1,
     justifyContent: 'center',
+  },
+  loadMoreButton: {
+    backgroundColor: '#4CAF50',
+    marginHorizontal: 16,
+    marginVertical: 16,
+    paddingVertical: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  loadMoreButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   loadingContainer: {
     flex: 1,

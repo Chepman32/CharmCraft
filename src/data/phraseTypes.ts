@@ -76,6 +76,30 @@ export const CATEGORY_MAPPING: Record<string, PhraseCategory> = {
   'good_morning_night': PhraseCategory.GOOD_MORNING,
 };
 
+// Enhanced mapping for large dataset categories
+export const LARGE_CATEGORY_MAPPING: Record<string, PhraseCategory> = {
+  'after_first_date': PhraseCategory.ROMANTIC,
+  'asking_out': PhraseCategory.ROMANTIC,
+  'boundaries_respect': PhraseCategory.SUPPORTIVE,
+  'checking_in': PhraseCategory.SUPPORTIVE,
+  'compliments_appearance': PhraseCategory.COMPLIMENT,
+  'compliments_personality': PhraseCategory.COMPLIMENT,
+  'conflict_resolution_light': PhraseCategory.SUPPORTIVE,
+  'date_planning': PhraseCategory.ROMANTIC,
+  'deepening_connection': PhraseCategory.DEEP,
+  'flirting': PhraseCategory.FLIRTY,
+  'future_plans': PhraseCategory.RELATIONSHIP_BUILDING,
+  'good_morning_night': PhraseCategory.GOOD_MORNING,
+  'gratitude': PhraseCategory.SUPPORTIVE,
+  'icebreakers': PhraseCategory.CONVERSATION_STARTER,
+  'long_distance': PhraseCategory.RELATIONSHIP_BUILDING,
+  'photo_replies': PhraseCategory.FLIRTY,
+  'playful_challenges': PhraseCategory.FUNNY,
+  'rekindling_spark': PhraseCategory.ROMANTIC,
+  'support_encouragement': PhraseCategory.SUPPORTIVE,
+  'voice_note_prompts': PhraseCategory.CONVERSATION_STARTER,
+};
+
 // Mapping from new intensity to legacy tone
 export const INTENSITY_TO_TONE: Record<string, PhraseTone> = {
   'soft': PhraseTone.GENTLE,
@@ -87,12 +111,14 @@ export const INTENSITY_TO_TONE: Record<string, PhraseTone> = {
 export function convertPhraseDataToLegacy(
   phraseData: PhraseData,
   categoryKey: string,
-  language: string = 'en'
+  language: string = 'en',
+  useLargeMapping: boolean = false
 ): Phrase {
+  const mapping = useLargeMapping ? LARGE_CATEGORY_MAPPING : CATEGORY_MAPPING;
   return {
     id: `${categoryKey}_${phraseData.id}`,
     text: phraseData.text,
-    category: CATEGORY_MAPPING[categoryKey] || PhraseCategory.CASUAL,
+    category: mapping[categoryKey] || PhraseCategory.CASUAL,
     situation: PhraseSituation.DAILY_CHAT, // Default situation
     tone: INTENSITY_TO_TONE[phraseData.intensity] || PhraseTone.SINCERE,
     tags: [], // Empty tags for now, can be populated later

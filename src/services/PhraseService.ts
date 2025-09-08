@@ -7,6 +7,7 @@ import {
   PhrasesDatabase,
   PhraseData,
   convertPhraseDataToLegacy,
+  LARGE_CATEGORY_MAPPING,
 } from '../data/phraseTypes';
 import {
   handleAsyncStorageError,
@@ -34,9 +35,17 @@ export interface UsageStats {
 class PhraseService {
   private phrases: Phrase[] = [];
   private phrasesDatabase: PhrasesDatabase | null = null;
+  private largePhrasesDatabase: PhrasesDatabase | null = null;
+  private loadedCategories: Set<string> = new Set();
   private favorites: string[] = [];
   private usageStats: Map<string, UsageStats> = new Map();
   private initialized = false;
+  private useLargeDataset = false;
+
+  // Lazy loading configuration
+  private readonly CHUNK_SIZE = 1000; // Load phrases in chunks
+  private readonly MAX_MEMORY_PHRASES = 5000; // Keep max phrases in memory
+  private readonly INITIAL_LOAD_SIZE = 50; // Initial phrases per category
 
   private async getCurrentLanguage(): Promise<string> {
     try {
@@ -117,16 +126,28 @@ class PhraseService {
     try {
       const language = await this.getCurrentLanguage();
       
-      // Load main phrases database using require for React Native
-      const phrasesData = require('../data/phrases.json') as PhrasesDatabase;
-      this.phrasesDatabase = phrasesData;
-      
-      // Convert JSON data to legacy format
-      this.phrases = [];
-      for (const [categoryKey, categoryData] of Object.entries(this.phrasesDatabase.categories)) {
-        for (const phraseData of categoryData.phrases) {
-          const legacyPhrase = convertPhraseDataToLegacy(phraseData, categoryKey, language);
-          this.phrases.push(legacyPhrase);
+      // Try to load large dataset first
+      try {
+        this.largePhrasesDatabase = require('../data/phrases-large.json') as PhrasesDatabase;
+        this.useLargeDataset = true;
+        console.log('✅ Large dataset available - using lazy loading');
+        
+        // Load only a small subset initially
+        await this.loadInitialPhrases();
+      } catch (largeError) {
+        console.log('Large dataset not found, using standard dataset');
+        // Fallback to standard dataset
+        const phrasesData = require('../data/phrases.json') as PhrasesDatabase;
+        this.phrasesDatabase = phrasesData;
+        this.useLargeDataset = false;
+        
+        // Convert JSON data to legacy format
+        this.phrases = [];
+        for (const [categoryKey, categoryData] of Object.entries(this.phrasesDatabase.categories)) {
+          for (const phraseData of categoryData.phrases) {
+            const legacyPhrase = convertPhraseDataToLegacy(phraseData, categoryKey, language, false);
+            this.phrases.push(legacyPhrase);
+          }
         }
       }
       
@@ -134,9 +155,66 @@ class PhraseService {
     } catch (error) {
       console.error('Failed to load phrases from JSON:', error);
       handleDatabaseError(error);
-      // Fallback to empty array
       this.phrases = [];
       this.phrasesDatabase = null;
+    }
+  }
+
+  private async loadInitialPhrases(): Promise<void> {
+    if (!this.largePhrasesDatabase) return;
+    
+    const language = await this.getCurrentLanguage();
+    this.phrases = [];
+    
+    // Load first few phrases from each category
+    for (const [categoryKey, categoryData] of Object.entries(this.largePhrasesDatabase.categories)) {
+      const initialPhrases = categoryData.phrases.slice(0, this.INITIAL_LOAD_SIZE);
+      for (const phraseData of initialPhrases) {
+        const legacyPhrase = convertPhraseDataToLegacy(phraseData, categoryKey, language, true);
+        this.phrases.push(legacyPhrase);
+      }
+      this.loadedCategories.add(categoryKey);
+    }
+  }
+
+  private async loadMorePhrases(category?: string, limit: number = this.CHUNK_SIZE): Promise<void> {
+    if (!this.largePhrasesDatabase) return;
+    
+    const language = await this.getCurrentLanguage();
+    
+    if (category) {
+      // Load more phrases for specific category
+      const categoryData = this.largePhrasesDatabase.categories[category];
+      if (categoryData) {
+        const currentCount = this.phrases.filter(p => p.category === LARGE_CATEGORY_MAPPING[category]).length;
+        const newPhrases = categoryData.phrases.slice(currentCount, currentCount + limit);
+        
+        for (const phraseData of newPhrases) {
+          const legacyPhrase = convertPhraseDataToLegacy(phraseData, category, language, true);
+          this.phrases.push(legacyPhrase);
+        }
+      }
+    } else {
+      // Load more phrases from all categories
+      const categories = Object.keys(this.largePhrasesDatabase.categories);
+      const phrasesPerCategory = Math.floor(limit / categories.length);
+      
+      for (const categoryKey of categories) {
+        const categoryData = this.largePhrasesDatabase.categories[categoryKey];
+        const currentCount = this.phrases.filter(p => p.category === LARGE_CATEGORY_MAPPING[categoryKey]).length;
+        const newPhrases = categoryData.phrases.slice(currentCount, currentCount + phrasesPerCategory);
+        
+        for (const phraseData of newPhrases) {
+          const legacyPhrase = convertPhraseDataToLegacy(phraseData, categoryKey, language, true);
+          this.phrases.push(legacyPhrase);
+        }
+      }
+    }
+    
+    // Clean up memory if we have too many phrases
+    if (this.phrases.length > this.MAX_MEMORY_PHRASES) {
+      // Keep the most recent phrases
+      this.phrases = this.phrases.slice(-this.MAX_MEMORY_PHRASES);
     }
   }
 
@@ -179,89 +257,43 @@ class PhraseService {
     }
   }
 
-  private async savePhrases(): Promise<void> {
-    try {
-      if (!AsyncStorage) {
-        console.warn('AsyncStorage not available, skipping save');
-        return;
-      }
-      await AsyncStorage.setItem(
-        PHRASES_STORAGE_KEY,
-        JSON.stringify(this.phrases),
-      );
-    } catch (error) {
-      console.error('Error saving phrases:', error);
-    }
-  }
-
-  private async saveFavorites(): Promise<void> {
-    try {
-      if (!AsyncStorage) {
-        console.warn('AsyncStorage not available, skipping save');
-        return;
-      }
-      await AsyncStorage.setItem(
-        FAVORITES_STORAGE_KEY,
-        JSON.stringify(this.favorites),
-      );
-    } catch (error) {
-      console.error('Error saving favorites:', error);
-    }
-  }
-
-  private async saveUsageStats(): Promise<void> {
-    try {
-      if (!AsyncStorage) {
-        console.warn('AsyncStorage not available, skipping save');
-        return;
-      }
-      const statsArray = Array.from(this.usageStats.entries()).map(
-        ([phraseId, stats]) => ({
-          phraseId,
-          usageCount: stats.usageCount,
-          lastUsed: stats.lastUsed.toISOString(),
-        }),
-      );
-      await AsyncStorage.setItem(USAGE_STATS_KEY, JSON.stringify(statsArray));
-    } catch (error) {
-      console.error('Error saving usage stats:', error);
-    }
-  }
-
-  async searchPhrases(filters: SearchFilters = {}): Promise<Phrase[]> {
+  async searchPhrases(filters: SearchFilters = {}, loadMore: boolean = true): Promise<Phrase[]> {
     await this.initialize();
 
     let filteredPhrases = [...this.phrases];
 
-    // Filter by category
+    // If using large dataset and we need more results, load more phrases
+    if (this.useLargeDataset && loadMore && filteredPhrases.length < 100) {
+      const categoryKey = filters.category ? this.getCategoryKeyFromLegacy(filters.category) : undefined;
+      await this.loadMorePhrases(categoryKey);
+      filteredPhrases = [...this.phrases];
+    }
+
+    // Apply filters
     if (filters.category) {
       filteredPhrases = filteredPhrases.filter(
         phrase => phrase.category === filters.category,
       );
     }
 
-    // Filter by situation
     if (filters.situation) {
       filteredPhrases = filteredPhrases.filter(
         phrase => phrase.situation === filters.situation,
       );
     }
 
-    // Filter by tone
     if (filters.tone) {
       filteredPhrases = filteredPhrases.filter(
         phrase => phrase.tone === filters.tone,
       );
     }
 
-    // Filter by tags
     if (filters.tags && filters.tags.length > 0) {
       filteredPhrases = filteredPhrases.filter(phrase =>
         filters.tags!.some(tag => phrase.tags.includes(tag)),
       );
     }
 
-    // Filter by search text
     if (filters.searchText) {
       const searchLower = filters.searchText.toLowerCase();
       filteredPhrases = filteredPhrases.filter(
@@ -271,7 +303,7 @@ class PhraseService {
       );
     }
 
-    // Apply localization to phrase text based on selected language
+    // Apply localization
     const lang = await this.getCurrentLanguage();
     const localizedPhrases = await Promise.all(
       filteredPhrases.map(async p => ({
@@ -279,7 +311,43 @@ class PhraseService {
         text: await this.getLocalizedPhraseText(p.id, lang),
       }))
     );
+    
     return localizedPhrases;
+  }
+
+  // New method to get total phrase count
+  async getTotalPhraseCount(): Promise<number> {
+    if (this.useLargeDataset && this.largePhrasesDatabase) {
+      return Object.values(this.largePhrasesDatabase.categories)
+        .reduce((sum, cat) => sum + cat.phrases.length, 0);
+    }
+    return this.phrases.length;
+  }
+
+  // New method to load more phrases on demand
+  async loadMorePhrasesOnDemand(category?: PhraseCategory): Promise<void> {
+    if (this.useLargeDataset) {
+      const categoryKey = category ? this.getCategoryKeyFromLegacy(category) : undefined;
+      await this.loadMorePhrases(categoryKey);
+    }
+  }
+
+  private getCategoryKeyFromLegacy(category: PhraseCategory): string {
+    const reverseMapping: Record<PhraseCategory, string> = {
+      [PhraseCategory.CONVERSATION_STARTER]: 'icebreakers',
+      [PhraseCategory.COMPLIMENT]: 'compliments_appearance',
+      [PhraseCategory.ROMANTIC]: 'asking_out',
+      [PhraseCategory.DEEP]: 'deepening_connection',
+      [PhraseCategory.FLIRTY]: 'flirting',
+      [PhraseCategory.GOOD_MORNING]: 'good_morning_night',
+      [PhraseCategory.GOODNIGHT]: 'good_morning_night',
+      [PhraseCategory.SUPPORTIVE]: 'support_encouragement',
+      [PhraseCategory.FUNNY]: 'playful_challenges',
+      [PhraseCategory.APOLOGY]: 'conflict_resolution_light',
+      [PhraseCategory.CASUAL]: 'icebreakers',
+      [PhraseCategory.RELATIONSHIP_BUILDING]: 'future_plans',
+    };
+    return reverseMapping[category] || 'icebreakers';
   }
 
   async getRandomPhrase(filters: SearchFilters = {}): Promise<Phrase | null> {
@@ -370,6 +438,40 @@ class PhraseService {
 
   async getAllTones(): Promise<PhraseTone[]> {
     return Object.values(PhraseTone);
+  }
+
+  private async saveFavorites(): Promise<void> {
+    try {
+      if (!AsyncStorage) {
+        console.warn('AsyncStorage not available, skipping save');
+        return;
+      }
+      await AsyncStorage.setItem(
+        FAVORITES_STORAGE_KEY,
+        JSON.stringify(this.favorites),
+      );
+    } catch (error) {
+      console.error('Error saving favorites:', error);
+    }
+  }
+
+  private async saveUsageStats(): Promise<void> {
+    try {
+      if (!AsyncStorage) {
+        console.warn('AsyncStorage not available, skipping save');
+        return;
+      }
+      const statsArray = Array.from(this.usageStats.entries()).map(
+        ([phraseId, stats]) => ({
+          phraseId,
+          usageCount: stats.usageCount,
+          lastUsed: stats.lastUsed.toISOString(),
+        }),
+      );
+      await AsyncStorage.setItem(USAGE_STATS_KEY, JSON.stringify(statsArray));
+    } catch (error) {
+      console.error('Error saving usage stats:', error);
+    }
   }
 }
 
