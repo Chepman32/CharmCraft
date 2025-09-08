@@ -13,8 +13,10 @@ import { Phrase } from '../data/phrases';
 import PhraseService, { SearchFilters } from '../services/PhraseService';
 import PhraseCard from '../components/PhraseCard';
 import FilterModal from '../components/FilterModal';
+import { useTranslation } from '../contexts/LocalizationContext';
 
 const HomeScreen: React.FC = () => {
+  const { language } = useTranslation();
   const [phrases, setPhrases] = useState<Phrase[]>([]);
   const [searchText, setSearchText] = useState('');
   const [filters, setFilters] = useState<SearchFilters>({});
@@ -33,7 +35,7 @@ const HomeScreen: React.FC = () => {
     if (!initializing) {
       loadPhrases();
     }
-  }, [filters, searchText, activeTab, initializing]);
+  }, [filters, searchText, activeTab, initializing, language]);
 
   const initializeApp = async () => {
     try {

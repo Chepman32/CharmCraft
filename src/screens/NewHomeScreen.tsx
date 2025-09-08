@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
@@ -17,18 +17,12 @@ import { useFeedback } from '../hooks/useFeedback';
 import PhraseService, { SearchFilters } from '../services/PhraseService';
 import { PhraseCategory, PhraseTone } from '../data/phrases';
 import Clipboard from '@react-native-clipboard/clipboard';
-import SettingsService from '../services/SettingsService';
 
 const { width } = Dimensions.get('window');
 
 const NewHomeScreen: React.FC = () => {
   const { theme } = useTheme();
-  const { t } = useTranslation();
-
-  // Don't render until theme is ready
-  if (!theme || !theme.colors) {
-    return null;
-  }
+  const { t, language } = useTranslation();
   const { playButtonTap, playSuccess } = useFeedback();
   const [searchText, setSearchText] = useState('');
   const [selectedCategory, setSelectedCategory] =
@@ -40,6 +34,83 @@ const NewHomeScreen: React.FC = () => {
     'You make my day so much brighter',
   );
   const [initializing, setInitializing] = useState(true);
+
+  const intensityToTone = (intensity: string): PhraseTone => {
+    switch (intensity) {
+      case 'soft':
+        return PhraseTone.GENTLE;
+      case 'bold':
+        return PhraseTone.CONFIDENT;
+      default:
+        return PhraseTone.SINCERE;
+    }
+  };
+
+  const generateNewPhrase = useCallback(async () => {
+    try {
+      const filters: SearchFilters = {};
+
+      if (selectedCategory) {
+        filters.category = selectedCategory;
+      }
+
+      filters.tone = intensityToTone(intensity);
+
+      if (searchText.trim()) {
+        filters.searchText = searchText.trim();
+      }
+
+      const phrase = await PhraseService.getRandomPhrase(filters);
+      if (phrase) {
+        setCurrentPhrase(phrase.text);
+        await PhraseService.recordUsage(phrase.id);
+      }
+    } catch (error) {
+      console.error('Error generating phrase:', error);
+    }
+  }, [selectedCategory, intensity, searchText]);
+
+  const initializeApp = useCallback(async () => {
+    try {
+      await PhraseService.initialize();
+      await generateNewPhrase();
+    } catch (error) {
+      console.error('Error initializing app:', error);
+    } finally {
+      setInitializing(false);
+    }
+  }, [generateNewPhrase]);
+
+  useEffect(() => {
+    initializeApp();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Regenerate phrase when language changes
+  useEffect(() => {
+    if (!initializing) {
+      generateNewPhrase();
+    }
+  }, [language, initializing, generateNewPhrase]);
+
+  // Regenerate phrase when filters change
+  useEffect(() => {
+    if (!initializing) {
+      generateNewPhrase();
+    }
+  }, [selectedCategory, intensity, searchText, initializing, generateNewPhrase]);
+
+  const categoryButtons = React.useMemo(() => [
+    {
+      key: PhraseCategory.CONVERSATION_STARTER,
+      label: t('categories.icebreakers'),
+    },
+    { key: PhraseCategory.COMPLIMENT, label: t('categories.compliments') },
+    { key: PhraseCategory.APOLOGY, label: t('categories.apologies') },
+    { key: PhraseCategory.ROMANTIC, label: t('categories.longDistance') },
+    { key: PhraseCategory.CASUAL, label: t('categories.everyday') },
+    { key: PhraseCategory.GOOD_MORNING, label: t('categories.birthday') },
+  ], [t]);
 
   const styles = React.useMemo(() => {
     if (!theme || !theme.colors) {
@@ -183,67 +254,10 @@ const NewHomeScreen: React.FC = () => {
     return createStyles(theme);
   }, [theme]);
 
-  useEffect(() => {
-    initializeApp();
-  }, []);
-
-  const initializeApp = async () => {
-    try {
-      await PhraseService.initialize();
-      await generateNewPhrase();
-    } catch (error) {
-      console.error('Error initializing app:', error);
-    } finally {
-      setInitializing(false);
-    }
-  };
-
-  const categoryButtons = React.useMemo(() => [
-    {
-      key: PhraseCategory.CONVERSATION_STARTER,
-      label: t('categories.icebreakers'),
-    },
-    { key: PhraseCategory.COMPLIMENT, label: t('categories.compliments') },
-    { key: PhraseCategory.APOLOGY, label: t('categories.apologies') },
-    { key: PhraseCategory.ROMANTIC, label: t('categories.longDistance') },
-    { key: PhraseCategory.CASUAL, label: t('categories.everyday') },
-    { key: PhraseCategory.GOOD_MORNING, label: t('categories.birthday') },
-  ], [t]);
-
-  const intensityToTone = (intensity: string): PhraseTone => {
-    switch (intensity) {
-      case 'soft':
-        return PhraseTone.GENTLE;
-      case 'bold':
-        return PhraseTone.CONFIDENT;
-      default:
-        return PhraseTone.SINCERE;
-    }
-  };
-
-  const generateNewPhrase = async () => {
-    try {
-      const filters: SearchFilters = {};
-
-      if (selectedCategory) {
-        filters.category = selectedCategory;
-      }
-
-      filters.tone = intensityToTone(intensity);
-
-      if (searchText.trim()) {
-        filters.searchText = searchText.trim();
-      }
-
-      const phrase = await PhraseService.getRandomPhrase(filters);
-      if (phrase) {
-        setCurrentPhrase(phrase.text);
-        await PhraseService.recordUsage(phrase.id);
-      }
-    } catch (error) {
-      console.error('Error generating phrase:', error);
-    }
-  };
+  // Don't render until theme is ready
+  if (!theme || !theme.colors) {
+    return null;
+  }
 
   const handleCopyPhrase = () => {
     Clipboard.setString(currentPhrase);
@@ -295,7 +309,7 @@ const NewHomeScreen: React.FC = () => {
 
           {/* Category Buttons */}
           <View style={styles.categoryContainer}>
-            {categoryButtons.map((category, index) => (
+            {categoryButtons.map((category) => (
               <TouchableOpacity
                 key={category.key}
                 style={[
