@@ -1,0 +1,300 @@
+{
+  "categories": {
+    "icebreakers": {
+      "title": "Démarrer une conversation (Brise-glace)",
+      "description": "Phrases pour briser la glace et commencer la première communication sur les réseaux sociaux ou messagerie.",
+      "phrases": [
+        {
+          "id": 1001,
+          "text": "Salut ! J'ai vu ton commentaire sous [nom du post/événement] et je suis complètement d'accord avec toi. Comment trouves-tu cet [événement] en général ?",
+          "intensity": "doux"
+        },
+        {
+          "id": 1002,
+          "text": "Salut ! Ton profil a l'air très intéressant. J'ai particulièrement aimé les photos de [lieu]. Tu voyages souvent ?",
+          "intensity": "neutre"
+        },
+        {
+          "id": 1003,
+          "text": "Alors, j'ai décidé de prendre un risque. Salut ! Tu as un sourire incroyable et je n'ai pas pu m'empêcher d'écrire. J'espère que tu n'es pas contre cette approche directe ?",
+          "intensity": "audacieux"
+        },
+        {
+          "id": 1004,
+          "text": "Salut ! Je pense qu'on s'est croisés à [nom de l'événement] ? En tout cas, tu as l'air familier et très positif :)",
+          "intensity": "doux"
+        },
+        {
+          "id": 1005,
+          "text": "Écoute, j'ai une question idiote : si tu pouvais avoir n'importe quel super-pouvoir, que choisirais-tu ? Salut au fait :)",
+          "intensity": "neutre"
+        },
+        {
+          "id": 1006,
+          "text": "Je pensais juste à toi et je n'ai pas pu m'empêcher de sourire. Comment se passe ta journée ?",
+          "intensity": "doux"
+        },
+        {
+          "id": 1007,
+          "text": "Quelle est la chose la plus intéressante qui t'est arrivée aujourd'hui ?",
+          "intensity": "neutre"
+        },
+        {
+          "id": 1008,
+          "text": "J'ai vu quelque chose aujourd'hui qui m'a rappelé toi et m'a fait sourire.",
+          "intensity": "doux"
+        },
+        {
+          "id": 1009,
+          "text": "Comment s'est passée ta matinée ? J'espère qu'elle a commencé aussi magnifiquement que toi.",
+          "intensity": "doux"
+        },
+        {
+          "id": 1010,
+          "text": "J'ai une question aléatoire pour toi - quelle est ta façon préférée de passer un dimanche paresseux ?",
+          "intensity": "neutre"
+        }
+      ]
+    },
+    "compliments": {
+      "title": "Faire un compliment",
+      "description": "Phrases pour remarquer sincèrement et magnifiquement quelque chose chez une fille, son apparence, son style ou son intelligence.",
+      "phrases": [
+        {
+          "id": 2001,
+          "text": "Au fait, tu as un excellent sens de l'humour. Lire tes réponses est un plaisir.",
+          "intensity": "doux"
+        },
+        {
+          "id": 2002,
+          "text": "Tu as l'air absolument incroyable aujourd'hui. Cette robe/ce look te va très bien.",
+          "intensity": "neutre"
+        },
+        {
+          "id": 2003,
+          "text": "Je ne sais pas comment tu fais, mais à chaque fois qu'on se voit, tu me plais de plus en plus. Tu es incroyable.",
+          "intensity": "audacieux"
+        },
+        {
+          "id": 2004,
+          "text": "J'aime beaucoup comment tu raisonnes. Avec toi, on peut parler de tout.",
+          "intensity": "doux"
+        },
+        {
+          "id": 2005,
+          "text": "Ton sourire peut désarmer n'importe qui. Moi, définitivement.",
+          "intensity": "neutre"
+        },
+        {
+          "id": 2006,
+          "text": "Honnêtement ? Je ne peux pas arrêter de penser à tes yeux. On pourrait s'y noyer.",
+          "intensity": "audacieux"
+        },
+        {
+          "id": 2007,
+          "text": "Tu as cette façon incroyable de rendre tout meilleur juste en étant toi-même.",
+          "intensity": "doux"
+        },
+        {
+          "id": 2008,
+          "text": "Ton sourire est absolument contagieux - il illumine toute ma journée.",
+          "intensity": "neutre"
+        },
+        {
+          "id": 2009,
+          "text": "J'adore comment tu deviens passionnée quand tu parles des choses qui te tiennent à cœur.",
+          "intensity": "doux"
+        },
+        {
+          "id": 2010,
+          "text": "Tu as un esprit si magnifique - la façon dont tu penses aux choses me fascine.",
+          "intensity": "neutre"
+        }
+      ]
+    },
+    "asking_out": {
+      "title": "Invitation à sortir",
+      "description": "Façons d'inviter une fille à un rendez-vous, du décontracté au très confiant.",
+      "phrases": [
+        {
+          "id": 3001,
+          "text": "Cette semaine, un nouveau café [nom] a ouvert avec d'excellents avis. Si tu as du temps libre, on pourrait peut-être y aller ?",
+          "intensity": "doux"
+        },
+        {
+          "id": 3002,
+          "text": "On communique si bien ici, mais je suis sûr que ce sera encore mieux en personne. On se voit dans quelques jours ? Je suis libre [jour] ou [jour].",
+          "intensity": "neutre"
+        },
+        {
+          "id": 3003,
+          "text": "Assez de textos. Je veux te voir. Demain à 19h00, je viens te chercher. Sois prête pour une excellente soirée.",
+          "intensity": "audacieux"
+        },
+        {
+          "id": 3004,
+          "text": "Si tu n'y vois pas d'inconvénient, j'aimerais t'inviter à dîner ce week-end. Tu le mérites.",
+          "intensity": "neutre"
+        },
+        {
+          "id": 3005,
+          "text": "J'aimerais t'emmener quelque part de spécial. Que dirais-tu d'un dîner ce vendredi ?",
+          "intensity": "neutre"
+        },
+        {
+          "id": 3006,
+          "text": "Arrêtons de parler à travers les écrans et rencontrons-nous face à face. Café demain ?",
+          "intensity": "doux"
+        }
+      ]
+    },
+    "deepening_connection": {
+      "title": "Approfondir la connexion",
+      "description": "Phrases et questions pour des conversations plus sérieuses et personnelles afin de mieux se connaître.",
+      "phrases": [
+        {
+          "id": 4001,
+          "text": "De quoi rêves-tu en ce moment, si tu mets de côté toutes les limitations ?",
+          "intensity": "doux"
+        },
+        {
+          "id": 4002,
+          "text": "C'est très important pour moi ce que tu penses. Dis-moi honnêtement, qu'est-ce qui est le plus important pour toi dans les relations ?",
+          "intensity": "neutre"
+        },
+        {
+          "id": 4003,
+          "text": "Je sens qu'il y a quelque chose de spécial entre nous. Tu le sens aussi ?",
+          "intensity": "audacieux"
+        },
+        {
+          "id": 4004,
+          "text": "Quel est ton souvenir le plus chaleureux de l'enfance ?",
+          "intensity": "doux"
+        },
+        {
+          "id": 4005,
+          "text": "Je veux être avec toi pas seulement quand tout va bien, mais aussi quand c'est difficile. Sache que tu peux toujours compter sur moi.",
+          "intensity": "audacieux"
+        },
+        {
+          "id": 4006,
+          "text": "Chaque moment avec toi ressemble à un magnifique rêve dont je ne veux jamais me réveiller.",
+          "intensity": "neutre"
+        },
+        {
+          "id": 4007,
+          "text": "Tu n'es pas juste ma partenaire, tu es ma meilleure amie et l'amour de ma vie.",
+          "intensity": "audacieux"
+        },
+        {
+          "id": 4008,
+          "text": "Je crois complètement en toi. Tu peux le faire, et je suis là pour toi quoi qu'il arrive.",
+          "intensity": "neutre"
+        }
+      ]
+    },
+    "flirting": {
+      "title": "Flirter et jouer",
+      "description": "Messages légers, joueurs et intrigants pour maintenir l'étincelle d'intérêt en vie.",
+      "phrases": [
+        {
+          "id": 5001,
+          "text": "Je viens de sourire à mon téléphone, et les gens m'ont regardé bizarrement. C'est entièrement de ta faute :)",
+          "intensity": "doux"
+        },
+        {
+          "id": 5002,
+          "text": "Je parie que je sais à quoi tu penses en ce moment ? ... À pourquoi je ne t'ai pas encore écrit !",
+          "intensity": "neutre"
+        },
+        {
+          "id": 5003,
+          "text": "Mes projets pour ce soir : 1. Penser à toi. 2. Voir point 1. Quels sont les tiens ?",
+          "intensity": "audacieux"
+        },
+        {
+          "id": 5004,
+          "text": "Si les emojis pouvaient rougir, le mien serait rouge camion de pompiers après ton dernier message.",
+          "intensity": "neutre"
+        },
+        {
+          "id": 5005,
+          "text": "Je n'arrive pas à me concentrer sur quoi que ce soit aujourd'hui parce que je n'arrête pas de penser à toi.",
+          "intensity": "doux"
+        },
+        {
+          "id": 5006,
+          "text": "C'est juste moi, ou on a une chimie incroyable ?",
+          "intensity": "neutre"
+        },
+        {
+          "id": 5007,
+          "text": "Tu es dangereusement attirante, et je ne me plains pas.",
+          "intensity": "audacieux"
+        },
+        {
+          "id": 5008,
+          "text": "J'ai un aveu à faire : je pense à t'embrasser toute la journée.",
+          "intensity": "audacieux"
+        }
+      ]
+    },
+    "good_morning_night": {
+      "title": "Bonjour / Bonne nuit",
+      "description": "Messages agréables pour commencer ou terminer sa journée avec des pensées de toi.",
+      "phrases": [
+        {
+          "id": 6001,
+          "text": "Bonjour ! J'espère que ta journée sera aussi ensoleillée que ton sourire.",
+          "intensity": "doux"
+        },
+        {
+          "id": 6002,
+          "text": "Je me suis réveillé en pensant à toi. Que ta journée soit facile et productive !",
+          "intensity": "neutre"
+        },
+        {
+          "id": 6003,
+          "text": "La seule chose qui serait mieux que de te souhaiter bonjour par SMS serait de te le dire en personne. Excellente journée !",
+          "intensity": "audacieux"
+        },
+        {
+          "id": 6004,
+          "text": "Fais de beaux rêves ! Repose-toi bien.",
+          "intensity": "doux"
+        },
+        {
+          "id": 6005,
+          "text": "Que tu aies les rêves les plus doux. Je t'embrasse mentalement.",
+          "intensity": "neutre"
+        },
+        {
+          "id": 6006,
+          "text": "J'aimerais vraiment être avec toi maintenant. Endors-toi en pensant que tu me manques beaucoup. Bonne nuit.",
+          "intensity": "audacieux"
+        },
+        {
+          "id": 6007,
+          "text": "Bonjour, belle ! J'espère que ta journée est aussi incroyable que toi.",
+          "intensity": "doux"
+        },
+        {
+          "id": 6008,
+          "text": "Se réveiller en pensant à toi est la façon parfaite de commencer n'importe quelle journée.",
+          "intensity": "neutre"
+        },
+        {
+          "id": 6009,
+          "text": "Fais de beaux rêves, magnifique. J'ai hâte de te parler demain.",
+          "intensity": "doux"
+        },
+        {
+          "id": 6010,
+          "text": "Pendant que tu t'endors, sache que tu es la dernière chose à laquelle je pense et la première à laquelle je penserai demain.",
+          "intensity": "audacieux"
+        }
+      ]
+    }
+  }
+}

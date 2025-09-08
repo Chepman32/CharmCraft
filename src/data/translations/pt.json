@@ -1,0 +1,300 @@
+{
+  "categories": {
+    "icebreakers": {
+      "title": "Iniciar Conversa (Quebra-gelo)",
+      "description": "Frases para quebrar o gelo e iniciar a primeira comunicação nas redes sociais ou mensageiro.",
+      "phrases": [
+        {
+          "id": 1001,
+          "text": "Oi! Vi seu comentário em [nome do post/evento] e concordo completamente com você. O que você acha desse [evento] em geral?",
+          "intensity": "suave"
+        },
+        {
+          "id": 1002,
+          "text": "Oi! Seu perfil parece muito interessante. Gostei especialmente das fotos de [lugar]. Você viaja frequentemente?",
+          "intensity": "neutro"
+        },
+        {
+          "id": 1003,
+          "text": "Então, decidi arriscar. Oi! Você tem um sorriso incrível e não consegui evitar escrever. Espero que não se importe com essa abordagem direta?",
+          "intensity": "ousado"
+        },
+        {
+          "id": 1004,
+          "text": "Oi! Acho que nos cruzamos em [nome do evento]? De qualquer forma, você parece familiar e muito positivo :)",
+          "intensity": "suave"
+        },
+        {
+          "id": 1005,
+          "text": "Escuta, tenho uma pergunta boba: se você pudesse ter qualquer superpoder, o que escolheria? Oi, a propósito :)",
+          "intensity": "neutro"
+        },
+        {
+          "id": 1006,
+          "text": "Estava pensando em você e não consegui evitar sorrir. Como está seu dia?",
+          "intensity": "suave"
+        },
+        {
+          "id": 1007,
+          "text": "Qual foi a coisa mais interessante que aconteceu com você hoje?",
+          "intensity": "neutro"
+        },
+        {
+          "id": 1008,
+          "text": "Vi algo hoje que me lembrou de você e me fez sorrir.",
+          "intensity": "suave"
+        },
+        {
+          "id": 1009,
+          "text": "Como foi sua manhã? Espero que tenha começado tão linda quanto você.",
+          "intensity": "suave"
+        },
+        {
+          "id": 1010,
+          "text": "Tenho uma pergunta aleatória para você - qual é sua forma favorita de passar um domingo preguiçoso?",
+          "intensity": "neutro"
+        }
+      ]
+    },
+    "compliments": {
+      "title": "Fazer um elogio",
+      "description": "Frases para notar sinceramente e lindamente algo em uma garota, sua aparência, estilo ou inteligência.",
+      "phrases": [
+        {
+          "id": 2001,
+          "text": "A propósito, você tem um ótimo senso de humor. Ler suas respostas é um prazer.",
+          "intensity": "suave"
+        },
+        {
+          "id": 2002,
+          "text": "Você está absolutamente incrível hoje. Este vestido/visual fica muito bem em você.",
+          "intensity": "neutro"
+        },
+        {
+          "id": 2003,
+          "text": "Não sei como você faz isso, mas a cada encontro nosso você me agrada mais e mais. Você é incrível.",
+          "intensity": "ousado"
+        },
+        {
+          "id": 2004,
+          "text": "Gosto muito de como você raciocina. Com você pode-se falar sobre qualquer coisa.",
+          "intensity": "suave"
+        },
+        {
+          "id": 2005,
+          "text": "Seu sorriso pode desarmar qualquer um. Eu, definitivamente.",
+          "intensity": "neutro"
+        },
+        {
+          "id": 2006,
+          "text": "Honestamente? Não consigo parar de pensar nos seus olhos. Dá para se afogar neles.",
+          "intensity": "ousado"
+        },
+        {
+          "id": 2007,
+          "text": "Você tem essa maneira incrível de tornar tudo melhor apenas sendo você mesma.",
+          "intensity": "suave"
+        },
+        {
+          "id": 2008,
+          "text": "Seu sorriso é absolutamente contagioso - ilumina todo o meu dia.",
+          "intensity": "neutro"
+        },
+        {
+          "id": 2009,
+          "text": "Adoro como você fica apaixonada quando fala sobre coisas que te importam.",
+          "intensity": "suave"
+        },
+        {
+          "id": 2010,
+          "text": "Você tem uma mente tão linda - a forma como você pensa sobre as coisas me fascina.",
+          "intensity": "neutro"
+        }
+      ]
+    },
+    "asking_out": {
+      "title": "Convite para sair",
+      "description": "Formas de convidar uma garota para um encontro, do casual ao muito confiante.",
+      "phrases": [
+        {
+          "id": 3001,
+          "text": "Esta semana abriu uma nova cafeteria [nome] com ótimas avaliações. Se você tiver tempo livre, talvez possamos dar uma olhada?",
+          "intensity": "suave"
+        },
+        {
+          "id": 3002,
+          "text": "Nos comunicamos tão bem aqui, mas tenho certeza de que pessoalmente será ainda melhor. Vamos nos encontrar em alguns dias? Estou livre na [dia] ou [dia].",
+          "intensity": "neutro"
+        },
+        {
+          "id": 3003,
+          "text": "Chega de mensagens. Quero te ver. Amanhã às 19:00, passo para te buscar. Esteja pronta para uma noite excelente.",
+          "intensity": "ousado"
+        },
+        {
+          "id": 3004,
+          "text": "Se você não se importar, adoraria te convidar para jantar neste fim de semana. Você merece.",
+          "intensity": "neutro"
+        },
+        {
+          "id": 3005,
+          "text": "Adoraria te levar a algum lugar especial. Que tal um jantar nesta sexta-feira?",
+          "intensity": "neutro"
+        },
+        {
+          "id": 3006,
+          "text": "Vamos parar de falar através de telas e nos encontrar cara a cara. Café amanhã?",
+          "intensity": "suave"
+        }
+      ]
+    },
+    "deepening_connection": {
+      "title": "Aprofundar a conexão",
+      "description": "Frases e perguntas para conversas mais sérias e pessoais para se conhecer melhor.",
+      "phrases": [
+        {
+          "id": 4001,
+          "text": "Sobre o que você está sonhando agora, se deixar de lado todas as limitações?",
+          "intensity": "suave"
+        },
+        {
+          "id": 4002,
+          "text": "É muito importante para mim o que você pensa. Me diga honestamente, o que é mais importante para você nos relacionamentos?",
+          "intensity": "neutro"
+        },
+        {
+          "id": 4003,
+          "text": "Sinto que há algo especial entre nós. Você também sente?",
+          "intensity": "ousado"
+        },
+        {
+          "id": 4004,
+          "text": "Qual é sua memória mais calorosa da infância?",
+          "intensity": "suave"
+        },
+        {
+          "id": 4005,
+          "text": "Quero estar com você não apenas quando tudo está bem, mas também quando é difícil. Saiba que você sempre pode contar comigo.",
+          "intensity": "ousado"
+        },
+        {
+          "id": 4006,
+          "text": "Cada momento com você parece um sonho lindo do qual nunca quero acordar.",
+          "intensity": "neutro"
+        },
+        {
+          "id": 4007,
+          "text": "Você não é apenas minha parceira, você é minha melhor amiga e o amor da minha vida.",
+          "intensity": "ousado"
+        },
+        {
+          "id": 4008,
+          "text": "Acredito completamente em você. Você consegue, e estou aqui para você não importa o que aconteça.",
+          "intensity": "neutro"
+        }
+      ]
+    },
+    "flirting": {
+      "title": "Flertar e brincar",
+      "description": "Mensagens leves, brincalhonas e intrigantes para manter a faísca de interesse viva.",
+      "phrases": [
+        {
+          "id": 5001,
+          "text": "Acabei de sorrir para meu telefone, e as pessoas me olharam estranho. É tudo culpa sua :)",
+          "intensity": "suave"
+        },
+        {
+          "id": 5002,
+          "text": "Aposto que sei no que você está pensando agora? ... Em por que ainda não te escrevi!",
+          "intensity": "neutro"
+        },
+        {
+          "id": 5003,
+          "text": "Meus planos para esta noite: 1. Pensar em você. 2. Ver ponto 1. Quais são os seus?",
+          "intensity": "ousado"
+        },
+        {
+          "id": 5004,
+          "text": "Se os emojis pudessem corar, o meu estaria vermelho caminhão de bombeiros após sua última mensagem.",
+          "intensity": "neutro"
+        },
+        {
+          "id": 5005,
+          "text": "Não consigo me concentrar em nada hoje porque não paro de pensar em você.",
+          "intensity": "suave"
+        },
+        {
+          "id": 5006,
+          "text": "Sou só eu, ou temos uma química incrível?",
+          "intensity": "neutro"
+        },
+        {
+          "id": 5007,
+          "text": "Você é perigosamente atraente, e não estou reclamando.",
+          "intensity": "ousado"
+        },
+        {
+          "id": 5008,
+          "text": "Tenho uma confissão: estou pensando em beijar você o dia todo.",
+          "intensity": "ousado"
+        }
+      ]
+    },
+    "good_morning_night": {
+      "title": "Bom dia / Boa noite",
+      "description": "Mensagens agradáveis para começar ou terminar o dia dela com pensamentos sobre você.",
+      "phrases": [
+        {
+          "id": 6001,
+          "text": "Bom dia! Espero que seu dia seja tão ensolarado quanto seu sorriso.",
+          "intensity": "suave"
+        },
+        {
+          "id": 6002,
+          "text": "Acordei pensando em você. Que seu dia seja fácil e produtivo!",
+          "intensity": "neutro"
+        },
+        {
+          "id": 6003,
+          "text": "A única coisa que seria melhor do que desejar bom dia por SMS seria dizer pessoalmente. Tenha um ótimo dia!",
+          "intensity": "ousado"
+        },
+        {
+          "id": 6004,
+          "text": "Bons sonhos! Descanse bem.",
+          "intensity": "suave"
+        },
+        {
+          "id": 6005,
+          "text": "Que você tenha os sonhos mais doces. Te abraço mentalmente.",
+          "intensity": "neutro"
+        },
+        {
+          "id": 6006,
+          "text": "Gostaria muito de estar com você agora. Adormeça pensando que sinto muito sua falta. Boa noite.",
+          "intensity": "ousado"
+        },
+        {
+          "id": 6007,
+          "text": "Bom dia, linda! Espero que seu dia seja tão incrível quanto você.",
+          "intensity": "suave"
+        },
+        {
+          "id": 6008,
+          "text": "Acordar pensando em você é a maneira perfeita de começar qualquer dia.",
+          "intensity": "neutro"
+        },
+        {
+          "id": 6009,
+          "text": "Bons sonhos, linda. Mal posso esperar para falar com você amanhã.",
+          "intensity": "suave"
+        },
+        {
+          "id": 6010,
+          "text": "Enquanto você adormece, saiba que você é a última coisa em que penso e a primeira em que pensarei amanhã.",
+          "intensity": "ousado"
+        }
+      ]
+    }
+  }
+}

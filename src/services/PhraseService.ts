@@ -61,6 +61,27 @@ class PhraseService {
             case 'es':
               translations = require('../data/translations/es.json');
               break;
+            case 'de':
+              translations = require('../data/translations/de.json');
+              break;
+            case 'fr':
+              translations = require('../data/translations/fr.json');
+              break;
+            case 'pt':
+              translations = require('../data/translations/pt.json');
+              break;
+            case 'ja':
+              translations = require('../data/translations/ja.json');
+              break;
+            case 'zh':
+              translations = require('../data/translations/zh.json');
+              break;
+            case 'ko':
+              translations = require('../data/translations/ko.json');
+              break;
+            case 'ua':
+              translations = require('../data/translations/ua.json');
+              break;
             default:
               translations = null;
           }

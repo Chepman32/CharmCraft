@@ -1,0 +1,300 @@
+{
+  "categories": {
+    "icebreakers": {
+      "title": "Conversation Starter (Eisbrecher)",
+      "description": "Sätze, um das Eis zu brechen und die erste Kommunikation in sozialen Medien oder Messengern zu beginnen.",
+      "phrases": [
+        {
+          "id": 1001,
+          "text": "Hallo! Ich habe deinen Kommentar unter [Post-/Ereignisname] gesehen und stimme dir vollkommen zu. Wie findest du dieses [Ereignis] insgesamt?",
+          "intensity": "sanft"
+        },
+        {
+          "id": 1002,
+          "text": "Hallo! Dein Profil sieht sehr interessant aus. Besonders gefallen haben mir die Fotos aus [Ort]. Reist du oft?",
+          "intensity": "neutral"
+        },
+        {
+          "id": 1003,
+          "text": "Also, ich habe mich entschieden, ein Risiko einzugehen. Hallo! Du hast ein wunderschönes Lächeln und ich konnte nicht anders, als zu schreiben. Hoffe, du hast nichts gegen diesen direkten Ansatz?",
+          "intensity": "mutig"
+        },
+        {
+          "id": 1004,
+          "text": "Hallo! Ich glaube, wir sind uns bei [Veranstaltungsname] begegnet? Auf jeden Fall siehst du vertraut und sehr positiv aus :)",
+          "intensity": "sanft"
+        },
+        {
+          "id": 1005,
+          "text": "Hör zu, ich habe eine dumme Frage: Wenn du eine Superkraft haben könntest, was würdest du wählen? Hallo übrigens :)",
+          "intensity": "neutral"
+        },
+        {
+          "id": 1006,
+          "text": "Ich habe gerade an dich gedacht und konnte nicht anders, als zu lächeln. Wie läuft dein Tag?",
+          "intensity": "sanft"
+        },
+        {
+          "id": 1007,
+          "text": "Was war das Interessanteste, was dir heute passiert ist?",
+          "intensity": "neutral"
+        },
+        {
+          "id": 1008,
+          "text": "Ich habe heute etwas gesehen, das mich an dich erinnert hat und mich zum Lächeln gebracht hat.",
+          "intensity": "sanft"
+        },
+        {
+          "id": 1009,
+          "text": "Wie war dein Morgen? Ich hoffe, er hat so schön begonnen wie du.",
+          "intensity": "sanft"
+        },
+        {
+          "id": 1010,
+          "text": "Ich habe eine zufällige Frage für dich - wie verbringst du am liebsten einen faulen Sonntag?",
+          "intensity": "neutral"
+        }
+      ]
+    },
+    "compliments": {
+      "title": "Kompliment machen",
+      "description": "Sätze, um etwas bei einem Mädchen aufrichtig und schön zu bemerken, ihr Aussehen, Stil oder Verstand.",
+      "phrases": [
+        {
+          "id": 2001,
+          "text": "Übrigens hast du einen großartigen Sinn für Humor. Deine Antworten zu lesen ist ein Vergnügen.",
+          "intensity": "sanft"
+        },
+        {
+          "id": 2002,
+          "text": "Du siehst heute absolut unglaublich aus. Dieses Kleid/Dieser Look steht dir sehr gut.",
+          "intensity": "neutral"
+        },
+        {
+          "id": 2003,
+          "text": "Ich weiß nicht, wie du das machst, aber bei jedem unserer Treffen gefällst du mir mehr und mehr. Du bist erstaunlich.",
+          "intensity": "mutig"
+        },
+        {
+          "id": 2004,
+          "text": "Mir gefällt sehr, wie du denkst. Mit dir kann man über alles reden.",
+          "intensity": "sanft"
+        },
+        {
+          "id": 2005,
+          "text": "Dein Lächeln kann jeden entwaffnen. Mich definitiv.",
+          "intensity": "neutral"
+        },
+        {
+          "id": 2006,
+          "text": "Ehrlich? Ich kann nicht aufhören, an deine Augen zu denken. In ihnen könnte man ertrinken.",
+          "intensity": "mutig"
+        },
+        {
+          "id": 2007,
+          "text": "Du hast diese erstaunliche Art, alles besser zu machen, nur indem du du selbst bist.",
+          "intensity": "sanft"
+        },
+        {
+          "id": 2008,
+          "text": "Dein Lächeln ist absolut ansteckend - es erhellt meinen ganzen Tag.",
+          "intensity": "neutral"
+        },
+        {
+          "id": 2009,
+          "text": "Ich liebe es, wie leidenschaftlich du wirst, wenn du über Dinge sprichst, die dir wichtig sind.",
+          "intensity": "sanft"
+        },
+        {
+          "id": 2010,
+          "text": "Du hast einen so schönen Verstand - die Art, wie du über Dinge denkst, fasziniert mich.",
+          "intensity": "neutral"
+        }
+      ]
+    },
+    "asking_out": {
+      "title": "Einladung zum Treffen",
+      "description": "Wege, ein Mädchen zu einem Date einzuladen, von lässig bis sehr selbstbewusst.",
+      "phrases": [
+        {
+          "id": 3001,
+          "text": "Diese Woche hat ein neues Café [Name] mit großartigen Bewertungen eröffnet. Falls du Zeit hast, schauen wir vielleicht mal vorbei?",
+          "intensity": "sanft"
+        },
+        {
+          "id": 3002,
+          "text": "Wir verstehen uns hier so gut, aber ich bin sicher, dass es persönlich noch besser sein wird. Lass uns in ein paar Tagen treffen? Ich bin frei am [Tag] oder [Tag].",
+          "intensity": "neutral"
+        },
+        {
+          "id": 3003,
+          "text": "Genug geschrieben. Ich will dich sehen. Morgen um 19:00 Uhr hole ich dich ab. Sei bereit für einen großartigen Abend.",
+          "intensity": "mutig"
+        },
+        {
+          "id": 3004,
+          "text": "Falls du nichts dagegen hast, würde ich dich gerne dieses Wochenende zum Abendessen einladen. Du verdienst es.",
+          "intensity": "neutral"
+        },
+        {
+          "id": 3005,
+          "text": "Ich würde dich gerne an einen besonderen Ort mitnehmen. Was sagst du zu einem Abendessen diesen Freitag?",
+          "intensity": "neutral"
+        },
+        {
+          "id": 3006,
+          "text": "Lass uns aufhören, durch Bildschirme zu sprechen und uns von Angesicht zu Angesicht treffen. Kaffee morgen?",
+          "intensity": "sanft"
+        }
+      ]
+    },
+    "deepening_connection": {
+      "title": "Verbindung vertiefen",
+      "description": "Sätze und Fragen für ernstere und persönlichere Gespräche, um sich besser kennenzulernen.",
+      "phrases": [
+        {
+          "id": 4001,
+          "text": "Wovon träumst du gerade, wenn du alle Einschränkungen beiseite lässt?",
+          "intensity": "sanft"
+        },
+        {
+          "id": 4002,
+          "text": "Es ist mir sehr wichtig, was du denkst. Sag mir ehrlich, was ist für dich das Wichtigste in Beziehungen?",
+          "intensity": "neutral"
+        },
+        {
+          "id": 4003,
+          "text": "Ich fühle, dass zwischen uns etwas Besonderes ist. Fühlst du das auch?",
+          "intensity": "mutig"
+        },
+        {
+          "id": 4004,
+          "text": "Was ist deine wärmste Erinnerung aus der Kindheit?",
+          "intensity": "sanft"
+        },
+        {
+          "id": 4005,
+          "text": "Ich will bei dir sein, nicht nur wenn alles gut ist, sondern auch wenn es schwer ist. Wisse, dass du immer auf mich zählen kannst.",
+          "intensity": "mutig"
+        },
+        {
+          "id": 4006,
+          "text": "Jeder Moment mit dir fühlt sich wie ein wunderschöner Traum an, aus dem ich nie aufwachen möchte.",
+          "intensity": "neutral"
+        },
+        {
+          "id": 4007,
+          "text": "Du bist nicht nur meine Partnerin, du bist meine beste Freundin und die Liebe meines Lebens.",
+          "intensity": "mutig"
+        },
+        {
+          "id": 4008,
+          "text": "Ich glaube vollkommen an dich. Du schaffst das, und ich bin für dich da, egal was passiert.",
+          "intensity": "neutral"
+        }
+      ]
+    },
+    "flirting": {
+      "title": "Flirten und Spielen",
+      "description": "Leichte, verspielte und faszinierende Nachrichten, um das Feuer des Interesses am Leben zu erhalten.",
+      "phrases": [
+        {
+          "id": 5001,
+          "text": "Ich habe gerade in mein Telefon gelächelt, und die Leute haben mich seltsam angeschaut. Das ist alles deine Schuld :)",
+          "intensity": "sanft"
+        },
+        {
+          "id": 5002,
+          "text": "Ich wette, ich weiß, woran du gerade denkst? ... Darüber, warum ich dir noch nicht geschrieben habe!",
+          "intensity": "neutral"
+        },
+        {
+          "id": 5003,
+          "text": "Meine Pläne für den Abend: 1. An dich denken. 2. Siehe Punkt 1. Was sind deine?",
+          "intensity": "mutig"
+        },
+        {
+          "id": 5004,
+          "text": "Wenn Emojis erröten könnten, wäre meins nach deiner letzten Nachricht feuerwehrrot.",
+          "intensity": "neutral"
+        },
+        {
+          "id": 5005,
+          "text": "Ich kann mich heute auf nichts konzentrieren, weil ich ständig an dich denke.",
+          "intensity": "sanft"
+        },
+        {
+          "id": 5006,
+          "text": "Bin nur ich das, oder haben wir eine unglaubliche Chemie?",
+          "intensity": "neutral"
+        },
+        {
+          "id": 5007,
+          "text": "Du bist gefährlich attraktiv, und ich beschwere mich nicht.",
+          "intensity": "mutig"
+        },
+        {
+          "id": 5008,
+          "text": "Ich habe ein Geständnis: Ich denke den ganzen Tag daran, dich zu küssen.",
+          "intensity": "mutig"
+        }
+      ]
+    },
+    "good_morning_night": {
+      "title": "Guten Morgen / Gute Nacht",
+      "description": "Angenehme Nachrichten, um ihren Tag mit Gedanken an dich zu beginnen oder zu beenden.",
+      "phrases": [
+        {
+          "id": 6001,
+          "text": "Guten Morgen! Ich hoffe, dein Tag wird so sonnig wie dein Lächeln.",
+          "intensity": "sanft"
+        },
+        {
+          "id": 6002,
+          "text": "Ich bin aufgewacht und habe an dich gedacht. Möge dein Tag leicht und produktiv sein!",
+          "intensity": "neutral"
+        },
+        {
+          "id": 6003,
+          "text": "Das Einzige, was besser wäre, als dir per SMS einen guten Morgen zu wünschen, wäre, es dir persönlich zu sagen. Einen schönen Tag!",
+          "intensity": "mutig"
+        },
+        {
+          "id": 6004,
+          "text": "Süße Träume! Ruhe gut.",
+          "intensity": "sanft"
+        },
+        {
+          "id": 6005,
+          "text": "Mögest du die süßesten Träume haben. Umarme dich gedanklich.",
+          "intensity": "neutral"
+        },
+        {
+          "id": 6006,
+          "text": "Ich würde wirklich gerne jetzt bei dir sein. Schlafe mit dem Gedanken ein, dass ich dich sehr vermisse. Gute Nacht.",
+          "intensity": "mutig"
+        },
+        {
+          "id": 6007,
+          "text": "Guten Morgen, Schöne! Hoffe, dein Tag ist so erstaunlich wie du.",
+          "intensity": "sanft"
+        },
+        {
+          "id": 6008,
+          "text": "Mit Gedanken an dich aufzuwachen ist der perfekte Weg, jeden Tag zu beginnen.",
+          "intensity": "neutral"
+        },
+        {
+          "id": 6009,
+          "text": "Süße Träume, Schöne. Kann es kaum erwarten, morgen mit dir zu sprechen.",
+          "intensity": "sanft"
+        },
+        {
+          "id": 6010,
+          "text": "Während du einschläfst, wisse, dass du das Letzte bist, woran ich denke, und das Erste, woran ich morgen denken werde.",
+          "intensity": "mutig"
+        }
+      ]
+    }
+  }
+}
