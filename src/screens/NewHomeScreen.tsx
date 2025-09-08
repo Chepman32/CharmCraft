@@ -485,6 +485,8 @@ const createStyles = (theme: any) =>
       padding: 25,
       marginHorizontal: 20,
       marginBottom: 30,
+      minHeight: 120,
+      justifyContent: 'center',
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 4 },
       shadowOpacity: 0.1,

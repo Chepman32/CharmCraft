@@ -47,15 +47,27 @@ class PhraseService {
 
   private async loadLargeDatabase(): Promise<void> {
     try {
-      // Dynamically import the large database to avoid memory issues during compilation
-      const { LARGE_PHRASE_DATABASE } = await import(
-        '../data/largePhraseDatabase'
+      // Load the massive phrase database with 18,000 phrases (1,500 per category)
+      const { MASSIVE_PHRASE_DATABASE } = await import(
+        '../data/massivePhraseDatabase'
       );
-      this.phrases = [...LARGE_PHRASE_DATABASE];
+      this.phrases = [...MASSIVE_PHRASE_DATABASE];
+      console.log(`✅ Loaded ${this.phrases.length} phrases from massive database`);
     } catch (error) {
-      handleDatabaseError(error);
-      // Fallback to sample data
-      this.phrases = [...SAMPLE_PHRASES];
+      console.warn('Failed to load massive database, trying legacy database...');
+      try {
+        // Fallback to large phrase database if it exists
+        const { LARGE_PHRASE_DATABASE } = await import(
+          '../data/largePhraseDatabase'
+        );
+        this.phrases = [...LARGE_PHRASE_DATABASE];
+        console.log(`✅ Loaded ${this.phrases.length} phrases from large database`);
+      } catch (fallbackError) {
+        handleDatabaseError(fallbackError);
+        // Final fallback to sample data
+        this.phrases = [...SAMPLE_PHRASES];
+        console.log(`⚠️ Using sample phrases (${this.phrases.length} phrases)`);
+      }
     }
   }
 
@@ -144,7 +156,7 @@ class PhraseService {
       const statsArray = Array.from(this.usageStats.entries()).map(
         ([phraseId, stats]) => ({
           phraseId,
-          ...stats,
+          usageCount: stats.usageCount,
           lastUsed: stats.lastUsed.toISOString(),
         }),
       );

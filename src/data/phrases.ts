@@ -46,7 +46,8 @@ export enum PhraseTone {
   ROMANTIC = 'romantic',
 }
 
-// Sample phrases database - in production this would be much larger
+// Sample phrases database - the app now uses a massive database with 18,000 phrases
+// These are kept for development and fallback purposes
 export const SAMPLE_PHRASES: Phrase[] = [
   // Conversation Starters
   {
