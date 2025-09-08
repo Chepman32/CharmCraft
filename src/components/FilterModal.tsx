@@ -7,7 +7,7 @@ import {
   ScrollView,
   StyleSheet,
 } from 'react-native';
-import { PhraseCategory, PhraseSituation, PhraseTone } from '../data/phrases';
+import { PhraseCategory, PhraseSituation, PhraseTone } from '../data/phraseTypes';
 import { SearchFilters } from '../services/PhraseService';
 
 interface FilterModalProps {

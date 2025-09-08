@@ -9,7 +9,7 @@ import {
   SafeAreaView,
   Alert,
 } from 'react-native';
-import { Phrase } from '../data/phrases';
+import { Phrase } from '../data/phraseTypes';
 import PhraseService, { SearchFilters } from '../services/PhraseService';
 import PhraseCard from '../components/PhraseCard';
 import FilterModal from '../components/FilterModal';

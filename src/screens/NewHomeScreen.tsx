@@ -15,7 +15,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { useTranslation } from '../contexts/LocalizationContext';
 import { useFeedback } from '../hooks/useFeedback';
 import PhraseService, { SearchFilters } from '../services/PhraseService';
-import { PhraseCategory, PhraseTone } from '../data/phrases';
+import { PhraseCategory, PhraseTone } from '../data/phraseTypes';
 import Clipboard from '@react-native-clipboard/clipboard';
 
 const { width } = Dimensions.get('window');

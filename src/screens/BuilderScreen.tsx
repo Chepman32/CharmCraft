@@ -9,7 +9,7 @@ import {
   ScrollView,
   Alert,
 } from 'react-native';
-import { PhraseCategory, PhraseSituation, PhraseTone } from '../data/phrases';
+import { PhraseCategory, PhraseSituation, PhraseTone } from '../data/phraseTypes';
 import PhraseService from '../services/PhraseService';
 import Clipboard from '@react-native-clipboard/clipboard';
 

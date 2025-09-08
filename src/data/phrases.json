@@ -1,0 +1,300 @@
+{
+  "categories": {
+    "icebreakers": {
+      "title": "Start Conversation (Icebreakers)",
+      "description": "Phrases to break the ice and start first communication on social media or messenger.",
+      "phrases": [
+        {
+          "id": 1001,
+          "text": "Hi! I saw your comment under [post/event name] and I completely agree with you. How do you feel about this [event] in general?",
+          "intensity": "soft"
+        },
+        {
+          "id": 1002,
+          "text": "Hi! Your profile looks very interesting. I especially liked the photos from [place]. Do you travel often?",
+          "intensity": "neutral"
+        },
+        {
+          "id": 1003,
+          "text": "So, I decided to take a risk. Hi! You have an amazing smile, and I couldn't help but write. Hope you don't mind such a direct approach?",
+          "intensity": "bold"
+        },
+        {
+          "id": 1004,
+          "text": "Hi! I think we might have crossed paths at [event name]? In any case, you look familiar and very positive :)",
+          "intensity": "soft"
+        },
+        {
+          "id": 1005,
+          "text": "Listen, I have a silly question: if you could have any superpower, what would you choose? Hi, by the way :)",
+          "intensity": "neutral"
+        },
+        {
+          "id": 1006,
+          "text": "I was just thinking about you and couldn't help but smile. How's your day going?",
+          "intensity": "soft"
+        },
+        {
+          "id": 1007,
+          "text": "What's the most interesting thing that happened to you today?",
+          "intensity": "neutral"
+        },
+        {
+          "id": 1008,
+          "text": "I saw something today that reminded me of you and made me smile.",
+          "intensity": "soft"
+        },
+        {
+          "id": 1009,
+          "text": "How was your morning? I hope it started as beautifully as you are.",
+          "intensity": "soft"
+        },
+        {
+          "id": 1010,
+          "text": "I have a random question for you - what's your favorite way to spend a lazy Sunday?",
+          "intensity": "neutral"
+        }
+      ]
+    },
+    "compliments": {
+      "title": "Give Compliment",
+      "description": "Phrases to sincerely and beautifully note something about a girl, her appearance, style or intelligence.",
+      "phrases": [
+        {
+          "id": 2001,
+          "text": "By the way, you have a great sense of humor. Reading your responses is a pleasure.",
+          "intensity": "soft"
+        },
+        {
+          "id": 2002,
+          "text": "You look absolutely incredible today. This dress/look suits you very well.",
+          "intensity": "neutral"
+        },
+        {
+          "id": 2003,
+          "text": "I don't know how you do it, but with each of our meetings I like you more and more. You're amazing.",
+          "intensity": "bold"
+        },
+        {
+          "id": 2004,
+          "text": "I really like how you reason. You can talk about anything with you.",
+          "intensity": "soft"
+        },
+        {
+          "id": 2005,
+          "text": "Your smile can disarm anyone. Me - definitely.",
+          "intensity": "neutral"
+        },
+        {
+          "id": 2006,
+          "text": "Honestly? I can't stop thinking about your eyes. You could drown in them.",
+          "intensity": "bold"
+        },
+        {
+          "id": 2007,
+          "text": "You have this amazing way of making everything better just by being yourself.",
+          "intensity": "soft"
+        },
+        {
+          "id": 2008,
+          "text": "Your smile is absolutely contagious - it lights up my entire day.",
+          "intensity": "neutral"
+        },
+        {
+          "id": 2009,
+          "text": "I love how passionate you get when you talk about things you care about.",
+          "intensity": "soft"
+        },
+        {
+          "id": 2010,
+          "text": "You have such a beautiful mind - the way you think about things fascinates me.",
+          "intensity": "neutral"
+        }
+      ]
+    },
+    "asking_out": {
+      "title": "Invitation to Meet",
+      "description": "Ways to ask a girl out on a date, from casual to very confident.",
+      "phrases": [
+        {
+          "id": 3001,
+          "text": "A new coffee shop [name] opened this week with great reviews. If you have free time, maybe we can check it out?",
+          "intensity": "soft"
+        },
+        {
+          "id": 3002,
+          "text": "We communicate so well here, but I'm sure it will be even better in person. Let's meet in a few days? I'm free on [day] or [day].",
+          "intensity": "neutral"
+        },
+        {
+          "id": 3003,
+          "text": "Enough texting. I want to see you. Tomorrow at 7:00 PM, I'll pick you up. Be ready for a great evening.",
+          "intensity": "bold"
+        },
+        {
+          "id": 3004,
+          "text": "If you don't mind, I'd love to treat you to dinner this weekend. You deserve it.",
+          "intensity": "neutral"
+        },
+        {
+          "id": 3005,
+          "text": "I'd love to take you somewhere special. What do you say to dinner this Friday?",
+          "intensity": "neutral"
+        },
+        {
+          "id": 3006,
+          "text": "Let's stop talking through screens and meet face to face. Coffee tomorrow?",
+          "intensity": "soft"
+        }
+      ]
+    },
+    "deepening_connection": {
+      "title": "Deepening Connection",
+      "description": "Phrases and questions for more serious and personal conversations to get to know each other better.",
+      "phrases": [
+        {
+          "id": 4001,
+          "text": "What are you dreaming about right now, if you put aside all limitations?",
+          "intensity": "soft"
+        },
+        {
+          "id": 4002,
+          "text": "It's very important to me what you think. Tell me honestly, what's most important to you in relationships?",
+          "intensity": "neutral"
+        },
+        {
+          "id": 4003,
+          "text": "I feel like there's something special between us. Do you feel it too?",
+          "intensity": "bold"
+        },
+        {
+          "id": 4004,
+          "text": "What's your warmest memory from childhood?",
+          "intensity": "soft"
+        },
+        {
+          "id": 4005,
+          "text": "I want to be with you not only when everything is good, but also when it's difficult. Know that you can always count on me.",
+          "intensity": "bold"
+        },
+        {
+          "id": 4006,
+          "text": "Every moment with you feels like a beautiful dream I never want to wake up from.",
+          "intensity": "neutral"
+        },
+        {
+          "id": 4007,
+          "text": "You're not just my partner, you're my best friend and the love of my life.",
+          "intensity": "bold"
+        },
+        {
+          "id": 4008,
+          "text": "I believe in you completely. You've got this, and I'm here for you no matter what.",
+          "intensity": "neutral"
+        }
+      ]
+    },
+    "flirting": {
+      "title": "Flirting and Play",
+      "description": "Light, playful and intriguing messages to keep the spark of interest alive.",
+      "phrases": [
+        {
+          "id": 5001,
+          "text": "I just smiled at my phone, and people looked at me strangely. It's all your fault :)",
+          "intensity": "soft"
+        },
+        {
+          "id": 5002,
+          "text": "I bet I know what you're thinking about right now? ... About why I haven't written to you yet!",
+          "intensity": "neutral"
+        },
+        {
+          "id": 5003,
+          "text": "My plans for the evening: 1. Think about you. 2. See point 1. What are yours?",
+          "intensity": "bold"
+        },
+        {
+          "id": 5004,
+          "text": "If emojis could blush, mine would be fire truck red after your last message.",
+          "intensity": "neutral"
+        },
+        {
+          "id": 5005,
+          "text": "I can't concentrate on anything today because I keep thinking about you.",
+          "intensity": "soft"
+        },
+        {
+          "id": 5006,
+          "text": "Is it just me, or do we have incredible chemistry?",
+          "intensity": "neutral"
+        },
+        {
+          "id": 5007,
+          "text": "You're dangerously attractive, and I'm not complaining.",
+          "intensity": "bold"
+        },
+        {
+          "id": 5008,
+          "text": "I have a confession: I've been thinking about kissing you all day.",
+          "intensity": "bold"
+        }
+      ]
+    },
+    "good_morning_night": {
+      "title": "Good Morning / Good Night",
+      "description": "Pleasant messages to start or end her day with thoughts of you.",
+      "phrases": [
+        {
+          "id": 6001,
+          "text": "Good morning! I hope your day will be as sunny as your smile.",
+          "intensity": "soft"
+        },
+        {
+          "id": 6002,
+          "text": "I woke up thinking about you. May your day be easy and productive!",
+          "intensity": "neutral"
+        },
+        {
+          "id": 6003,
+          "text": "The only thing that would be better than wishing you good morning via text is saying it to you in person. Have a great day!",
+          "intensity": "bold"
+        },
+        {
+          "id": 6004,
+          "text": "Sweet dreams! Rest well.",
+          "intensity": "soft"
+        },
+        {
+          "id": 6005,
+          "text": "May you have the sweetest dreams. Hugging you mentally.",
+          "intensity": "neutral"
+        },
+        {
+          "id": 6006,
+          "text": "I would really like to be with you right now. Fall asleep thinking that I miss you very much. Good night.",
+          "intensity": "bold"
+        },
+        {
+          "id": 6007,
+          "text": "Good morning, beautiful! Hope your day is as amazing as you are.",
+          "intensity": "soft"
+        },
+        {
+          "id": 6008,
+          "text": "Waking up thinking about you is the perfect way to start any day.",
+          "intensity": "neutral"
+        },
+        {
+          "id": 6009,
+          "text": "Sweet dreams, gorgeous. Can't wait to talk to you tomorrow.",
+          "intensity": "soft"
+        },
+        {
+          "id": 6010,
+          "text": "As you drift off to sleep, know that you're the last thing on my mind and the first thing I'll think of tomorrow.",
+          "intensity": "bold"
+        }
+      ]
+    }
+  }
+}

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, SafeAreaView } from 'react-native';
 import { useTheme } from '../contexts/ThemeContext';
 import { useTranslation } from '../contexts/LocalizationContext';
-import { Phrase } from '../data/phrases';
+import { Phrase } from '../data/phraseTypes';
 import PhraseService from '../services/PhraseService';
 import PhraseCard from '../components/PhraseCard';
 

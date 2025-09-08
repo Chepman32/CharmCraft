@@ -4,13 +4,14 @@ import {
   PhraseCategory,
   PhraseSituation,
   PhraseTone,
-  SAMPLE_PHRASES,
-} from '../data/phrases';
+  PhrasesDatabase,
+  PhraseData,
+  convertPhraseDataToLegacy,
+} from '../data/phraseTypes';
 import {
   handleAsyncStorageError,
   handleDatabaseError,
 } from '../utils/errorHandler';
-import { getLocalizedPhraseText } from '../data/phraseTranslations';
 
 const PHRASES_STORAGE_KEY = 'charmcraft_phrases';
 const FAVORITES_STORAGE_KEY = 'charmcraft_favorites';
@@ -32,6 +33,7 @@ export interface UsageStats {
 
 class PhraseService {
   private phrases: Phrase[] = [];
+  private phrasesDatabase: PhrasesDatabase | null = null;
   private favorites: string[] = [];
   private usageStats: Map<string, UsageStats> = new Map();
   private initialized = false;
@@ -45,29 +47,75 @@ class PhraseService {
     }
   }
 
-  private async loadLargeDatabase(): Promise<void> {
+  private async getLocalizedPhraseText(phraseId: string, language: string): Promise<string> {
     try {
-      // Load the massive phrase database with 18,000 phrases (1,500 per category)
-      const { MASSIVE_PHRASE_DATABASE } = await import(
-        '../data/massivePhraseDatabase'
-      );
-      this.phrases = [...MASSIVE_PHRASE_DATABASE];
-      console.log(`✅ Loaded ${this.phrases.length} phrases from massive database`);
-    } catch (error) {
-      console.warn('Failed to load massive database, trying legacy database...');
-      try {
-        // Fallback to large phrase database if it exists
-        const { LARGE_PHRASE_DATABASE } = await import(
-          '../data/largePhraseDatabase'
-        );
-        this.phrases = [...LARGE_PHRASE_DATABASE];
-        console.log(`✅ Loaded ${this.phrases.length} phrases from large database`);
-      } catch (fallbackError) {
-        handleDatabaseError(fallbackError);
-        // Final fallback to sample data
-        this.phrases = [...SAMPLE_PHRASES];
-        console.log(`⚠️ Using sample phrases (${this.phrases.length} phrases)`);
+      // Try to load translation file
+      if (language !== 'en') {
+        try {
+          // Use static require for each supported language
+          let translations;
+          switch (language) {
+            case 'ru':
+              translations = require('../data/translations/ru.json');
+              break;
+            case 'es':
+              translations = require('../data/translations/es.json');
+              break;
+            default:
+              translations = null;
+          }
+          
+          if (translations) {
+            // Find the phrase in translations
+            for (const [categoryKey, categoryData] of Object.entries(translations.categories)) {
+              const translatedPhrase = (categoryData as any).phrases.find((p: PhraseData) => 
+                `${categoryKey}_${p.id}` === phraseId
+              );
+              if (translatedPhrase) {
+                return translatedPhrase.text;
+              }
+            }
+          }
+        } catch (translationError) {
+          console.warn(`Translation file for ${language} not found:`, translationError);
+        }
       }
+      
+      // Fallback to original phrase text
+      const originalPhrase = this.phrases.find(p => p.id === phraseId);
+      return originalPhrase?.text || '';
+    } catch (error) {
+      console.warn('Failed to load translation:', error);
+      // Fallback to original phrase text
+      const originalPhrase = this.phrases.find(p => p.id === phraseId);
+      return originalPhrase?.text || '';
+    }
+  }
+
+  private async loadPhrasesFromJSON(): Promise<void> {
+    try {
+      const language = await this.getCurrentLanguage();
+      
+      // Load main phrases database using require for React Native
+      const phrasesData = require('../data/phrases.json') as PhrasesDatabase;
+      this.phrasesDatabase = phrasesData;
+      
+      // Convert JSON data to legacy format
+      this.phrases = [];
+      for (const [categoryKey, categoryData] of Object.entries(this.phrasesDatabase.categories)) {
+        for (const phraseData of categoryData.phrases) {
+          const legacyPhrase = convertPhraseDataToLegacy(phraseData, categoryKey, language);
+          this.phrases.push(legacyPhrase);
+        }
+      }
+      
+      console.log(`✅ Loaded ${this.phrases.length} phrases from JSON database`);
+    } catch (error) {
+      console.error('Failed to load phrases from JSON:', error);
+      handleDatabaseError(error);
+      // Fallback to empty array
+      this.phrases = [];
+      this.phrasesDatabase = null;
     }
   }
 
@@ -80,15 +128,8 @@ class PhraseService {
         throw new Error('AsyncStorage is not available');
       }
 
-      // Load phrases from storage or use sample data
-      const storedPhrases = await AsyncStorage.getItem(PHRASES_STORAGE_KEY);
-      if (storedPhrases) {
-        this.phrases = JSON.parse(storedPhrases);
-      } else {
-        // First time - load large phrase database lazily
-        await this.loadLargeDatabase();
-        await this.savePhrases();
-      }
+      // Load phrases from JSON files
+      await this.loadPhrasesFromJSON();
 
       // Load favorites
       const storedFavorites = await AsyncStorage.getItem(FAVORITES_STORAGE_KEY);
@@ -111,8 +152,8 @@ class PhraseService {
       this.initialized = true;
     } catch (error) {
       handleAsyncStorageError(error);
-      // Fallback to sample data
-      this.phrases = [...SAMPLE_PHRASES];
+      // Fallback to empty array
+      this.phrases = [];
       this.initialized = true;
     }
   }
@@ -211,10 +252,13 @@ class PhraseService {
 
     // Apply localization to phrase text based on selected language
     const lang = await this.getCurrentLanguage();
-    return filteredPhrases.map(p => ({
-      ...p,
-      text: getLocalizedPhraseText(p, lang),
-    }));
+    const localizedPhrases = await Promise.all(
+      filteredPhrases.map(async p => ({
+        ...p,
+        text: await this.getLocalizedPhraseText(p.id, lang),
+      }))
+    );
+    return localizedPhrases;
   }
 
   async getRandomPhrase(filters: SearchFilters = {}): Promise<Phrase | null> {
@@ -242,9 +286,15 @@ class PhraseService {
   async getFavorites(): Promise<Phrase[]> {
     await this.initialize();
     const lang = await this.getCurrentLanguage();
-    return this.phrases
-      .filter(phrase => this.favorites.includes(phrase.id))
-      .map(p => ({ ...p, text: getLocalizedPhraseText(p, lang) }));
+    const favoritePhrases = this.phrases.filter(phrase => this.favorites.includes(phrase.id));
+    
+    const localizedPhrases = await Promise.all(
+      favoritePhrases.map(async p => ({
+        ...p,
+        text: await this.getLocalizedPhraseText(p.id, lang),
+      }))
+    );
+    return localizedPhrases;
   }
 
   isFavorite(phraseId: string): boolean {
@@ -277,9 +327,16 @@ class PhraseService {
       .slice(0, limit);
 
     const lang = await this.getCurrentLanguage();
-    return this.phrases
-      .filter(phrase => sortedStats.some(stat => stat.phraseId === phrase.id))
-      .map(p => ({ ...p, text: getLocalizedPhraseText(p, lang) }));
+    const mostUsedPhrases = this.phrases
+      .filter(phrase => sortedStats.some(stat => stat.phraseId === phrase.id));
+    
+    const localizedPhrases = await Promise.all(
+      mostUsedPhrases.map(async p => ({
+        ...p,
+        text: await this.getLocalizedPhraseText(p.id, lang),
+      }))
+    );
+    return localizedPhrases;
   }
 
   async getAllCategories(): Promise<PhraseCategory[]> {

@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { useTheme } from '../contexts/ThemeContext';
 import { useTranslation } from '../contexts/LocalizationContext';
-import { Phrase } from '../data/phrases';
+import { Phrase } from '../data/phraseTypes';
 import PhraseService from '../services/PhraseService';
 
 interface PhraseCardProps {

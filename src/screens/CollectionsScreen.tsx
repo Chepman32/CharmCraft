@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import { useTheme } from '../contexts/ThemeContext';
 import { useTranslation } from '../contexts/LocalizationContext';
-import { Phrase, PhraseCategory } from '../data/phrases';
+import { Phrase, PhraseCategory } from '../data/phraseTypes';
 import PhraseService from '../services/PhraseService';
 import PhraseCard from '../components/PhraseCard';
 
