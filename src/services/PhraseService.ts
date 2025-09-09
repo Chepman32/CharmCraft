@@ -61,70 +61,106 @@ class PhraseService {
       // Try to load translation file
       if (language !== 'en') {
         try {
-          // First try to load from large dataset translations
+          // For large files, use smaller translation files to avoid memory issues
           let translations;
           switch (language) {
             case 'ru':
               try {
-                translations = require('../data/translations-large/ru.json');
-              } catch {
+                // Try small file first to avoid memory issues
                 translations = require('../data/translations/ru.json');
+              } catch {
+                try {
+                  translations = require('../data/translations-large/ru.json');
+                } catch {
+                  translations = null;
+                }
               }
               break;
             case 'es':
               try {
-                translations = require('../data/translations-large/es.json');
-              } catch {
                 translations = require('../data/translations/es.json');
+              } catch {
+                try {
+                  translations = require('../data/translations-large/es.json');
+                } catch {
+                  translations = null;
+                }
               }
               break;
             case 'de':
               try {
-                translations = require('../data/translations-large/de.json');
-              } catch {
                 translations = require('../data/translations/de.json');
+              } catch {
+                try {
+                  translations = require('../data/translations-large/de.json');
+                } catch {
+                  translations = null;
+                }
               }
               break;
             case 'fr':
               try {
-                translations = require('../data/translations-large/fr.json');
-              } catch {
                 translations = require('../data/translations/fr.json');
+              } catch {
+                try {
+                  translations = require('../data/translations-large/fr.json');
+                } catch {
+                  translations = null;
+                }
               }
               break;
             case 'pt':
               try {
-                translations = require('../data/translations-large/pt.json');
-              } catch {
+                // Always use small file first for Portuguese to avoid memory issues
                 translations = require('../data/translations/pt.json');
+              } catch {
+                // Skip large file for Portuguese to prevent compilation errors
+                console.warn('Portuguese large translation file skipped to prevent memory issues');
+                translations = null;
               }
               break;
             case 'ja':
               try {
-                translations = require('../data/translations-large/ja.json');
-              } catch {
                 translations = require('../data/translations/ja.json');
+              } catch {
+                try {
+                  translations = require('../data/translations-large/ja.json');
+                } catch {
+                  translations = null;
+                }
               }
               break;
             case 'zh':
               try {
-                translations = require('../data/translations-large/zh.json');
-              } catch {
                 translations = require('../data/translations/zh.json');
+              } catch {
+                try {
+                  translations = require('../data/translations-large/zh.json');
+                } catch {
+                  translations = null;
+                }
               }
               break;
             case 'ko':
               try {
-                translations = require('../data/translations-large/ko.json');
-              } catch {
                 translations = require('../data/translations/ko.json');
+              } catch {
+                try {
+                  translations = require('../data/translations-large/ko.json');
+                } catch {
+                  translations = null;
+                }
               }
               break;
             case 'ua':
               try {
-                translations = require('../data/translations-large/ua.json');
-              } catch {
                 translations = require('../data/translations/ua.json');
+              } catch {
+                try {
+                  translations = require('../data/translations-large/ua.json');
+                } catch {
+                  translations = null;
+                }
               }
               break;
             default:
