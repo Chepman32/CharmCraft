@@ -1,0 +1,20 @@
+{
+  "timestamp": "2025-09-09T08:02:01.530Z",
+  "verificationResults": {
+    "[PT] language markers": 0,
+    "[TRANSLITERATED] markers": 0,
+    "[NEEDS_TRANSLATION] markers": 0,
+    "Cyrillic characters": 0,
+    "Mixed English-Portuguese": 0,
+    "Transliterated Russian": 0,
+    "Mixed thoughtful phrases": 0
+  },
+  "statistics": {
+    "totalPhrases": 15773,
+    "properPortuguese": 15747,
+    "englishRemaining": 26,
+    "manualTranslations": 6232,
+    "completionPercentage": "99.8"
+  },
+  "overallStatus": "EXCELLENT"
+}

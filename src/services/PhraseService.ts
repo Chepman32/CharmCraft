@@ -61,44 +61,80 @@ class PhraseService {
       // Try to load translation file
       if (language !== 'en') {
         try {
-          // Use static require for each supported language
+          // First try to load from large dataset translations
           let translations;
           switch (language) {
             case 'ru':
-              translations = require('../data/translations/ru.json');
+              try {
+                translations = require('../data/translations-large/ru.json');
+              } catch {
+                translations = require('../data/translations/ru.json');
+              }
               break;
             case 'es':
-              translations = require('../data/translations/es.json');
+              try {
+                translations = require('../data/translations-large/es.json');
+              } catch {
+                translations = require('../data/translations/es.json');
+              }
               break;
             case 'de':
-              translations = require('../data/translations/de.json');
+              try {
+                translations = require('../data/translations-large/de.json');
+              } catch {
+                translations = require('../data/translations/de.json');
+              }
               break;
             case 'fr':
-              translations = require('../data/translations/fr.json');
+              try {
+                translations = require('../data/translations-large/fr.json');
+              } catch {
+                translations = require('../data/translations/fr.json');
+              }
               break;
             case 'pt':
-              translations = require('../data/translations/pt.json');
+              try {
+                translations = require('../data/translations-large/pt.json');
+              } catch {
+                translations = require('../data/translations/pt.json');
+              }
               break;
             case 'ja':
-              translations = require('../data/translations/ja.json');
+              try {
+                translations = require('../data/translations-large/ja.json');
+              } catch {
+                translations = require('../data/translations/ja.json');
+              }
               break;
             case 'zh':
-              translations = require('../data/translations/zh.json');
+              try {
+                translations = require('../data/translations-large/zh.json');
+              } catch {
+                translations = require('../data/translations/zh.json');
+              }
               break;
             case 'ko':
-              translations = require('../data/translations/ko.json');
+              try {
+                translations = require('../data/translations-large/ko.json');
+              } catch {
+                translations = require('../data/translations/ko.json');
+              }
               break;
             case 'ua':
-              translations = require('../data/translations/ua.json');
+              try {
+                translations = require('../data/translations-large/ua.json');
+              } catch {
+                translations = require('../data/translations/ua.json');
+              }
               break;
             default:
               translations = null;
           }
-          
+
           if (translations) {
             // Find the phrase in translations
             for (const [categoryKey, categoryData] of Object.entries(translations.categories)) {
-              const translatedPhrase = (categoryData as any).phrases.find((p: PhraseData) => 
+              const translatedPhrase = (categoryData as any).phrases.find((p: PhraseData) =>
                 `${categoryKey}_${p.id}` === phraseId
               );
               if (translatedPhrase) {
@@ -110,7 +146,7 @@ class PhraseService {
           console.warn(`Translation file for ${language} not found:`, translationError);
         }
       }
-      
+
       // Fallback to original phrase text
       const originalPhrase = this.phrases.find(p => p.id === phraseId);
       return originalPhrase?.text || '';

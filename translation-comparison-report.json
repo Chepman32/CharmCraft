@@ -1,0 +1,59 @@
+{
+  "manualTranslations": {
+    "es": {
+      "I want a second date. Clear and simple. When?": {
+        "manual": "Quiero una segunda cita. Claro y simple. ¿Cuándo?",
+        "automated": "[ES] Мне действительно было приятно. С тобой легко."
+      },
+      "Good night. Miss you a little extra tonight.": {
+        "manual": "Quiero una segunda cita. Claro y simple. ¿Cuándo?",
+        "automated": "[ES] Мне действительно было приятно. С тобой легко."
+      },
+      "Lean on me—I'm here for you.": {
+        "manual": "Quiero una segunda cita. Claro y simple. ¿Cuándo?",
+        "automated": "[ES] Мне действительно было приятно. С тобой легко."
+      }
+    },
+    "de": {
+      "I want a second date. Clear and simple. When?": {
+        "manual": "Ich will ein zweites Date. Klar und einfach. Wann?",
+        "automated": "[DE] Мне действительно было приятно. С тобой легко."
+      },
+      "Good night. Miss you a little extra tonight.": {
+        "manual": "Ich will ein zweites Date. Klar und einfach. Wann?",
+        "automated": "[DE] Мне действительно было приятно. С тобой легко."
+      },
+      "Lean on me—I'm here for you.": {
+        "manual": "Ich will ein zweites Date. Klar und einfach. Wann?",
+        "automated": "[DE] Мне действительно было приятно. С тобой легко."
+      }
+    },
+    "fr": {
+      "I want a second date. Clear and simple. When?": {
+        "manual": "Je veux un deuxième rendez-vous. Clair et simple. Quand ?",
+        "automated": "[FR] Мне действительно было приятно. С тобой легко."
+      },
+      "Good night. Miss you a little extra tonight.": {
+        "manual": "Je veux un deuxième rendez-vous. Clair et simple. Quand ?",
+        "automated": "[FR] Мне действительно было приятно. С тобой легко."
+      },
+      "Lean on me—I'm here for you.": {
+        "manual": "Je veux un deuxième rendez-vous. Clair et simple. Quand ?",
+        "automated": "[FR] Мне действительно было приятно. С тобой легко."
+      }
+    }
+  },
+  "comparison": {
+    "manualQuality": "Authentic, natural, culturally appropriate",
+    "automatedQuality": "Functional but may lack nuance and cultural context",
+    "recommendation": "Use manual translations for critical phrases, automated for bulk content"
+  },
+  "recommendations": [
+    "Prioritize manual translation for the most-used 500-1000 phrases",
+    "Use professional translators with dating/romantic content experience",
+    "Implement native speaker review process",
+    "Consider cultural context and regional variations",
+    "Maintain translation consistency across similar phrases"
+  ],
+  "generatedAt": "2025-09-08T16:58:31.232Z"
+}

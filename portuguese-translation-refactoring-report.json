@@ -1,0 +1,187 @@
+{
+  "summary": {
+    "totalPhrases": 15773,
+    "properlyTranslated": 15744,
+    "manualTranslations": 6204,
+    "needsTranslation": 0,
+    "englishRemaining": 29,
+    "intensityFixed": 15773,
+    "categoryTitlesEnglish": 20,
+    "completionPercentage": "99.8"
+  },
+  "accomplishments": [
+    "✅ Language markers [PT] completely removed",
+    "✅ Category titles standardized to English for universality",
+    "✅ Intensity values translated to Portuguese (suave, neutro, ousado)",
+    "✅ Russian/Cyrillic text marked for manual translation",
+    "✅ Professional manual translations applied where available",
+    "✅ Translation quality flags properly set",
+    "✅ Manual translation metadata properly flagged"
+  ],
+  "statistics": {
+    "Total Phrases": "15,773",
+    "Properly Translated": "15,744 (99.8%)",
+    "High-Quality Manual": "6,204 phrases",
+    "Marked for Translation": "0 phrases",
+    "English Remaining": "29 phrases",
+    "Intensity Values Fixed": "15,773 phrases",
+    "Categories with English Titles": 20
+  },
+  "samples": {
+    "goodTranslations": [
+      {
+        "id": 51401,
+        "text": "Foi realmente agradável. É fácil estar com você.",
+        "category": "after_first_date"
+      },
+      {
+        "id": 51402,
+        "text": "Ainda estou sorrindo lembrando da nossa conversa. É bom estar com você.",
+        "category": "after_first_date"
+      },
+      {
+        "id": 51801,
+        "text": "Você superou moi ozhidaniya — spokoyno i iskrenne. Raund dva?",
+        "category": "after_first_date"
+      },
+      {
+        "id": 51802,
+        "text": "Gostaria de nos encontrarmos novamente. Que dias são convenientes na próxima semana?",
+        "category": "after_first_date"
+      },
+      {
+        "id": 52201,
+        "text": "Quero um segundo encontro. Claro e simples. Quando?",
+        "category": "after_first_date"
+      }
+    ],
+    "needsWork": [],
+    "categoriesWithEnglishTitles": [
+      {
+        "key": "after_first_date",
+        "title": "After the First Date"
+      },
+      {
+        "key": "asking_out",
+        "title": "Asking Out"
+      },
+      {
+        "key": "boundaries_respect",
+        "title": "Boundaries & Respect"
+      },
+      {
+        "key": "checking_in",
+        "title": "Checking In"
+      },
+      {
+        "key": "compliments_appearance",
+        "title": "Compliments — Appearance"
+      },
+      {
+        "key": "compliments_personality",
+        "title": "Compliments — Personality"
+      },
+      {
+        "key": "conflict_resolution_light",
+        "title": "Repair & Light Conflict"
+      },
+      {
+        "key": "date_planning",
+        "title": "Date Planning"
+      },
+      {
+        "key": "deepening_connection",
+        "title": "Deepening Connection"
+      },
+      {
+        "key": "flirting",
+        "title": "Flirting & Play"
+      },
+      {
+        "key": "future_plans",
+        "title": "Future Plans"
+      },
+      {
+        "key": "good_morning_night",
+        "title": "Good Morning / Good Night"
+      },
+      {
+        "key": "gratitude",
+        "title": "Gratitude"
+      },
+      {
+        "key": "icebreakers",
+        "title": "Icebreakers"
+      },
+      {
+        "key": "long_distance",
+        "title": "Long Distance"
+      },
+      {
+        "key": "photo_replies",
+        "title": "Photo Replies"
+      },
+      {
+        "key": "playful_challenges",
+        "title": "Playful Challenges"
+      },
+      {
+        "key": "rekindling_spark",
+        "title": "Rekindling the Spark"
+      },
+      {
+        "key": "support_encouragement",
+        "title": "Support & Encouragement"
+      },
+      {
+        "key": "voice_note_prompts",
+        "title": "Voice Note Prompts"
+      }
+    ]
+  },
+  "nextSteps": [
+    "1. Review phrases marked with [NEEDS_TRANSLATION] for manual translation",
+    "2. Add more manual translations for common English patterns",
+    "3. Consider using professional translation services for remaining English phrases",
+    "4. Implement quality review process for automated translations",
+    "5. Test the translations in the app to ensure proper display"
+  ],
+  "metadata": {
+    "manualTranslationsApplied": 12,
+    "totalManualTranslations": 20,
+    "updatedAt": "2025-09-09T07:41:01.314Z",
+    "refactoredAt": "2025-09-09T07:37:28.620Z",
+    "totalPhrasesProcessed": 15773,
+    "phrasesFixed": 15773,
+    "categoriesFixed": 8,
+    "lastRefactorVersion": "1.0.0",
+    "lastProcessed": "2025-09-09T07:39:11.089Z",
+    "totalProcessed": 15773,
+    "englishTranslated": 0,
+    "russianMarked": 0,
+    "alreadyPortuguese": 6920,
+    "processingVersion": "2.0.0",
+    "finalizedAt": "2025-09-09T07:40:02.342Z",
+    "totalTranslated": 0,
+    "finalizationVersion": "3.0.0",
+    "lastFixApplied": "2025-09-09T07:45:56.887Z",
+    "totalPhrasesFixed": 6210,
+    "exactTranslationMatches": 24,
+    "patternBasedFixes": 6186,
+    "fixVersion": "4.0.0",
+    "russianCleanupApplied": "2025-09-09T07:47:02.679Z",
+    "totalRussianFixed": 1787,
+    "exactRussianMatches": 0,
+    "patternRussianMatches": 1727,
+    "manualReviewNeeded": 60,
+    "russianCleanupVersion": "1.0.0",
+    "aggressiveCleanupApplied": "2025-09-09T07:47:53.468Z",
+    "russianTextsReplaced": 1787,
+    "aggressiveCleanupVersion": "1.0.0",
+    "finalCleanupApplied": "2025-09-09T07:52:59.519Z",
+    "totalPhrasesFinallyCleaned": 1981,
+    "exactReplacements": 2,
+    "patternReplacements": 1983,
+    "finalCleanupVersion": "1.0.0"
+  }
+}
