@@ -110,20 +110,53 @@ const PhraseCard: React.FC<PhraseCardProps> = ({
     }
   };
 
+  const getCategoryDisplayName = (category: string): string => {
+    const categoryTranslations: { [key: string]: string } = {
+      'compliment': t('categories.compliment'),
+      'compliments_appearance': t('categories.compliment'),
+      'compliments_personality': t('categories.compliment'),
+      'icebreakers': t('categories.icebreakers'),
+      'asking_out': t('categories.asking_out'),
+      'deepening_connection': t('categories.deepening_connection'),
+      'flirting': t('categories.flirting'),
+      'good_morning_night': t('categories.good_morning_night'),
+      'romantic': t('categories.asking_out'),
+      'conversation_starter': t('categories.icebreakers'),
+      'deep': t('categories.deepening_connection'),
+      'flirty': t('categories.flirting'),
+      'good_morning': t('categories.good_morning_night'),
+      'goodnight': t('categories.good_morning_night'),
+      'supportive': t('categories.supportive'),
+      'funny': t('categories.funny'),
+      'apology': t('categories.apologies'),
+      'casual': t('categories.everyday'),
+      'relationship_building': t('categories.longDistance'),
+    };
+    
+    return categoryTranslations[category] || category.replace('_', ' ').toUpperCase();
+  };
+
   const getCategoryColor = (category: string): string => {
     const colors: { [key: string]: string } = {
       conversation_starter: '#4CAF50',
       compliment: '#FF9800',
+      compliments_appearance: '#FF9800',
+      compliments_personality: '#FF9800',
       flirty: '#E91E63',
+      flirting: '#E91E63',
       romantic: '#F44336',
+      asking_out: '#F44336',
       supportive: '#2196F3',
       funny: '#FFEB3B',
       deep: '#9C27B0',
+      deepening_connection: '#9C27B0',
       casual: '#607D8B',
       apology: '#795548',
       goodnight: '#3F51B5',
       good_morning: '#FF5722',
+      good_morning_night: '#FF5722',
       relationship_building: '#009688',
+      icebreakers: '#4CAF50',
     };
     return colors[category] || '#757575';
   };
@@ -138,7 +171,7 @@ const PhraseCard: React.FC<PhraseCardProps> = ({
           ]}
         >
           <Text style={styles.categoryText}>
-            {phrase.category.replace('_', ' ').toUpperCase()}
+            {getCategoryDisplayName(phrase.category).toUpperCase()}
           </Text>
         </View>
         <TouchableOpacity
@@ -158,7 +191,7 @@ const PhraseCard: React.FC<PhraseCardProps> = ({
       <View style={styles.footer}>
         <View style={styles.tags}>
           <Text style={styles.situationText}>
-            {phrase.situation.replace('_', ' ')} • {phrase.tone}
+            {t(`situations.${phrase.situation}`)} • {t(`tones.${phrase.tone}`)}
           </Text>
         </View>
         <TouchableOpacity onPress={handleCopy} style={styles.copyButton}>

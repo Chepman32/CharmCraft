@@ -171,7 +171,7 @@ class PhraseService {
             // Find the phrase in translations
             for (const [categoryKey, categoryData] of Object.entries(translations.categories)) {
               const translatedPhrase = (categoryData as any).phrases.find((p: PhraseData) =>
-                `${categoryKey}_${p.id}` === phraseId
+                p.id.toString() === phraseId
               );
               if (translatedPhrase) {
                 return translatedPhrase.text;

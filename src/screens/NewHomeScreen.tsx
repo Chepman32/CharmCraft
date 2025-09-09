@@ -15,7 +15,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { useTranslation } from '../contexts/LocalizationContext';
 import { useFeedback } from '../hooks/useFeedback';
 import PhraseService, { SearchFilters } from '../services/PhraseService';
-import { PhraseCategory, PhraseTone } from '../data/phraseTypes';
+import { PhraseCategory, PhraseTone, Phrase } from '../data/phraseTypes';
 import Clipboard from '@react-native-clipboard/clipboard';
 
 const { width } = Dimensions.get('window');
@@ -30,9 +30,7 @@ const NewHomeScreen: React.FC = () => {
   const [intensity, setIntensity] = useState<'soft' | 'neutral' | 'bold'>(
     'neutral',
   );
-  const [currentPhrase, setCurrentPhrase] = useState(
-    'You make my day so much brighter',
-  );
+  const [currentPhrase, setCurrentPhrase] = useState<Phrase | null>(null);
   const [initializing, setInitializing] = useState(true);
 
   const intensityToTone = (intensity: string): PhraseTone => {
@@ -62,7 +60,7 @@ const NewHomeScreen: React.FC = () => {
 
       const phrase = await PhraseService.getRandomPhrase(filters);
       if (phrase) {
-        setCurrentPhrase(phrase.text);
+        setCurrentPhrase(phrase);
         await PhraseService.recordUsage(phrase.id);
       }
     } catch (error) {
@@ -260,9 +258,62 @@ const NewHomeScreen: React.FC = () => {
   }
 
   const handleCopyPhrase = () => {
-    Clipboard.setString(currentPhrase);
-    playSuccess();
-    Alert.alert(t('common.copied'), t('common.phraseCopied'));
+    if (currentPhrase) {
+      Clipboard.setString(currentPhrase.text);
+      playSuccess();
+      Alert.alert(t('common.copied'), t('common.phraseCopied'));
+    }
+  };
+
+  const getCategoryDisplayName = (category: string): string => {
+    const categoryTranslations: { [key: string]: string } = {
+      'compliment': t('categories.compliment'),
+      'compliments_appearance': t('categories.compliment'),
+      'compliments_personality': t('categories.compliment'),
+      'icebreakers': t('categories.icebreakers'),
+      'asking_out': t('categories.asking_out'),
+      'deepening_connection': t('categories.deepening_connection'),
+      'flirting': t('categories.flirting'),
+      'good_morning_night': t('categories.good_morning_night'),
+      'romantic': t('categories.asking_out'),
+      'conversation_starter': t('categories.icebreakers'),
+      'deep': t('categories.deepening_connection'),
+      'flirty': t('categories.flirting'),
+      'good_morning': t('categories.good_morning_night'),
+      'goodnight': t('categories.good_morning_night'),
+      'supportive': t('categories.supportive'),
+      'funny': t('categories.funny'),
+      'apology': t('categories.apologies'),
+      'casual': t('categories.everyday'),
+      'relationship_building': t('categories.longDistance'),
+    };
+    
+    return categoryTranslations[category] || category.replace('_', ' ').toUpperCase();
+  };
+
+  const getCategoryColor = (category: string): string => {
+    const colors: { [key: string]: string } = {
+      conversation_starter: '#4CAF50',
+      compliment: '#FF9800',
+      compliments_appearance: '#FF9800',
+      compliments_personality: '#FF9800',
+      flirty: '#E91E63',
+      flirting: '#E91E63',
+      romantic: '#F44336',
+      asking_out: '#F44336',
+      supportive: '#2196F3',
+      funny: '#FFEB3B',
+      deep: '#9C27B0',
+      deepening_connection: '#9C27B0',
+      casual: '#607D8B',
+      apology: '#795548',
+      goodnight: '#3F51B5',
+      good_morning: '#FF5722',
+      good_morning_night: '#FF5722',
+      relationship_building: '#009688',
+      icebreakers: '#4CAF50',
+    };
+    return colors[category] || '#757575';
   };
 
   if (initializing) {
@@ -343,7 +394,23 @@ const NewHomeScreen: React.FC = () => {
             onPress={handleCopyPhrase}
             activeOpacity={0.8}
           >
-            <Text style={styles.phraseText}>{currentPhrase}</Text>
+            {currentPhrase && (
+              <>
+                <View style={styles.phraseHeader}>
+                  <View
+                    style={[
+                      styles.categoryBadge,
+                      { backgroundColor: getCategoryColor(currentPhrase.category) },
+                    ]}
+                  >
+                    <Text style={styles.categoryText}>
+                      {getCategoryDisplayName(currentPhrase.category).toUpperCase()}
+                    </Text>
+                  </View>
+                </View>
+                <Text style={styles.phraseText}>{currentPhrase.text}</Text>
+              </>
+            )}
           </TouchableOpacity>
 
           {/* Intensity Selector */}
@@ -428,16 +495,16 @@ const createStyles = (theme: any) =>
     header: {
       alignItems: 'center',
       paddingTop: 20,
-      paddingBottom: 30,
+      paddingBottom: 25,
     },
     title: {
-      fontSize: 32,
+      fontSize: 28,
       fontWeight: 'bold',
       color: theme.colors.text,
     },
     searchContainer: {
       paddingHorizontal: 20,
-      marginBottom: 30,
+      marginBottom: 20,
     },
     searchInputContainer: {
       flexDirection: 'row',
@@ -464,7 +531,7 @@ const createStyles = (theme: any) =>
       flexDirection: 'row',
       flexWrap: 'wrap',
       paddingHorizontal: 20,
-      marginBottom: 30,
+      marginBottom: 20,
       justifyContent: 'space-between',
     },
     categoryButton: {
@@ -496,10 +563,10 @@ const createStyles = (theme: any) =>
     phraseContainer: {
       backgroundColor: theme.colors.cardBackground,
       borderRadius: 20,
-      padding: 25,
+      padding: 30,
       marginHorizontal: 20,
-      marginBottom: 30,
-      height: 140,
+      marginBottom: 25,
+      height: 180,
       justifyContent: 'center',
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 4 },
@@ -507,22 +574,37 @@ const createStyles = (theme: any) =>
       shadowRadius: 8,
       elevation: 5,
     },
+    phraseHeader: {
+      flexDirection: 'row',
+      justifyContent: 'flex-start',
+      marginBottom: 15,
+    },
+    categoryBadge: {
+      paddingHorizontal: 12,
+      paddingVertical: 6,
+      borderRadius: 12,
+    },
+    categoryText: {
+      fontSize: 12,
+      fontWeight: 'bold',
+      color: '#FFFFFF',
+    },
     phraseText: {
-      fontSize: 20,
+      fontSize: 22,
       color: theme.colors.text,
       textAlign: 'center',
-      lineHeight: 28,
+      lineHeight: 32,
       fontWeight: '500',
     },
     intensityContainer: {
       paddingHorizontal: 20,
-      marginBottom: 40,
+      marginBottom: 30,
     },
     intensityLabel: {
       fontSize: 16,
       color: theme.colors.text,
       fontWeight: '600',
-      marginBottom: 15,
+      marginBottom: 12,
     },
     intensitySlider: {
       position: 'relative',
@@ -531,7 +613,7 @@ const createStyles = (theme: any) =>
       height: 4,
       backgroundColor: theme.colors.border,
       borderRadius: 2,
-      marginVertical: 20,
+      marginVertical: 18,
     },
     intensityButtons: {
       flexDirection: 'row',

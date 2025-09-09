@@ -17,10 +17,9 @@ const CollectionsScreen: React.FC = () => {
   const { theme } = useTheme();
   const { t } = useTranslation();
   const [phrases, setPhrases] = useState<Phrase[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<PhraseCategory>(
-    PhraseCategory.COMPLIMENT,
-  );
+  const [selectedCategory, setSelectedCategory] = useState<PhraseCategory>(PhraseCategory.COMPLIMENT);
   const [loading, setLoading] = useState(true);
+  const [initializing, setInitializing] = useState(true);
 
   // Don't render until theme is ready
   if (!theme || !theme.colors) {
@@ -70,18 +69,36 @@ const CollectionsScreen: React.FC = () => {
     },
   }), [theme]);
 
+  // Updated categories to match the large dataset
   const categories = [
-    { key: PhraseCategory.COMPLIMENT, label: 'Compliments' },
-    { key: PhraseCategory.ROMANTIC, label: 'Romantic' },
-    { key: PhraseCategory.FLIRTY, label: 'Flirty' },
-    { key: PhraseCategory.SUPPORTIVE, label: 'Supportive' },
-    { key: PhraseCategory.FUNNY, label: 'Funny' },
-    { key: PhraseCategory.CONVERSATION_STARTER, label: 'Conversation' },
+    { key: PhraseCategory.COMPLIMENT, label: t('categories.compliment') },
+    { key: PhraseCategory.CONVERSATION_STARTER, label: t('categories.icebreakers') },
+    { key: PhraseCategory.ROMANTIC, label: t('categories.asking_out') },
+    { key: PhraseCategory.DEEP, label: t('categories.deepening_connection') },
+    { key: PhraseCategory.FLIRTY, label: t('categories.flirting') },
+    { key: PhraseCategory.GOOD_MORNING, label: t('categories.good_morning_night') },
   ];
 
   useEffect(() => {
-    loadPhrases();
-  }, [selectedCategory]);
+    initializeApp();
+  }, []);
+
+  useEffect(() => {
+    if (!initializing) {
+      loadPhrases();
+    }
+  }, [selectedCategory, initializing]);
+
+  const initializeApp = async () => {
+    try {
+      setInitializing(true);
+      await PhraseService.initialize();
+    } catch (error) {
+      console.error('Error initializing PhraseService:', error);
+    } finally {
+      setInitializing(false);
+    }
+  };
 
   const loadPhrases = async () => {
     try {
@@ -89,7 +106,7 @@ const CollectionsScreen: React.FC = () => {
       const result = await PhraseService.searchPhrases({
         category: selectedCategory,
       });
-      setPhrases(result.slice(0, 20)); // Limit to 20 for performance
+      setPhrases(result.slice(0, 50)); // Show more phrases
     } catch (error) {
       console.error('Error loading phrases:', error);
     } finally {
@@ -101,10 +118,23 @@ const CollectionsScreen: React.FC = () => {
     <PhraseCard phrase={item} onFavoriteToggle={loadPhrases} />
   );
 
+  if (initializing) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.title}>{t('collections.title')}</Text>
+        </View>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <Text style={{ color: theme.colors.text }}>{t('common.loading')}</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>Collections</Text>
+        <Text style={styles.title}>{t('collections.title')}</Text>
       </View>
 
       {/* Category Tabs */}
@@ -142,6 +172,13 @@ const CollectionsScreen: React.FC = () => {
         refreshing={loading}
         onRefresh={loadPhrases}
         showsVerticalScrollIndicator={false}
+        ListEmptyComponent={() => (
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', paddingTop: 50 }}>
+            <Text style={{ color: theme.colors.textSecondary }}>
+              {t('collections.noPhrases')}
+            </Text>
+          </View>
+        )}
       />
     </SafeAreaView>
   );
