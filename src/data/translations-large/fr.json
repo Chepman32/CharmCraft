@@ -7,28 +7,28 @@
         {
           "id": 51401,
           "intensity": "soft",
-          "text": "Мне действительно было приiтно. С тобой легко.",
+          "text": "Мне действительно было приятно. С тобой легко.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 51402,
           "intensity": "soft",
-          "text": "До сих пор улыбаюсь, вспоминаi наш разговор. С тобой приiтно.",
+          "text": "До сих пор улыбаюсь, вспоминая наш разговор. С тобой приятно.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 51801,
           "intensity": "neutral",
-          "text": "Ты превзошла мои ожиданиi — спокойно и искренне. Раунд два?",
+          "text": "Ты превзошла мои ожидания — спокойно и искренне. Раунд два?",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 51802,
           "intensity": "neutral",
-          "text": "Хотел(а) бы увидетьсi ещё раз. В какие дни удобно на следующей неделе?",
+          "text": "Хотел(а) бы увидеться ещё раз. В какие дни удобно на следующей неделе?",
           "translationType": "automated",
           "manualTranslation": false
         },
@@ -43,7 +43,7 @@
         {
           "id": 52202,
           "intensity": "bold",
-          "text": "Между нами есть импульс — не хочу его терiть.",
+          "text": "Между нами есть импульс — не хочу его терять.",
           "translationType": "automated",
           "manualTranslation": false
         }
@@ -110547,6 +110547,6 @@
   "metadata": {
     "manualTranslationsApplied": 12,
     "totalManualTranslations": 20,
-    "updatedAt": "2025-09-09T07:41:01.183Z"
+    "updatedAt": "2025-09-09T08:07:06.033Z"
   }
 }
