@@ -62,6 +62,15 @@ export const ru: typeof en = {
   collections: {
     ...en.collections,
     title: 'Коллекции',
+    tabs: {
+      ...en.collections.tabs,
+      compliments: 'Комплименты',
+      romantic: 'Романтика',
+      flirty: 'Флирт',
+      supportive: 'Поддержка',
+      funny: 'Смешные',
+      conversation: 'Знакомство',
+    },
   },
   common: {
     ...en.common,

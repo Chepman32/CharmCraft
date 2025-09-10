@@ -54,6 +54,15 @@ export const ua: typeof en = {
   collections: {
     ...en.collections,
     title: 'Колекції',
+    tabs: {
+      ...en.collections.tabs,
+      compliments: 'Компліменти',
+      romantic: 'Романтичні',
+      flirty: 'Флірт',
+      supportive: 'Підтримка',
+      funny: 'Веселі',
+      conversation: 'Знайомство',
+    },
   },
   common: {
     ...en.common,

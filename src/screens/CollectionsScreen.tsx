@@ -71,12 +71,12 @@ const CollectionsScreen: React.FC = () => {
   }), [theme]);
 
   const categories = [
-    { key: PhraseCategory.COMPLIMENT, label: 'Compliments' },
-    { key: PhraseCategory.ROMANTIC, label: 'Romantic' },
-    { key: PhraseCategory.FLIRTY, label: 'Flirty' },
-    { key: PhraseCategory.SUPPORTIVE, label: 'Supportive' },
-    { key: PhraseCategory.FUNNY, label: 'Funny' },
-    { key: PhraseCategory.CONVERSATION_STARTER, label: 'Conversation' },
+    { key: PhraseCategory.COMPLIMENT, label: t('collections.tabs.compliments') },
+    { key: PhraseCategory.ROMANTIC, label: t('collections.tabs.romantic') },
+    { key: PhraseCategory.FLIRTY, label: t('collections.tabs.flirty') },
+    { key: PhraseCategory.SUPPORTIVE, label: t('collections.tabs.supportive') },
+    { key: PhraseCategory.FUNNY, label: t('collections.tabs.funny') },
+    { key: PhraseCategory.CONVERSATION_STARTER, label: t('collections.tabs.conversation') },
   ];
 
   useEffect(() => {
@@ -86,10 +86,39 @@ const CollectionsScreen: React.FC = () => {
   const loadPhrases = async () => {
     try {
       setLoading(true);
-      const result = await PhraseService.searchPhrases({
-        category: selectedCategory,
-      });
-      setPhrases(result.slice(0, 20)); // Limit to 20 for performance
+      let result: Phrase[] = [];
+
+      if (selectedCategory === PhraseCategory.SUPPORTIVE) {
+        // Combine supportive-like categories from the standard dataset
+        const deep = await PhraseService.searchPhrases({
+          category: PhraseCategory.DEEP,
+        });
+        const goodMorning = await PhraseService.searchPhrases({
+          category: PhraseCategory.GOOD_MORNING,
+        });
+        const relationship = await PhraseService.searchPhrases({
+          category: PhraseCategory.RELATIONSHIP_BUILDING,
+        });
+        result = [...deep, ...goodMorning, ...relationship];
+      } else if (selectedCategory === PhraseCategory.FUNNY) {
+        // Use conversation starters and flirty as playful/funny content
+        const starters = await PhraseService.searchPhrases({
+          category: PhraseCategory.CONVERSATION_STARTER,
+        });
+        const flirty = await PhraseService.searchPhrases({
+          category: PhraseCategory.FLIRTY,
+        });
+        result = [...starters, ...flirty];
+      } else {
+        result = await PhraseService.searchPhrases({
+          category: selectedCategory,
+        });
+      }
+
+      // Deduplicate by id and limit for performance
+      const unique: Record<string, boolean> = {};
+      const deduped = result.filter(p => (unique[p.id] ? false : (unique[p.id] = true)));
+      setPhrases(deduped.slice(0, 20));
     } catch (error) {
       console.error('Error loading phrases:', error);
     } finally {
@@ -104,7 +133,7 @@ const CollectionsScreen: React.FC = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>Collections</Text>
+        <Text style={styles.title}>{t('collections.title')}</Text>
       </View>
 
       {/* Category Tabs */}

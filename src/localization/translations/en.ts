@@ -54,6 +54,14 @@ export const en = {
   },
   collections: {
     title: 'Collections',
+    tabs: {
+      compliments: 'Compliments',
+      romantic: 'Romantic',
+      flirty: 'Flirty',
+      supportive: 'Supportive',
+      funny: 'Funny',
+      conversation: 'Conversation',
+    },
   },
   common: {
     copy: 'Copy',

@@ -55,6 +55,15 @@ export const fr: typeof en = {
   collections: {
     ...en.collections,
     title: 'Collections',
+    tabs: {
+      ...en.collections.tabs,
+      compliments: 'Compliments',
+      romantic: 'Romantique',
+      flirty: 'Flirt',
+      supportive: 'Soutien',
+      funny: 'Amusant',
+      conversation: 'Conversation',
+    },
   },
   common: {
     ...en.common,

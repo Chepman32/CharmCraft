@@ -54,6 +54,15 @@ export const ja: typeof en = {
   collections: {
     ...en.collections,
     title: 'コレクション',
+    tabs: {
+      ...en.collections.tabs,
+      compliments: '褒め言葉',
+      romantic: 'ロマンチック',
+      flirty: 'フラーティ',
+      supportive: '励まし',
+      funny: 'おもしろい',
+      conversation: '会話',
+    },
   },
   common: {
     ...en.common,

@@ -54,6 +54,15 @@ export const ko: typeof en = {
   collections: {
     ...en.collections,
     title: '컬렉션',
+    tabs: {
+      ...en.collections.tabs,
+      compliments: '칭찬',
+      romantic: '로맨틱',
+      flirty: '플러팅',
+      supportive: '격려',
+      funny: '유머',
+      conversation: '대화',
+    },
   },
   common: {
     ...en.common,
