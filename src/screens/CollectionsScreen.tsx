@@ -21,6 +21,8 @@ const CollectionsScreen: React.FC = () => {
     PhraseCategory.COMPLIMENT,
   );
   const [loading, setLoading] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [limit, setLimit] = useState(50);
 
   // Don't render until theme is ready
   if (!theme || !theme.colors) {
@@ -80,49 +82,79 @@ const CollectionsScreen: React.FC = () => {
   ];
 
   useEffect(() => {
+    // Reset pagination when category changes
+    setLimit(50);
     loadPhrases();
   }, [selectedCategory]);
+
+  const fetchCategoryPhrases = async (): Promise<Phrase[]> => {
+    // Returns a potentially large set. Service lazily loads more on demand.
+    if (selectedCategory === PhraseCategory.SUPPORTIVE) {
+      const deep = await PhraseService.searchPhrases({
+        category: PhraseCategory.DEEP,
+      });
+      const goodMorning = await PhraseService.searchPhrases({
+        category: PhraseCategory.GOOD_MORNING,
+      });
+      const relationship = await PhraseService.searchPhrases({
+        category: PhraseCategory.RELATIONSHIP_BUILDING,
+      });
+      return [...deep, ...goodMorning, ...relationship];
+    } else if (selectedCategory === PhraseCategory.FUNNY) {
+      const starters = await PhraseService.searchPhrases({
+        category: PhraseCategory.CONVERSATION_STARTER,
+      });
+      const flirty = await PhraseService.searchPhrases({
+        category: PhraseCategory.FLIRTY,
+      });
+      return [...starters, ...flirty];
+    } else {
+      return await PhraseService.searchPhrases({
+        category: selectedCategory,
+      });
+    }
+  };
 
   const loadPhrases = async () => {
     try {
       setLoading(true);
-      let result: Phrase[] = [];
-
-      if (selectedCategory === PhraseCategory.SUPPORTIVE) {
-        // Combine supportive-like categories from the standard dataset
-        const deep = await PhraseService.searchPhrases({
-          category: PhraseCategory.DEEP,
-        });
-        const goodMorning = await PhraseService.searchPhrases({
-          category: PhraseCategory.GOOD_MORNING,
-        });
-        const relationship = await PhraseService.searchPhrases({
-          category: PhraseCategory.RELATIONSHIP_BUILDING,
-        });
-        result = [...deep, ...goodMorning, ...relationship];
-      } else if (selectedCategory === PhraseCategory.FUNNY) {
-        // Use conversation starters and flirty as playful/funny content
-        const starters = await PhraseService.searchPhrases({
-          category: PhraseCategory.CONVERSATION_STARTER,
-        });
-        const flirty = await PhraseService.searchPhrases({
-          category: PhraseCategory.FLIRTY,
-        });
-        result = [...starters, ...flirty];
-      } else {
-        result = await PhraseService.searchPhrases({
-          category: selectedCategory,
-        });
-      }
+      const result = await fetchCategoryPhrases();
 
       // Deduplicate by id and limit for performance
       const unique: Record<string, boolean> = {};
       const deduped = result.filter(p => (unique[p.id] ? false : (unique[p.id] = true)));
-      setPhrases(deduped.slice(0, 20));
+      setPhrases(deduped);
     } catch (error) {
       console.error('Error loading phrases:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadMore = async () => {
+    if (loadingMore) return;
+    try {
+      setLoadingMore(true);
+      const prevLen = phrases.length;
+      const result = await fetchCategoryPhrases();
+      const unique: Record<string, boolean> = Object.fromEntries(
+        phrases.map(p => [p.id, true]),
+      );
+      const merged = [...phrases];
+      for (const p of result) {
+        if (!unique[p.id]) {
+          unique[p.id] = true;
+          merged.push(p);
+        }
+      }
+      if (merged.length > prevLen) {
+        setPhrases(merged);
+      }
+      setLimit(l => l + 50);
+    } catch (e) {
+      console.error('Error loading more phrases:', e);
+    } finally {
+      setLoadingMore(false);
     }
   };
 
@@ -165,11 +197,13 @@ const CollectionsScreen: React.FC = () => {
       </View>
 
       <FlatList
-        data={phrases}
+        data={phrases.slice(0, limit)}
         renderItem={renderPhraseItem}
         keyExtractor={item => item.id}
         refreshing={loading}
         onRefresh={loadPhrases}
+        onEndReachedThreshold={0.5}
+        onEndReached={loadMore}
         showsVerticalScrollIndicator={false}
       />
     </SafeAreaView>
