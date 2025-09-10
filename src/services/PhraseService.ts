@@ -41,6 +41,7 @@ class PhraseService {
   private usageStats: Map<string, UsageStats> = new Map();
   private initialized = false;
   private useLargeDataset = false;
+  private currentLanguage: string | null = null;
 
   // Lazy loading configuration
   private readonly CHUNK_SIZE = 1000; // Load phrases in chunks
@@ -194,21 +195,86 @@ class PhraseService {
     }
   }
 
+  /**
+   * Determines whether we can safely use the large dataset for the
+   * current language. We only use it for English or when a corresponding
+   * large translation file exists for the language.
+   */
+  private canUseLargeDatasetForLanguage(language: string): boolean {
+    if (language === 'en') return true;
+    try {
+      // Probe for a matching large translation file; if it throws, it's not available
+      switch (language) {
+        case 'ru':
+          require('../data/translations-large/ru.json');
+          break;
+        case 'es':
+          require('../data/translations-large/es.json');
+          break;
+        case 'de':
+          require('../data/translations-large/de.json');
+          break;
+        case 'fr':
+          require('../data/translations-large/fr.json');
+          break;
+        case 'pt':
+          // Portuguese large file intentionally skipped in getLocalizedPhraseText
+          // Treat as unavailable to avoid memory issues
+          return false;
+        case 'ja':
+          require('../data/translations-large/ja.json');
+          break;
+        case 'zh':
+          require('../data/translations-large/zh.json');
+          break;
+        case 'ko':
+          require('../data/translations-large/ko.json');
+          break;
+        case 'ua':
+          require('../data/translations-large/ua.json');
+          break;
+        default:
+          return false;
+      }
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
   private async loadPhrasesFromJSON(): Promise<void> {
     try {
       const language = await this.getCurrentLanguage();
+      this.currentLanguage = language;
       
-      // Try to load large dataset first
-      try {
-        this.largePhrasesDatabase = require('../data/phrases-large.json') as PhrasesDatabase;
-        this.useLargeDataset = true;
-        console.log('✅ Large dataset available - using lazy loading');
-        
-        // Load only a small subset initially
-        await this.loadInitialPhrases();
-      } catch (largeError) {
-        console.log('Large dataset not found, using standard dataset');
-        // Fallback to standard dataset
+      // Prefer large dataset only if translations are available for the language
+      const allowLarge = this.canUseLargeDatasetForLanguage(language);
+      if (allowLarge) {
+        try {
+          this.largePhrasesDatabase = require('../data/phrases-large.json') as PhrasesDatabase;
+          this.useLargeDataset = true;
+          console.log('✅ Large dataset available - using lazy loading');
+          
+          // Load only a small subset initially
+          await this.loadInitialPhrases();
+        } catch (largeError) {
+          console.log('Large dataset not found, using standard dataset');
+          // Fallback to standard dataset
+          const phrasesData = require('../data/phrases.json') as PhrasesDatabase;
+          this.phrasesDatabase = phrasesData;
+          this.useLargeDataset = false;
+          
+          // Convert JSON data to legacy format
+          this.phrases = [];
+          for (const [categoryKey, categoryData] of Object.entries(this.phrasesDatabase.categories)) {
+            for (const phraseData of categoryData.phrases) {
+              const legacyPhrase = convertPhraseDataToLegacy(phraseData, categoryKey, language, false);
+              this.phrases.push(legacyPhrase);
+            }
+          }
+        }
+      } else {
+        // Large dataset not allowed for this language – use standard dataset
         const phrasesData = require('../data/phrases.json') as PhrasesDatabase;
         this.phrasesDatabase = phrasesData;
         this.useLargeDataset = false;
@@ -299,7 +365,7 @@ class PhraseService {
         throw new Error('AsyncStorage is not available');
       }
 
-      // Load phrases from JSON files
+      // Load phrases from JSON files (respect active language)
       await this.loadPhrasesFromJSON();
 
       // Load favorites
@@ -329,8 +395,26 @@ class PhraseService {
     }
   }
 
+  /**
+   * Ensure our in-memory dataset matches the current language settings.
+   * Reloads data if the language has changed since last load.
+   */
+  private async ensureLanguageSynced(): Promise<void> {
+    const lang = await this.getCurrentLanguage();
+    if (this.currentLanguage !== lang) {
+      // Reset state tied to dataset to avoid mixing data
+      this.loadedCategories.clear();
+      this.phrases = [];
+      this.phrasesDatabase = null;
+      this.largePhrasesDatabase = null;
+      this.useLargeDataset = false;
+      await this.loadPhrasesFromJSON();
+    }
+  }
+
   async searchPhrases(filters: SearchFilters = {}, loadMore: boolean = true): Promise<Phrase[]> {
     await this.initialize();
+    await this.ensureLanguageSynced();
 
     let filteredPhrases = [...this.phrases];
 
@@ -446,6 +530,7 @@ class PhraseService {
 
   async getFavorites(): Promise<Phrase[]> {
     await this.initialize();
+    await this.ensureLanguageSynced();
     const lang = await this.getCurrentLanguage();
     const favoritePhrases = this.phrases.filter(phrase => this.favorites.includes(phrase.id));
     
@@ -482,6 +567,7 @@ class PhraseService {
 
   async getMostUsedPhrases(limit: number = 10): Promise<Phrase[]> {
     await this.initialize();
+    await this.ensureLanguageSynced();
 
     const sortedStats = Array.from(this.usageStats.values())
       .sort((a, b) => b.usageCount - a.usageCount)

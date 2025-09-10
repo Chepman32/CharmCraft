@@ -138,7 +138,7 @@ const PhraseCard: React.FC<PhraseCardProps> = ({
           ]}
         >
           <Text style={styles.categoryText}>
-            {phrase.category.replace('_', ' ').toUpperCase()}
+            {t(`labels.categories.${phrase.category}`).toUpperCase()}
           </Text>
         </View>
         <TouchableOpacity
@@ -158,7 +158,7 @@ const PhraseCard: React.FC<PhraseCardProps> = ({
       <View style={styles.footer}>
         <View style={styles.tags}>
           <Text style={styles.situationText}>
-            {phrase.situation.replace('_', ' ')} • {phrase.tone}
+            {t(`labels.situations.${phrase.situation}`)} • {t(`labels.tone.${phrase.tone}`)}
           </Text>
         </View>
         <TouchableOpacity onPress={handleCopy} style={styles.copyButton}>
