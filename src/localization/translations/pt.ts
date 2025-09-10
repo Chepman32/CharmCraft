@@ -1,11 +1,15 @@
-export const pt = {
+import { en } from './en';
+export const pt: typeof en = {
+  ...en,
   navigation: {
+    ...en.navigation,
     home: 'Início',
     favorites: 'Favoritos',
     collections: 'Coleções',
     settings: 'Configurações',
   },
   settings: {
+    ...en.settings,
     title: 'Configurações',
     theme: 'Tema',
     language: 'Idioma',
@@ -14,12 +18,14 @@ export const pt = {
     about: 'Sobre',
   },
   themes: {
+    ...en.themes,
     light: 'Claro',
     dark: 'Escuro',
     solar: 'Solar',
     mono: 'Mono',
   },
   home: {
+    ...en.home,
     title: 'CharmCraft',
     search: 'Pesquisar',
     getSuggestion: 'Obter sugestão',
@@ -31,6 +37,7 @@ export const pt = {
     loadingText: 'Carregando suas frases perfeitas...',
   },
   categories: {
+    ...en.categories,
     icebreakers: 'Quebra-gelo',
     compliments: 'Elogios',
     apologies: 'Desculpas',
@@ -39,15 +46,18 @@ export const pt = {
     birthday: 'Aniversário',
   },
   favorites: {
+    ...en.favorites,
     title: 'Favoritos',
     empty: 'Nenhum favorito ainda',
     emptyDescription:
       'Comece a adicionar frases aos seus favoritos na tela inicial!',
   },
   collections: {
+    ...en.collections,
     title: 'Coleções',
   },
   common: {
+    ...en.common,
     copy: 'Copiar',
     copied: 'Copiado!',
     phraseCopied: 'Frase copiada para a área de transferência',

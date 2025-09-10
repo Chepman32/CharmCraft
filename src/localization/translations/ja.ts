@@ -1,11 +1,15 @@
-export const ja = {
+import { en } from './en';
+export const ja: typeof en = {
+  ...en,
   navigation: {
+    ...en.navigation,
     home: 'ホーム',
     favorites: 'お気に入り',
     collections: 'コレクション',
     settings: '設定',
   },
   settings: {
+    ...en.settings,
     title: '設定',
     theme: 'テーマ',
     language: '言語',
@@ -14,12 +18,14 @@ export const ja = {
     about: 'について',
   },
   themes: {
+    ...en.themes,
     light: 'ライト',
     dark: 'ダーク',
     solar: 'ソーラー',
     mono: 'モノ',
   },
   home: {
+    ...en.home,
     title: 'CharmCraft',
     search: '検索',
     getSuggestion: '提案を取得',
@@ -31,6 +37,7 @@ export const ja = {
     loadingText: '完璧なフレーズを読み込み中...',
   },
   categories: {
+    ...en.categories,
     icebreakers: 'アイスブレーカー',
     compliments: '褒め言葉',
     apologies: '謝罪',
@@ -39,14 +46,17 @@ export const ja = {
     birthday: '誕生日',
   },
   favorites: {
+    ...en.favorites,
     title: 'お気に入り',
     empty: 'まだお気に入りがありません',
     emptyDescription: 'ホーム画面からフレーズをお気に入りに追加してください！',
   },
   collections: {
+    ...en.collections,
     title: 'コレクション',
   },
   common: {
+    ...en.common,
     copy: 'コピー',
     copied: 'コピーしました！',
     phraseCopied: 'フレーズをクリップボードにコピーしました',

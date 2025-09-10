@@ -1,11 +1,15 @@
-export const ua = {
+import { en } from './en';
+export const ua: typeof en = {
+  ...en,
   navigation: {
+    ...en.navigation,
     home: 'Головна',
     favorites: 'Улюблені',
     collections: 'Колекції',
     settings: 'Налаштування',
   },
   settings: {
+    ...en.settings,
     title: 'Налаштування',
     theme: 'Тема',
     language: 'Мова',
@@ -14,12 +18,14 @@ export const ua = {
     about: 'Про додаток',
   },
   themes: {
+    ...en.themes,
     light: 'Світла',
     dark: 'Темна',
     solar: 'Сонячна',
     mono: 'Монохром',
   },
   home: {
+    ...en.home,
     title: 'CharmCraft',
     search: 'Пошук',
     getSuggestion: 'Отримати пропозицію',
@@ -31,6 +37,7 @@ export const ua = {
     loadingText: 'Завантажуємо ваші ідеальні фрази...',
   },
   categories: {
+    ...en.categories,
     icebreakers: 'Знайомство',
     compliments: 'Компліменти',
     apologies: 'Вибачення',
@@ -39,14 +46,17 @@ export const ua = {
     birthday: 'День народження',
   },
   favorites: {
+    ...en.favorites,
     title: 'Улюблені',
     empty: 'Поки немає улюблених',
     emptyDescription: 'Почніть додавати фрази до улюблених з головного екрану!',
   },
   collections: {
+    ...en.collections,
     title: 'Колекції',
   },
   common: {
+    ...en.common,
     copy: 'Копіювати',
     copied: 'Скопійовано!',
     phraseCopied: 'Фразу скопійовано до буферу обміну',

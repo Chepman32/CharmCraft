@@ -1,11 +1,15 @@
-export const ko = {
+import { en } from './en';
+export const ko: typeof en = {
+  ...en,
   navigation: {
+    ...en.navigation,
     home: '홈',
     favorites: '즐겨찾기',
     collections: '컬렉션',
     settings: '설정',
   },
   settings: {
+    ...en.settings,
     title: '설정',
     theme: '테마',
     language: '언어',
@@ -14,12 +18,14 @@ export const ko = {
     about: '정보',
   },
   themes: {
+    ...en.themes,
     light: '라이트',
     dark: '다크',
     solar: '솔라',
     mono: '모노',
   },
   home: {
+    ...en.home,
     title: 'CharmCraft',
     search: '검색',
     getSuggestion: '제안 받기',
@@ -31,6 +37,7 @@ export const ko = {
     loadingText: '완벽한 문구를 로딩 중...',
   },
   categories: {
+    ...en.categories,
     icebreakers: '아이스브레이커',
     compliments: '칭찬',
     apologies: '사과',
@@ -39,14 +46,17 @@ export const ko = {
     birthday: '생일',
   },
   favorites: {
+    ...en.favorites,
     title: '즐겨찾기',
     empty: '아직 즐겨찾기가 없습니다',
     emptyDescription: '홈 화면에서 문구를 즐겨찾기에 추가해보세요!',
   },
   collections: {
+    ...en.collections,
     title: '컬렉션',
   },
   common: {
+    ...en.common,
     copy: '복사',
     copied: '복사됨!',
     phraseCopied: '문구가 클립보드에 복사되었습니다',

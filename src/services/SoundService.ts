@@ -40,8 +40,12 @@ class SoundService {
   private playWebSound(soundType: string): void {
     try {
       // Simple beep sound for web development
-      const audioContext = new (window.AudioContext ||
-        (window as any).webkitAudioContext)();
+      const g: any = (typeof globalThis !== 'undefined' ? globalThis : {}) as any;
+      const AC = g.AudioContext || g.webkitAudioContext;
+      if (!AC) {
+        return; // AudioContext not available
+      }
+      const audioContext = new AC();
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
 

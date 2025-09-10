@@ -1,11 +1,15 @@
-export const ru = {
+import { en } from './en';
+export const ru: typeof en = {
+  ...en,
   navigation: {
+    ...en.navigation,
     home: 'Главная',
     favorites: 'Избранное',
     collections: 'Коллекции',
     settings: 'Настройки',
   },
   settings: {
+    ...en.settings,
     title: 'Настройки',
     theme: 'Тема',
     themeDescription: 'Выберите предпочитаемый визуальный стиль',
@@ -22,12 +26,14 @@ export const ru = {
     appDescription: 'Идеальные слова для каждого момента в ваших отношениях',
   },
   themes: {
+    ...en.themes,
     light: 'Светлая',
     dark: 'Тёмная',
     solar: 'Солнечная',
     mono: 'Монохром',
   },
   home: {
+    ...en.home,
     title: 'CharmCraft',
     search: 'Поиск',
     getSuggestion: 'Получить предложение',
@@ -39,6 +45,7 @@ export const ru = {
     loadingText: 'Загружаем ваши идеальные фразы...',
   },
   categories: {
+    ...en.categories,
     icebreakers: 'Знакомство',
     compliments: 'Комплименты',
     apologies: 'Извинения',
@@ -47,14 +54,17 @@ export const ru = {
     birthday: 'День рождения',
   },
   favorites: {
+    ...en.favorites,
     title: 'Избранное',
     empty: 'Пока нет избранных',
     emptyDescription: 'Начните добавлять фразы в избранное с главного экрана!',
   },
   collections: {
+    ...en.collections,
     title: 'Коллекции',
   },
   common: {
+    ...en.common,
     copy: 'Копировать',
     copied: 'Скопировано!',
     phraseCopied: 'Фраза скопирована в буфер обмена',

@@ -1,11 +1,15 @@
-export const de = {
+import { en } from './en';
+export const de: typeof en = {
+  ...en,
   navigation: {
+    ...en.navigation,
     home: 'Startseite',
     favorites: 'Favoriten',
     collections: 'Sammlungen',
     settings: 'Einstellungen',
   },
   settings: {
+    ...en.settings,
     title: 'Einstellungen',
     theme: 'Design',
     language: 'Sprache',
@@ -14,12 +18,14 @@ export const de = {
     about: 'Über',
   },
   themes: {
+    ...en.themes,
     light: 'Hell',
     dark: 'Dunkel',
     solar: 'Solar',
     mono: 'Mono',
   },
   home: {
+    ...en.home,
     title: 'CharmCraft',
     search: 'Suchen',
     getSuggestion: 'Vorschlag erhalten',
@@ -31,6 +37,7 @@ export const de = {
     loadingText: 'Lade deine perfekten Phrasen...',
   },
   categories: {
+    ...en.categories,
     icebreakers: 'Eisbrecher',
     compliments: 'Komplimente',
     apologies: 'Entschuldigungen',
@@ -39,15 +46,18 @@ export const de = {
     birthday: 'Geburtstag',
   },
   favorites: {
+    ...en.favorites,
     title: 'Favoriten',
     empty: 'Noch keine Favoriten',
     emptyDescription:
       'Beginne damit, Phrasen zu deinen Favoriten vom Startbildschirm hinzuzufügen!',
   },
   collections: {
+    ...en.collections,
     title: 'Sammlungen',
   },
   common: {
+    ...en.common,
     copy: 'Kopieren',
     copied: 'Kopiert!',
     phraseCopied: 'Phrase in die Zwischenablage kopiert',

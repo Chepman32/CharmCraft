@@ -1,11 +1,15 @@
-export const zh = {
+import { en } from './en';
+export const zh: typeof en = {
+  ...en,
   navigation: {
+    ...en.navigation,
     home: '首页',
     favorites: '收藏',
     collections: '合集',
     settings: '设置',
   },
   settings: {
+    ...en.settings,
     title: '设置',
     theme: '主题',
     language: '语言',
@@ -14,12 +18,14 @@ export const zh = {
     about: '关于',
   },
   themes: {
+    ...en.themes,
     light: '浅色',
     dark: '深色',
     solar: '太阳',
     mono: '单色',
   },
   home: {
+    ...en.home,
     title: 'CharmCraft',
     search: '搜索',
     getSuggestion: '获取建议',
@@ -31,6 +37,7 @@ export const zh = {
     loadingText: '正在加载您的完美短语...',
   },
   categories: {
+    ...en.categories,
     icebreakers: '破冰',
     compliments: '赞美',
     apologies: '道歉',
@@ -39,14 +46,17 @@ export const zh = {
     birthday: '生日',
   },
   favorites: {
+    ...en.favorites,
     title: '收藏',
     empty: '还没有收藏',
     emptyDescription: '从主屏幕开始添加短语到收藏！',
   },
   collections: {
+    ...en.collections,
     title: '合集',
   },
   common: {
+    ...en.common,
     copy: '复制',
     copied: '已复制！',
     phraseCopied: '短语已复制到剪贴板',

@@ -122,6 +122,31 @@ class HapticService {
     await this.triggerHaptic('warning');
   }
 
+  // Backwards-compatible aliases expected by some hooks/components
+  lightImpact(): void {
+    void this.triggerHaptic('light');
+  }
+
+  mediumImpact(): void {
+    void this.triggerHaptic('medium');
+  }
+
+  heavyImpact(): void {
+    void this.triggerHaptic('heavy');
+  }
+
+  success(): void {
+    void this.triggerHaptic('success');
+  }
+
+  error(): void {
+    void this.triggerHaptic('error');
+  }
+
+  selectionChanged(): void {
+    void this.triggerHaptic('medium');
+  }
+
   // Cancel any ongoing vibration
   cancelHaptic(): void {
     try {
