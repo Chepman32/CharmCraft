@@ -43,6 +43,9 @@ class PhraseService {
   private useLargeDataset = false;
   private currentLanguage: string | null = null;
   private translationMap: Map<string, string> = new Map();
+  private originalTextMap: Map<string, string> = new Map();
+  // Accept automated translations as fallback by default; can be toggled for QA
+  private acceptAutomatedTranslations = true;
 
   // Helper: accept only manual translations from JSON dictionaries
   private isManualTranslationEntry(p: any): boolean {
@@ -69,178 +72,23 @@ class PhraseService {
 
   private async getLocalizedPhraseText(phraseId: string, language: string): Promise<string> {
     try {
-      // Fast path: use prebuilt translation map if available
-      if (this.translationMap.size > 0) {
-        const hit = this.translationMap.get(phraseId);
-        if (hit) return hit;
-        // Not translated manually – fall back immediately to original text
-        const original = this.phrases.find(p => p.id === phraseId)?.text || '';
-        return original;
+      if (language === 'en') {
+        return this.originalTextMap.get(phraseId) || '';
       }
-      // Try to load translation file
-      if (language !== 'en') {
+      // Ensure translation index is ready if somehow not built yet
+      if (this.translationMap.size === 0) {
         try {
-          // Prefer large translations when using the large dataset; fallback to small
-          let translations;
-          const preferLarge = this.useLargeDataset;
-          switch (language) {
-            case 'ru':
-              try {
-                translations = preferLarge
-                  ? require('../data/translations-large/ru.json')
-                  : require('../data/translations/ru.json');
-              } catch {
-                try {
-                  translations = preferLarge
-                    ? require('../data/translations/ru.json')
-                    : require('../data/translations-large/ru.json');
-                } catch {
-                  translations = null;
-                }
-              }
-              break;
-            case 'es':
-              try {
-                translations = preferLarge
-                  ? require('../data/translations-large/es.json')
-                  : require('../data/translations/es.json');
-              } catch {
-                try {
-                  translations = preferLarge
-                    ? require('../data/translations/es.json')
-                    : require('../data/translations-large/es.json');
-                } catch {
-                  translations = null;
-                }
-              }
-              break;
-            case 'de':
-              try {
-                translations = preferLarge
-                  ? require('../data/translations-large/de.json')
-                  : require('../data/translations/de.json');
-              } catch {
-                try {
-                  translations = preferLarge
-                    ? require('../data/translations/de.json')
-                    : require('../data/translations-large/de.json');
-                } catch {
-                  translations = null;
-                }
-              }
-              break;
-            case 'fr':
-              try {
-                translations = preferLarge
-                  ? require('../data/translations-large/fr.json')
-                  : require('../data/translations/fr.json');
-              } catch {
-                try {
-                  translations = preferLarge
-                    ? require('../data/translations/fr.json')
-                    : require('../data/translations-large/fr.json');
-                } catch {
-                  translations = null;
-                }
-              }
-              break;
-            case 'pt':
-              try {
-                translations = preferLarge
-                  ? require('../data/translations-large/pt.json')
-                  : require('../data/translations/pt.json');
-              } catch {
-                try {
-                  translations = preferLarge
-                    ? require('../data/translations/pt.json')
-                    : require('../data/translations-large/pt.json');
-                } catch {
-                  translations = null;
-                }
-              }
-              break;
-            case 'ja':
-              try {
-                translations = preferLarge
-                  ? require('../data/translations-large/ja.json')
-                  : require('../data/translations/ja.json');
-              } catch {
-                try {
-                  translations = preferLarge
-                    ? require('../data/translations/ja.json')
-                    : require('../data/translations-large/ja.json');
-                } catch {
-                  translations = null;
-                }
-              }
-              break;
-            case 'zh':
-              try {
-                translations = preferLarge
-                  ? require('../data/translations-large/zh.json')
-                  : require('../data/translations/zh.json');
-              } catch {
-                try {
-                  translations = preferLarge
-                    ? require('../data/translations/zh.json')
-                    : require('../data/translations-large/zh.json');
-                } catch {
-                  translations = null;
-                }
-              }
-              break;
-            case 'ko':
-              try {
-                translations = preferLarge
-                  ? require('../data/translations-large/ko.json')
-                  : require('../data/translations/ko.json');
-              } catch {
-                try {
-                  translations = preferLarge
-                    ? require('../data/translations/ko.json')
-                    : require('../data/translations-large/ko.json');
-                } catch {
-                  translations = null;
-                }
-              }
-              break;
-            case 'ua':
-              try {
-                // Large UA translation file is invalid; use small only
-                translations = require('../data/translations/ua.json');
-              } catch {
-                translations = null;
-              }
-              break;
-            default:
-              translations = null;
-          }
-
-          if (translations) {
-            // Find the phrase in translations but only if marked as manual
-            for (const [categoryKey, categoryData] of Object.entries(translations.categories)) {
-              const translatedPhrase = (categoryData as any).phrases.find((p: any) =>
-                `${categoryKey}_${p.id}` === phraseId && this.isManualTranslationEntry(p)
-              );
-              if (translatedPhrase) {
-                this.translationMap.set(phraseId, (translatedPhrase as any).text);
-                return (translatedPhrase as any).text;
-              }
-            }
-          }
-        } catch (translationError) {
-          console.warn(`Translation file for ${language} not found:`, translationError);
+          await this.buildTranslationIndex(language);
+        } catch (e) {
+          console.warn('Translation index build failed:', e);
         }
       }
-
-      // Fallback to original phrase text
-      const originalPhrase = this.phrases.find(p => p.id === phraseId);
-      return originalPhrase?.text || '';
+      const hit = this.translationMap.get(phraseId);
+      if (hit) return hit;
+      return this.originalTextMap.get(phraseId) || '';
     } catch (error) {
       console.warn('Failed to load translation:', error);
-      // Fallback to original phrase text
-      const originalPhrase = this.phrases.find(p => p.id === phraseId);
-      return originalPhrase?.text || '';
+      return this.originalTextMap.get(phraseId) || '';
     }
   }
 
@@ -297,7 +145,7 @@ class PhraseService {
         alt = null;
     }
 
-    const addToIndex = (translations: any) => {
+    const addToIndexManual = (translations: any) => {
       if (!translations || !translations.categories) return;
       for (const [categoryKey, categoryData] of Object.entries(translations.categories)) {
         const phrases = (categoryData as any).phrases as PhraseData[] | undefined;
@@ -312,8 +160,52 @@ class PhraseService {
       }
     };
 
-    if (dict) addToIndex(dict);
-    if (alt) addToIndex(alt);
+    const looksAcceptableAutomated = (text: string, lang: string): boolean => {
+      if (this.acceptAutomatedTranslations) return true;
+      if (!text) return false;
+      // For Cyrillic languages (ru, ua), ensure majority is Cyrillic and avoid obvious English glue
+      if (lang === 'ru' || lang === 'ua') {
+        const cyrillic = (text.match(/[\u0400-\u04FF]/g) || []).length;
+        const latin = (text.match(/[A-Za-z]/g) || []).length;
+        const total = cyrillic + latin;
+        const ratio = total > 0 ? cyrillic / total : 0;
+        const hasBadGlue = /\b(also|your|you|is so good)\b/i.test(text);
+        return ratio >= 0.6 && !hasBadGlue;
+      }
+      // For CJK languages, require some native script presence
+      if (lang === 'ja') return /[\u3040-\u30FF\u4E00-\u9FFF]/.test(text);
+      if (lang === 'zh') return /[\u4E00-\u9FFF]/.test(text);
+      if (lang === 'ko') return /[\uAC00-\uD7A3]/.test(text);
+      // For Latin languages, accept as-is (can't easily detect English vs native reliably)
+      return true;
+    };
+
+    const addToIndexAutomatedFallback = (translations: any) => {
+      if (!translations || !translations.categories) return;
+      for (const [categoryKey, categoryData] of Object.entries(translations.categories)) {
+        const phrases = (categoryData as any).phrases as PhraseData[] | undefined;
+        if (!Array.isArray(phrases)) continue;
+        for (const p of phrases) {
+          const id = `${categoryKey}_${(p as any).id}`;
+          // Only fill if we don't already have a manual translation
+          if (!this.translationMap.has(id) && !this.isManualTranslationEntry(p)) {
+            const text = (p as any).text as string;
+            if (looksAcceptableAutomated(text, language)) {
+              this.translationMap.set(id, text);
+            }
+          }
+        }
+      }
+    };
+
+    // 1) Index manual translations from large then small dictionaries
+    if (dict) addToIndexManual(dict);
+    if (alt) addToIndexManual(alt);
+
+    // 2) For large dataset, fill gaps with automated translations from the large dictionaries only
+    if (this.useLargeDataset && dict) {
+      addToIndexAutomatedFallback(dict);
+    }
   }
 
   /**
@@ -348,6 +240,7 @@ class PhraseService {
           for (const phraseData of categoryData.phrases) {
             const legacyPhrase = convertPhraseDataToLegacy(phraseData, categoryKey, language, false);
             this.phrases.push(legacyPhrase);
+            this.originalTextMap.set(legacyPhrase.id, legacyPhrase.text);
           }
         }
       }
@@ -369,6 +262,7 @@ class PhraseService {
     
     const language = await this.getCurrentLanguage();
     this.phrases = [];
+    this.originalTextMap.clear();
     
     // Load first few phrases from each category
     for (const [categoryKey, categoryData] of Object.entries(this.largePhrasesDatabase.categories)) {
@@ -376,6 +270,7 @@ class PhraseService {
       for (const phraseData of initialPhrases) {
         const legacyPhrase = convertPhraseDataToLegacy(phraseData, categoryKey, language, true);
         this.phrases.push(legacyPhrase);
+        this.originalTextMap.set(legacyPhrase.id, legacyPhrase.text);
       }
       this.loadedCategories.add(categoryKey);
     }
@@ -397,6 +292,7 @@ class PhraseService {
         for (const phraseData of newPhrases) {
           const legacyPhrase = convertPhraseDataToLegacy(phraseData, category, language, true);
           this.phrases.push(legacyPhrase);
+          this.originalTextMap.set(legacyPhrase.id, legacyPhrase.text);
         }
       }
     } else {
@@ -413,6 +309,7 @@ class PhraseService {
         for (const phraseData of newPhrases) {
           const legacyPhrase = convertPhraseDataToLegacy(phraseData, categoryKey, language, true);
           this.phrases.push(legacyPhrase);
+          this.originalTextMap.set(legacyPhrase.id, legacyPhrase.text);
         }
       }
     }
@@ -476,6 +373,8 @@ class PhraseService {
       this.phrasesDatabase = null;
       this.largePhrasesDatabase = null;
       this.useLargeDataset = false;
+      this.translationMap.clear();
+      this.originalTextMap.clear();
       await this.loadPhrasesFromJSON();
     }
   }

@@ -22,7 +22,7 @@ const CollectionsScreen: React.FC = () => {
   );
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
-  const [limit, setLimit] = useState(50);
+  const [limit, setLimit] = useState(2000);
 
   // Don't render until theme is ready
   if (!theme || !theme.colors) {
@@ -118,6 +118,21 @@ const CollectionsScreen: React.FC = () => {
   const loadPhrases = async () => {
     try {
       setLoading(true);
+      // Make sure we have a large pool ready for this tab
+      if (selectedCategory === PhraseCategory.SUPPORTIVE) {
+        await Promise.all([
+          PhraseService.ensureMinPhrases(2000, PhraseCategory.DEEP),
+          PhraseService.ensureMinPhrases(2000, PhraseCategory.GOOD_MORNING),
+          PhraseService.ensureMinPhrases(2000, PhraseCategory.RELATIONSHIP_BUILDING),
+        ]);
+      } else if (selectedCategory === PhraseCategory.FUNNY) {
+        await Promise.all([
+          PhraseService.ensureMinPhrases(2000, PhraseCategory.CONVERSATION_STARTER),
+          PhraseService.ensureMinPhrases(2000, PhraseCategory.FLIRTY),
+        ]);
+      } else {
+        await PhraseService.ensureMinPhrases(2000, selectedCategory);
+      }
       const result = await fetchCategoryPhrases();
 
       // Deduplicate by id and limit for performance
@@ -135,6 +150,22 @@ const CollectionsScreen: React.FC = () => {
     if (loadingMore) return;
     try {
       setLoadingMore(true);
+      // Ensure the service loads more data for the currently visible tab
+      // Some tabs are composites of multiple categories – load each one
+      if (selectedCategory === PhraseCategory.SUPPORTIVE) {
+        await Promise.all([
+          PhraseService.loadMorePhrasesOnDemand(PhraseCategory.DEEP),
+          PhraseService.loadMorePhrasesOnDemand(PhraseCategory.GOOD_MORNING),
+          PhraseService.loadMorePhrasesOnDemand(PhraseCategory.RELATIONSHIP_BUILDING),
+        ]);
+      } else if (selectedCategory === PhraseCategory.FUNNY) {
+        await Promise.all([
+          PhraseService.loadMorePhrasesOnDemand(PhraseCategory.CONVERSATION_STARTER),
+          PhraseService.loadMorePhrasesOnDemand(PhraseCategory.FLIRTY),
+        ]);
+      } else {
+        await PhraseService.loadMorePhrasesOnDemand(selectedCategory);
+      }
       const prevLen = phrases.length;
       const result = await fetchCategoryPhrases();
       const unique: Record<string, boolean> = Object.fromEntries(
@@ -150,7 +181,7 @@ const CollectionsScreen: React.FC = () => {
       if (merged.length > prevLen) {
         setPhrases(merged);
       }
-      setLimit(l => l + 50);
+      setLimit(2000);
     } catch (e) {
       console.error('Error loading more phrases:', e);
     } finally {

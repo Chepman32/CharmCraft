@@ -7,21 +7,21 @@
         {
           "id": 51401,
           "intensity": "soft",
-          "text": "Мне действительно было приятно. С тобой легко.",
+          "text": "Мені справді було приємно. З тобою легко.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 51402,
           "intensity": "soft",
-          "text": "До сих пор улыбаюсь, вспоминая наш разговор. С тобой приятно.",
+          "text": "Досі посміхаюся, згадуючи нашу розмову. З тобою приємно.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 51801,
           "intensity": "neutral",
-          "text": "Ты превзошла мои ожидания — спокойно и искренне. Раунд два?",
+          "text": "Ти перевершила мої очікування — спокійно і щиро. Раунд два?",
           "translationType": "automated",
           "manualTranslation": false
         },
@@ -43,7 +43,7 @@
         {
           "id": 52202,
           "intensity": "bold",
-          "text": "Между нами есть импульс — не хочу его терять.",
+          "text": "Між нами є імпульс — не хочу його втрачати.",
           "translationType": "automated",
           "manualTranslation": false
         }
