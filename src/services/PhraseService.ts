@@ -42,10 +42,20 @@ class PhraseService {
   private initialized = false;
   private useLargeDataset = false;
   private currentLanguage: string | null = null;
+  private translationMap: Map<string, string> = new Map();
+
+  // Helper: accept only manual translations from JSON dictionaries
+  private isManualTranslationEntry(p: any): boolean {
+    if (!p) return false;
+    if (typeof p.manualTranslation === 'boolean') return p.manualTranslation === true;
+    if (typeof p.translationType === 'string') return p.translationType === 'manual';
+    // If no flags are present (small dictionaries), treat as manual content
+    return true;
+  }
 
   // Lazy loading configuration
   private readonly CHUNK_SIZE = 1000; // Load phrases in chunks
-  private readonly MAX_MEMORY_PHRASES = 5000; // Keep max phrases in memory
+  private readonly MAX_MEMORY_PHRASES = 20000; // Keep max phrases in memory (raised)
   private readonly INITIAL_LOAD_SIZE = 50; // Initial phrases per category
 
   private async getCurrentLanguage(): Promise<string> {
@@ -59,19 +69,31 @@ class PhraseService {
 
   private async getLocalizedPhraseText(phraseId: string, language: string): Promise<string> {
     try {
+      // Fast path: use prebuilt translation map if available
+      if (this.translationMap.size > 0) {
+        const hit = this.translationMap.get(phraseId);
+        if (hit) return hit;
+        // Not translated manually – fall back immediately to original text
+        const original = this.phrases.find(p => p.id === phraseId)?.text || '';
+        return original;
+      }
       // Try to load translation file
       if (language !== 'en') {
         try {
-          // For large files, use smaller translation files to avoid memory issues
+          // Prefer large translations when using the large dataset; fallback to small
           let translations;
+          const preferLarge = this.useLargeDataset;
           switch (language) {
             case 'ru':
               try {
-                // Try small file first to avoid memory issues
-                translations = require('../data/translations/ru.json');
+                translations = preferLarge
+                  ? require('../data/translations-large/ru.json')
+                  : require('../data/translations/ru.json');
               } catch {
                 try {
-                  translations = require('../data/translations-large/ru.json');
+                  translations = preferLarge
+                    ? require('../data/translations/ru.json')
+                    : require('../data/translations-large/ru.json');
                 } catch {
                   translations = null;
                 }
@@ -79,10 +101,14 @@ class PhraseService {
               break;
             case 'es':
               try {
-                translations = require('../data/translations/es.json');
+                translations = preferLarge
+                  ? require('../data/translations-large/es.json')
+                  : require('../data/translations/es.json');
               } catch {
                 try {
-                  translations = require('../data/translations-large/es.json');
+                  translations = preferLarge
+                    ? require('../data/translations/es.json')
+                    : require('../data/translations-large/es.json');
                 } catch {
                   translations = null;
                 }
@@ -90,10 +116,14 @@ class PhraseService {
               break;
             case 'de':
               try {
-                translations = require('../data/translations/de.json');
+                translations = preferLarge
+                  ? require('../data/translations-large/de.json')
+                  : require('../data/translations/de.json');
               } catch {
                 try {
-                  translations = require('../data/translations-large/de.json');
+                  translations = preferLarge
+                    ? require('../data/translations/de.json')
+                    : require('../data/translations-large/de.json');
                 } catch {
                   translations = null;
                 }
@@ -101,10 +131,14 @@ class PhraseService {
               break;
             case 'fr':
               try {
-                translations = require('../data/translations/fr.json');
+                translations = preferLarge
+                  ? require('../data/translations-large/fr.json')
+                  : require('../data/translations/fr.json');
               } catch {
                 try {
-                  translations = require('../data/translations-large/fr.json');
+                  translations = preferLarge
+                    ? require('../data/translations/fr.json')
+                    : require('../data/translations-large/fr.json');
                 } catch {
                   translations = null;
                 }
@@ -112,20 +146,29 @@ class PhraseService {
               break;
             case 'pt':
               try {
-                // Always use small file first for Portuguese to avoid memory issues
-                translations = require('../data/translations/pt.json');
+                translations = preferLarge
+                  ? require('../data/translations-large/pt.json')
+                  : require('../data/translations/pt.json');
               } catch {
-                // Skip large file for Portuguese to prevent compilation errors
-                console.warn('Portuguese large translation file skipped to prevent memory issues');
-                translations = null;
+                try {
+                  translations = preferLarge
+                    ? require('../data/translations/pt.json')
+                    : require('../data/translations-large/pt.json');
+                } catch {
+                  translations = null;
+                }
               }
               break;
             case 'ja':
               try {
-                translations = require('../data/translations/ja.json');
+                translations = preferLarge
+                  ? require('../data/translations-large/ja.json')
+                  : require('../data/translations/ja.json');
               } catch {
                 try {
-                  translations = require('../data/translations-large/ja.json');
+                  translations = preferLarge
+                    ? require('../data/translations/ja.json')
+                    : require('../data/translations-large/ja.json');
                 } catch {
                   translations = null;
                 }
@@ -133,10 +176,14 @@ class PhraseService {
               break;
             case 'zh':
               try {
-                translations = require('../data/translations/zh.json');
+                translations = preferLarge
+                  ? require('../data/translations-large/zh.json')
+                  : require('../data/translations/zh.json');
               } catch {
                 try {
-                  translations = require('../data/translations-large/zh.json');
+                  translations = preferLarge
+                    ? require('../data/translations/zh.json')
+                    : require('../data/translations-large/zh.json');
                 } catch {
                   translations = null;
                 }
@@ -144,10 +191,14 @@ class PhraseService {
               break;
             case 'ko':
               try {
-                translations = require('../data/translations/ko.json');
+                translations = preferLarge
+                  ? require('../data/translations-large/ko.json')
+                  : require('../data/translations/ko.json');
               } catch {
                 try {
-                  translations = require('../data/translations-large/ko.json');
+                  translations = preferLarge
+                    ? require('../data/translations/ko.json')
+                    : require('../data/translations-large/ko.json');
                 } catch {
                   translations = null;
                 }
@@ -155,13 +206,10 @@ class PhraseService {
               break;
             case 'ua':
               try {
+                // Large UA translation file is invalid; use small only
                 translations = require('../data/translations/ua.json');
               } catch {
-                try {
-                  translations = require('../data/translations-large/ua.json');
-                } catch {
-                  translations = null;
-                }
+                translations = null;
               }
               break;
             default:
@@ -169,13 +217,14 @@ class PhraseService {
           }
 
           if (translations) {
-            // Find the phrase in translations
+            // Find the phrase in translations but only if marked as manual
             for (const [categoryKey, categoryData] of Object.entries(translations.categories)) {
-              const translatedPhrase = (categoryData as any).phrases.find((p: PhraseData) =>
-                `${categoryKey}_${p.id}` === phraseId
+              const translatedPhrase = (categoryData as any).phrases.find((p: any) =>
+                `${categoryKey}_${p.id}` === phraseId && this.isManualTranslationEntry(p)
               );
               if (translatedPhrase) {
-                return translatedPhrase.text;
+                this.translationMap.set(phraseId, (translatedPhrase as any).text);
+                return (translatedPhrase as any).text;
               }
             }
           }
@@ -196,50 +245,85 @@ class PhraseService {
   }
 
   /**
+   * Build a translation index for the active language, preferring large files.
+   */
+  private async buildTranslationIndex(language: string): Promise<void> {
+    this.translationMap.clear();
+    if (language === 'en') return; // English uses source text
+
+    let dict: any = null;
+    let alt: any = null;
+    // Use static requires for Metro compatibility
+    switch (language) {
+      case 'ru':
+        dict = this.useLargeDataset ? require('../data/translations-large/ru.json') : null;
+        alt = require('../data/translations/ru.json');
+        break;
+      case 'es':
+        dict = this.useLargeDataset ? require('../data/translations-large/es.json') : null;
+        alt = require('../data/translations/es.json');
+        break;
+      case 'de':
+        dict = this.useLargeDataset ? require('../data/translations-large/de.json') : null;
+        alt = require('../data/translations/de.json');
+        break;
+      case 'fr':
+        dict = this.useLargeDataset ? require('../data/translations-large/fr.json') : null;
+        alt = require('../data/translations/fr.json');
+        break;
+      case 'pt':
+        dict = this.useLargeDataset ? require('../data/translations-large/pt.json') : null;
+        alt = require('../data/translations/pt.json');
+        break;
+      case 'ja':
+        dict = this.useLargeDataset ? require('../data/translations-large/ja.json') : null;
+        alt = require('../data/translations/ja.json');
+        break;
+      case 'zh':
+        dict = this.useLargeDataset ? require('../data/translations-large/zh.json') : null;
+        alt = require('../data/translations/zh.json');
+        break;
+      case 'ko':
+        dict = this.useLargeDataset ? require('../data/translations-large/ko.json') : null;
+        alt = require('../data/translations/ko.json');
+        break;
+      case 'ua':
+        // Skip large UA file (invalid JSON); only include small dictionary
+        dict = null;
+        alt = require('../data/translations/ua.json');
+        break;
+      default:
+        dict = null;
+        alt = null;
+    }
+
+    const addToIndex = (translations: any) => {
+      if (!translations || !translations.categories) return;
+      for (const [categoryKey, categoryData] of Object.entries(translations.categories)) {
+        const phrases = (categoryData as any).phrases as PhraseData[] | undefined;
+        if (!Array.isArray(phrases)) continue;
+        for (const p of phrases) {
+          const id = `${categoryKey}_${(p as any).id}`;
+          // Only index manual translations; skip automated or mixed ones
+          if (!this.translationMap.has(id) && this.isManualTranslationEntry(p)) {
+            this.translationMap.set(id, (p as any).text);
+          }
+        }
+      }
+    };
+
+    if (dict) addToIndex(dict);
+    if (alt) addToIndex(alt);
+  }
+
+  /**
    * Determines whether we can safely use the large dataset for the
    * current language. We only use it for English or when a corresponding
    * large translation file exists for the language.
    */
   private canUseLargeDatasetForLanguage(language: string): boolean {
-    if (language === 'en') return true;
-    try {
-      // Probe for a matching large translation file; if it throws, it's not available
-      switch (language) {
-        case 'ru':
-          require('../data/translations-large/ru.json');
-          break;
-        case 'es':
-          require('../data/translations-large/es.json');
-          break;
-        case 'de':
-          require('../data/translations-large/de.json');
-          break;
-        case 'fr':
-          require('../data/translations-large/fr.json');
-          break;
-        case 'pt':
-          // Portuguese large file intentionally skipped in getLocalizedPhraseText
-          // Treat as unavailable to avoid memory issues
-          return false;
-        case 'ja':
-          require('../data/translations-large/ja.json');
-          break;
-        case 'zh':
-          require('../data/translations-large/zh.json');
-          break;
-        case 'ko':
-          require('../data/translations-large/ko.json');
-          break;
-        case 'ua':
-          require('../data/translations-large/ua.json');
-          break;
-        default:
-          return false;
-      }
-      return true;
-    } catch {
-      return false;
-    }
+    // Allow large dataset for all languages; text localizes via manual-only dictionary
+    return true;
   }
 
   private async loadPhrasesFromJSON(): Promise<void> {
@@ -247,39 +331,18 @@ class PhraseService {
       const language = await this.getCurrentLanguage();
       this.currentLanguage = language;
       
-      // Prefer large dataset only if translations are available for the language
-      const allowLarge = this.canUseLargeDatasetForLanguage(language);
-      if (allowLarge) {
-        try {
-          this.largePhrasesDatabase = require('../data/phrases-large.json') as PhrasesDatabase;
-          this.useLargeDataset = true;
-          console.log('✅ Large dataset available - using lazy loading');
-          
-          // Load only a small subset initially
-          await this.loadInitialPhrases();
-        } catch (largeError) {
-          console.log('Large dataset not found, using standard dataset');
-          // Fallback to standard dataset
-          const phrasesData = require('../data/phrases.json') as PhrasesDatabase;
-          this.phrasesDatabase = phrasesData;
-          this.useLargeDataset = false;
-          
-          // Convert JSON data to legacy format
-          this.phrases = [];
-          for (const [categoryKey, categoryData] of Object.entries(this.phrasesDatabase.categories)) {
-            for (const phraseData of categoryData.phrases) {
-              const legacyPhrase = convertPhraseDataToLegacy(phraseData, categoryKey, language, false);
-              this.phrases.push(legacyPhrase);
-            }
-          }
-        }
-      } else {
-        // Large dataset not allowed for this language – use standard dataset
+      try {
+        // Prefer large dataset for breadth; show manual translations where available,
+        // otherwise the original English phrase text.
+        this.largePhrasesDatabase = require('../data/phrases-large.json') as PhrasesDatabase;
+        this.useLargeDataset = true;
+        console.log('✅ Large dataset enabled (lazy loading)');
+        await this.loadInitialPhrases();
+      } catch (largeError) {
+        console.log('Large dataset not found, using standard dataset');
         const phrasesData = require('../data/phrases.json') as PhrasesDatabase;
         this.phrasesDatabase = phrasesData;
         this.useLargeDataset = false;
-        
-        // Convert JSON data to legacy format
         this.phrases = [];
         for (const [categoryKey, categoryData] of Object.entries(this.phrasesDatabase.categories)) {
           for (const phraseData of categoryData.phrases) {
@@ -288,6 +351,9 @@ class PhraseService {
           }
         }
       }
+
+      // Build translation index for current language
+      await this.buildTranslationIndex(language);
       
       console.log(`✅ Loaded ${this.phrases.length} phrases from JSON database`);
     } catch (error) {
@@ -324,7 +390,8 @@ class PhraseService {
       // Load more phrases for specific category
       const categoryData = this.largePhrasesDatabase.categories[category];
       if (categoryData) {
-        const currentCount = this.phrases.filter(p => p.category === LARGE_CATEGORY_MAPPING[category]).length;
+        // Count only phrases that came from this exact large category by id prefix
+        const currentCount = this.phrases.filter(p => p.id.startsWith(`${category}_`)).length;
         const newPhrases = categoryData.phrases.slice(currentCount, currentCount + limit);
         
         for (const phraseData of newPhrases) {
@@ -339,7 +406,8 @@ class PhraseService {
       
       for (const categoryKey of categories) {
         const categoryData = this.largePhrasesDatabase.categories[categoryKey];
-        const currentCount = this.phrases.filter(p => p.category === LARGE_CATEGORY_MAPPING[categoryKey]).length;
+        // Count only phrases that came from this exact large category by id prefix
+        const currentCount = this.phrases.filter(p => p.id.startsWith(`${categoryKey}_`)).length;
         const newPhrases = categoryData.phrases.slice(currentCount, currentCount + phrasesPerCategory);
         
         for (const phraseData of newPhrases) {
@@ -418,14 +486,9 @@ class PhraseService {
 
     let filteredPhrases = [...this.phrases];
 
-    // If using large dataset and we need more results, load more phrases
-    if (this.useLargeDataset && loadMore && filteredPhrases.length < 100) {
-      const categoryKey = filters.category ? this.getCategoryKeyFromLegacy(filters.category) : undefined;
-      await this.loadMorePhrases(categoryKey);
-      filteredPhrases = [...this.phrases];
-    }
+    // Keep full breadth of phrases; manual translations are applied where available
 
-    // Apply filters
+    // Apply filters first so we can decide whether to load more based on filtered count
     if (filters.category) {
       filteredPhrases = filteredPhrases.filter(
         phrase => phrase.category === filters.category,
@@ -459,6 +522,52 @@ class PhraseService {
       );
     }
 
+    // If using large dataset and filtered results look sparse, load more from relevant category
+    if (this.useLargeDataset && loadMore) {
+      const threshold = 100; // ensure at least this many per search
+      if (filteredPhrases.length < threshold) {
+        if (filters.category) {
+          const keys = this.getAllLargeKeysForLegacy(filters.category);
+          const perKey = Math.max(1, Math.floor(this.CHUNK_SIZE / Math.max(1, keys.length)));
+          for (const k of keys) {
+            await this.loadMorePhrases(k, perKey);
+          }
+        } else {
+          await this.loadMorePhrases(undefined);
+        }
+        // Recompute after loading more
+        filteredPhrases = [...this.phrases];
+        if (filters.category) {
+          filteredPhrases = filteredPhrases.filter(
+            phrase => phrase.category === filters.category,
+          );
+        }
+        if (filters.situation) {
+          filteredPhrases = filteredPhrases.filter(
+            phrase => phrase.situation === filters.situation,
+          );
+        }
+        if (filters.tone) {
+          filteredPhrases = filteredPhrases.filter(
+            phrase => phrase.tone === filters.tone,
+          );
+        }
+        if (filters.tags && filters.tags.length > 0) {
+          filteredPhrases = filteredPhrases.filter(phrase =>
+            filters.tags!.some(tag => phrase.tags.includes(tag)),
+          );
+        }
+        if (filters.searchText) {
+          const searchLower = filters.searchText.toLowerCase();
+          filteredPhrases = filteredPhrases.filter(
+            phrase =>
+              phrase.text.toLowerCase().includes(searchLower) ||
+              phrase.tags.some(tag => tag.toLowerCase().includes(searchLower)),
+          );
+        }
+      }
+    }
+
     // Apply localization
     const lang = await this.getCurrentLanguage();
     const localizedPhrases = await Promise.all(
@@ -480,11 +589,44 @@ class PhraseService {
     return this.phrases.length;
   }
 
+  // Ensure at least a minimum number of phrases are loaded for a given legacy category
+  async ensureMinPhrases(minCount: number, category?: PhraseCategory): Promise<void> {
+    await this.initialize();
+    await this.ensureLanguageSynced();
+    if (!this.useLargeDataset || !this.largePhrasesDatabase) return;
+
+    const countFor = (): number => {
+      if (!category) return this.phrases.length;
+      return this.phrases.filter(p => p.category === category).length;
+    };
+
+    let attempts = 0;
+    const maxAttempts = 20; // safety guard
+    while (countFor() < minCount && attempts < maxAttempts) {
+      if (category) {
+        const keys = this.getAllLargeKeysForLegacy(category);
+        const perKey = Math.max(250, Math.floor(this.CHUNK_SIZE / Math.max(1, keys.length)));
+        for (const k of keys) {
+          await this.loadMorePhrases(k, perKey);
+        }
+      } else {
+        await this.loadMorePhrases(undefined);
+      }
+      attempts++;
+    }
+  }
+
   // New method to load more phrases on demand
   async loadMorePhrasesOnDemand(category?: PhraseCategory): Promise<void> {
-    if (this.useLargeDataset) {
-      const categoryKey = category ? this.getCategoryKeyFromLegacy(category) : undefined;
-      await this.loadMorePhrases(categoryKey);
+    if (!this.useLargeDataset) return;
+    if (category) {
+      const keys = this.getAllLargeKeysForLegacy(category);
+      const perKey = Math.max(1, Math.floor(this.CHUNK_SIZE / Math.max(1, keys.length)));
+      for (const k of keys) {
+        await this.loadMorePhrases(k, perKey);
+      }
+    } else {
+      await this.loadMorePhrases(undefined);
     }
   }
 
@@ -504,6 +646,17 @@ class PhraseService {
       [PhraseCategory.RELATIONSHIP_BUILDING]: 'future_plans',
     };
     return reverseMapping[category] || 'icebreakers';
+  }
+
+  // For large dataset: return all category keys that map to a given legacy category
+  private getAllLargeKeysForLegacy(category: PhraseCategory): string[] {
+    const keys: string[] = [];
+    for (const [key, value] of Object.entries(LARGE_CATEGORY_MAPPING)) {
+      if (value === category) keys.push(key);
+    }
+    // Fallback to a single key if none matched
+    if (keys.length === 0) keys.push(this.getCategoryKeyFromLegacy(category));
+    return keys;
   }
 
   async getRandomPhrase(filters: SearchFilters = {}): Promise<Phrase | null> {
@@ -565,7 +718,7 @@ class PhraseService {
     await this.saveUsageStats();
   }
 
-  async getMostUsedPhrases(limit: number = 10): Promise<Phrase[]> {
+  async getMostUsedPhrases(limit: number = 1000): Promise<Phrase[]> {
     await this.initialize();
     await this.ensureLanguageSynced();
 
