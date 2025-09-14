@@ -115,12 +115,19 @@ export function convertPhraseDataToLegacy(
   useLargeMapping: boolean = false
 ): Phrase {
   const mapping = useLargeMapping ? LARGE_CATEGORY_MAPPING : CATEGORY_MAPPING;
+  const legacyCategory = mapping[categoryKey] || PhraseCategory.CASUAL;
+  // Base tone by intensity
+  let tone = INTENSITY_TO_TONE[phraseData.intensity] || PhraseTone.SINCERE;
+  // Force humorous tone for playful challenges so Collections "Смешные" work as expected
+  if (legacyCategory === PhraseCategory.FUNNY) {
+    tone = PhraseTone.HUMOROUS;
+  }
   return {
     id: `${categoryKey}_${phraseData.id}`,
     text: phraseData.text,
-    category: mapping[categoryKey] || PhraseCategory.CASUAL,
+    category: legacyCategory,
     situation: PhraseSituation.DAILY_CHAT, // Default situation
-    tone: INTENSITY_TO_TONE[phraseData.intensity] || PhraseTone.SINCERE,
+    tone,
     tags: [], // Empty tags for now, can be populated later
   };
 }

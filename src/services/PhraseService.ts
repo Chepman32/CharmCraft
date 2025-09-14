@@ -475,8 +475,56 @@ class PhraseService {
         text: await this.getLocalizedPhraseText(p.id, lang),
       }))
     );
-    
-    return localizedPhrases;
+
+    // Drop poorly localized lines (e.g., English leftovers) for Cyrillic languages
+    const looksLocalized = (text: string, language: string): boolean => {
+      if (!text) return false;
+      if (language === 'ru' || language === 'ua') {
+        const cyr = (text.match(/[\u0400-\u04FF]/g) || []).length;
+        const lat = (text.match(/[A-Za-z]/g) || []).length;
+        // keep if has at least a few Cyrillic chars and not dominated by Latin
+        return cyr >= 3 && cyr >= lat;
+      }
+      return true;
+    };
+
+    const localizedFiltered = localizedPhrases.filter(p => looksLocalized(p.text, lang));
+
+    // Deduplicate by normalized text to avoid near-identical repeats in UI
+    const seen = new Set<string>();
+    const unique: Phrase[] = [];
+    for (const p of localizedFiltered) {
+      let norm = (p.text || '')
+        .toLowerCase()
+        .replace(/[\s\u00A0]+/g, ' ')
+        // collapse common time-of-day variations to curb repetitiveness
+        .replace(/\b(утро|день|вечер|ночь)\b/g, 'время')
+        // unify possessive pronoun gender forms
+        .replace(/\bтво(й|я|ё|е)\b/g, 'твой')
+        // drop greeting at start (e.g., "привет! ")
+        .replace(/^привет!?\s*/g, '')
+        // reduce pattern "твой <something> сделал(а) мой день" to a single key
+        .replace(/твой [^.!?]{0,60}? сделал(а)? мой день/g, 'твой сделал мой день')
+        // normalize "как твой/твоя/твоё время" to "как время"
+        .replace(/как\s+твой\s+время/g, 'как время')
+        .replace(/как\s+твоя\s+время/g, 'как время')
+        .replace(/как\s+твоё\s+время/g, 'как время')
+        .replace(/[.!?]+$/g, '')
+        .trim();
+
+      // Extra-aggressive grouping for Conversation Starter: 
+      // drop the preface "твой сделал мой день" so все «привет! твой ... сделал мой день. как ...?»
+      // схлопываются в один ключ «как время»
+      if (filters.category === PhraseCategory.CONVERSATION_STARTER) {
+        norm = norm.replace(/^твой сделал мой день\.?\s*/g, '');
+      }
+      if (!seen.has(norm)) {
+        seen.add(norm);
+        unique.push(p);
+      }
+    }
+
+    return unique;
   }
 
   // New method to get total phrase count

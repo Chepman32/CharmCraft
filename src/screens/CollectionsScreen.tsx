@@ -101,13 +101,10 @@ const CollectionsScreen: React.FC = () => {
       });
       return [...deep, ...goodMorning, ...relationship];
     } else if (selectedCategory === PhraseCategory.FUNNY) {
-      const starters = await PhraseService.searchPhrases({
-        category: PhraseCategory.CONVERSATION_STARTER,
+      // For Funny tab, use the dedicated FUNNY category (playful_challenges)
+      return await PhraseService.searchPhrases({
+        category: PhraseCategory.FUNNY,
       });
-      const flirty = await PhraseService.searchPhrases({
-        category: PhraseCategory.FLIRTY,
-      });
-      return [...starters, ...flirty];
     } else {
       return await PhraseService.searchPhrases({
         category: selectedCategory,
@@ -126,10 +123,7 @@ const CollectionsScreen: React.FC = () => {
           PhraseService.ensureMinPhrases(2000, PhraseCategory.RELATIONSHIP_BUILDING),
         ]);
       } else if (selectedCategory === PhraseCategory.FUNNY) {
-        await Promise.all([
-          PhraseService.ensureMinPhrases(2000, PhraseCategory.CONVERSATION_STARTER),
-          PhraseService.ensureMinPhrases(2000, PhraseCategory.FLIRTY),
-        ]);
+        await PhraseService.ensureMinPhrases(2000, PhraseCategory.FUNNY);
       } else {
         await PhraseService.ensureMinPhrases(2000, selectedCategory);
       }
@@ -159,10 +153,7 @@ const CollectionsScreen: React.FC = () => {
           PhraseService.loadMorePhrasesOnDemand(PhraseCategory.RELATIONSHIP_BUILDING),
         ]);
       } else if (selectedCategory === PhraseCategory.FUNNY) {
-        await Promise.all([
-          PhraseService.loadMorePhrasesOnDemand(PhraseCategory.CONVERSATION_STARTER),
-          PhraseService.loadMorePhrasesOnDemand(PhraseCategory.FLIRTY),
-        ]);
+        await PhraseService.loadMorePhrasesOnDemand(PhraseCategory.FUNNY);
       } else {
         await PhraseService.loadMorePhrasesOnDemand(selectedCategory);
       }
