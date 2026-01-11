@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, Text, FlatList, StyleSheet, SafeAreaView } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { useTheme } from '../contexts/ThemeContext';
 import { useTranslation } from '../contexts/LocalizationContext';
 import { Phrase } from '../data/phraseTypes';
@@ -17,11 +18,7 @@ const FavoritesScreen: React.FC = () => {
     return null;
   }
 
-  useEffect(() => {
-    loadFavorites();
-  }, []);
-
-  const loadFavorites = async () => {
+  const loadFavorites = useCallback(async () => {
     try {
       setLoading(true);
       const result = await PhraseService.getFavorites();
@@ -31,7 +28,13 @@ const FavoritesScreen: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      loadFavorites();
+    }, [loadFavorites]),
+  );
 
   const renderFavoriteItem = ({ item }: { item: Phrase }) => (
     <PhraseCard phrase={item} onFavoriteToggle={loadFavorites} />
