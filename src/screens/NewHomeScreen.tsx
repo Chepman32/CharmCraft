@@ -344,7 +344,14 @@ const NewHomeScreen: React.FC = () => {
             onPress={handleCopyPhrase}
             activeOpacity={0.8}
           >
-            <Text style={styles.phraseText}>{currentPhrase}</Text>
+            <Text
+              style={styles.phraseText}
+              adjustsFontSizeToFit={true}
+              minimumFontScale={0.85}
+              numberOfLines={7}
+            >
+              {currentPhrase}
+            </Text>
           </TouchableOpacity>
 
           {/* Intensity Selector */}
@@ -502,6 +509,7 @@ const createStyles = (theme: any) =>
       marginHorizontal: 20,
       marginBottom: 20,
       minHeight: 140,
+      maxHeight: 200,
       justifyContent: 'center',
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 4 },
