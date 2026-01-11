@@ -14,9 +14,9 @@ import {
   handleDatabaseError,
 } from '../utils/errorHandler';
 
-const PHRASES_STORAGE_KEY = 'charmcraft_phrases';
-const FAVORITES_STORAGE_KEY = 'charmcraft_favorites';
-const USAGE_STATS_KEY = 'charmcraft_usage_stats';
+const PHRASES_STORAGE_KEY = 'kissio_phrases';
+const FAVORITES_STORAGE_KEY = 'kissio_favorites';
+const USAGE_STATS_KEY = 'kissio_usage_stats';
 
 export interface SearchFilters {
   category?: PhraseCategory;
@@ -63,7 +63,7 @@ class PhraseService {
 
   private async getCurrentLanguage(): Promise<string> {
     try {
-      const savedLanguage = await AsyncStorage.getItem('charmcraft_language');
+      const savedLanguage = await AsyncStorage.getItem('kissio_language');
       return savedLanguage || 'en';
     } catch {
       return 'en';

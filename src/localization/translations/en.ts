@@ -28,14 +28,14 @@ export const en = {
     mono: 'Mono',
   },
   home: {
-    title: 'CharmCraft',
+    title: 'Kissio',
     search: 'Search',
     getSuggestion: 'Get Suggestion',
     intensity: 'Intensity',
     soft: 'Soft',
     neutral: 'Neutral',
     bold: 'Bold',
-    loadingTitle: 'CharmCraft',
+    loadingTitle: 'Kissio',
     loadingText: 'Loading your perfect phrases...',
   },
   categories: {
@@ -45,6 +45,7 @@ export const en = {
     longDistance: 'Long-distance',
     everyday: 'Everyday',
     birthday: 'Birthday',
+    goodMorning: 'Good Morning / Good Night',
   },
   favorites: {
     title: 'Favorites',

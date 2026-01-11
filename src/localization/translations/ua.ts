@@ -26,14 +26,14 @@ export const ua: typeof en = {
   },
   home: {
     ...en.home,
-    title: 'CharmCraft',
+    title: 'Kissio',
     search: 'Пошук',
     getSuggestion: 'Отримати пропозицію',
     intensity: 'Інтенсивність',
     soft: "М'яка",
     neutral: 'Нейтральна',
     bold: 'Смілива',
-    loadingTitle: 'CharmCraft',
+    loadingTitle: 'Kissio',
     loadingText: 'Завантажуємо ваші ідеальні фрази...',
   },
   categories: {
@@ -44,6 +44,7 @@ export const ua: typeof en = {
     longDistance: 'Далекі стосунки',
     everyday: 'Повсякденні',
     birthday: 'День народження',
+    goodMorning: 'Доброго ранку / Спокійної ночі',
   },
   favorites: {
     ...en.favorites,

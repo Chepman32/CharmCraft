@@ -34,14 +34,14 @@ export const ru: typeof en = {
   },
   home: {
     ...en.home,
-    title: 'CharmCraft',
+    title: 'Kissio',
     search: 'Поиск',
     getSuggestion: 'Получить предложение',
     intensity: 'Интенсивность',
     soft: 'Мягкая',
     neutral: 'Нейтральная',
     bold: 'Смелая',
-    loadingTitle: 'CharmCraft',
+    loadingTitle: 'Kissio',
     loadingText: 'Загружаем ваши идеальные фразы...',
   },
   categories: {
@@ -52,6 +52,7 @@ export const ru: typeof en = {
     longDistance: 'Дальние отношения',
     everyday: 'Повседневные',
     birthday: 'День рождения',
+    goodMorning: 'Доброе утро / Спокойной ночи',
   },
   favorites: {
     ...en.favorites,

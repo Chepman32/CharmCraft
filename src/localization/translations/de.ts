@@ -26,14 +26,14 @@ export const de: typeof en = {
   },
   home: {
     ...en.home,
-    title: 'CharmCraft',
+    title: 'Kissio',
     search: 'Suchen',
     getSuggestion: 'Vorschlag erhalten',
     intensity: 'Intensität',
     soft: 'Sanft',
     neutral: 'Neutral',
     bold: 'Kühn',
-    loadingTitle: 'CharmCraft',
+    loadingTitle: 'Kissio',
     loadingText: 'Lade deine perfekten Phrasen...',
   },
   categories: {
@@ -44,6 +44,7 @@ export const de: typeof en = {
     longDistance: 'Fernbeziehung',
     everyday: 'Alltäglich',
     birthday: 'Geburtstag',
+    goodMorning: 'Guten Morgen / Gute Nacht',
   },
   favorites: {
     ...en.favorites,

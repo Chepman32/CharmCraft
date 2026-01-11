@@ -1,4 +1,4 @@
-package com.charmcraft
+package com.kissio
 
 import android.app.Application
 import com.facebook.react.PackageList

@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "CharmCraft.app"
-               BlueprintName = "CharmCraft"
-               ReferencedContainer = "container:CharmCraft.xcodeproj">
+               BuildableName = "Kissio.app"
+               BlueprintName = "Kissio"
+               ReferencedContainer = "container:Kissio.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "CharmCraftTests.xctest"
-               BlueprintName = "CharmCraftTests"
-               ReferencedContainer = "container:CharmCraft.xcodeproj">
+               BuildableName = "KissioTests.xctest"
+               BlueprintName = "KissioTests"
+               ReferencedContainer = "container:Kissio.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "CharmCraft.app"
-            BlueprintName = "CharmCraft"
-            ReferencedContainer = "container:CharmCraft.xcodeproj">
+            BuildableName = "Kissio.app"
+            BlueprintName = "Kissio"
+            ReferencedContainer = "container:Kissio.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "CharmCraft.app"
-            BlueprintName = "CharmCraft"
-            ReferencedContainer = "container:CharmCraft.xcodeproj">
+            BuildableName = "Kissio.app"
+            BlueprintName = "Kissio"
+            ReferencedContainer = "container:Kissio.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

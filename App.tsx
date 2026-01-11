@@ -1,5 +1,5 @@
 /**
- * CharmCraft - Relationship Advice App
+ * Kissio - Relationship Advice App
  * Perfect words for every moment
  *
  * @format

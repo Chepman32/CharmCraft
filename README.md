@@ -1,6 +1,6 @@
-# CharmCraft - Relationship Advice App
+# Kissio - Relationship Advice App
 
-Perfect words for every moment in your relationship. CharmCraft helps you find the right phrases for conversations, compliments, flirty messages, and romantic expressions.
+Perfect words for every moment in your relationship. Kissio helps you find the right phrases for conversations, compliments, flirty messages, and romantic expressions.
 
 ## Features
 
@@ -63,7 +63,7 @@ Perfect words for every moment in your relationship. CharmCraft helps you find t
 
 ```bash
 git clone <repository-url>
-cd CharmCraft
+cd Kissio
 ```
 
 2. Install dependencies:
@@ -188,4 +188,4 @@ For support, please open an issue on the GitHub repository or contact the develo
 
 ---
 
-**CharmCraft** - Because the right words at the right time can make all the difference. ❤️
+**Kissio** - Because the right words at the right time can make all the difference. ❤️

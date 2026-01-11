@@ -24,7 +24,7 @@ const LocalizationContext = createContext<LocalizationContextType | undefined>(
   undefined,
 );
 
-const LANGUAGE_STORAGE_KEY = 'charmcraft_language';
+const LANGUAGE_STORAGE_KEY = 'kissio_language';
 
 interface LocalizationProviderProps {
   children: ReactNode;

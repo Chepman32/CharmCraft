@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 const SimpleTest: React.FC = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>CharmCraft Test</Text>
+      <Text style={styles.text}>Kissio Test</Text>
       <Text style={styles.subtext}>
         If you see this, the basic app structure works
       </Text>

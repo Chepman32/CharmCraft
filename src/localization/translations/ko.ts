@@ -26,14 +26,14 @@ export const ko: typeof en = {
   },
   home: {
     ...en.home,
-    title: 'CharmCraft',
+    title: 'Kissio',
     search: '검색',
     getSuggestion: '제안 받기',
     intensity: '강도',
     soft: '부드럽게',
     neutral: '중립',
     bold: '대담하게',
-    loadingTitle: 'CharmCraft',
+    loadingTitle: 'Kissio',
     loadingText: '완벽한 문구를 로딩 중...',
   },
   categories: {
@@ -44,6 +44,7 @@ export const ko: typeof en = {
     longDistance: '장거리',
     everyday: '일상',
     birthday: '생일',
+    goodMorning: '좋은 아침 / 좋은 밤',
   },
   favorites: {
     ...en.favorites,

@@ -3,10 +3,10 @@ import SoundService from './SoundService';
 import HapticService from './HapticService';
 
 const SETTINGS_KEYS = {
-  THEME: 'charmcraft_theme',
-  LANGUAGE: 'charmcraft_language',
-  SOUND_ENABLED: 'charmcraft_sound_enabled',
-  HAPTICS_ENABLED: 'charmcraft_haptics_enabled',
+  THEME: 'kissio_theme',
+  LANGUAGE: 'kissio_language',
+  SOUND_ENABLED: 'kissio_sound_enabled',
+  HAPTICS_ENABLED: 'kissio_haptics_enabled',
 };
 
 export interface AppSettings {

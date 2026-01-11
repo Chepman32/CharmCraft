@@ -92449,7 +92449,7 @@
         {
           "id": 32603,
           "intensity": "neutral",
-          "text": "Good morning. may あなたの {p2} be productive",
+          "text": "Good morning. may it be productive",
           "translationType": "automated",
           "manualTranslation": false
         },
@@ -92477,7 +92477,7 @@
         {
           "id": 32607,
           "intensity": "neutral",
-          "text": "Good afternoon. may あなたの {p2} be productive",
+          "text": "Good afternoon. may it be productive",
           "translationType": "automated",
           "manualTranslation": false
         },
@@ -92505,7 +92505,7 @@
         {
           "id": 32611,
           "intensity": "neutral",
-          "text": "Good evening. may あなたの {p2} be productive",
+          "text": "Good evening. may it be productive",
           "translationType": "automated",
           "manualTranslation": false
         },
@@ -92533,7 +92533,7 @@
         {
           "id": 32615,
           "intensity": "neutral",
-          "text": "Good night. may あなたの {p2} be productive",
+          "text": "Good night. may it be productive",
           "translationType": "automated",
           "manualTranslation": false
         },

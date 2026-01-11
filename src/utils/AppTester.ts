@@ -4,7 +4,7 @@ import SettingsService from '../services/SettingsService';
 
 export class AppTester {
   static async runBasicTests(): Promise<boolean> {
-    console.log('🧪 Running CharmCraft basic tests...');
+    console.log('🧪 Running Kissio basic tests...');
 
     try {
       // Test 1: Theme system
@@ -107,7 +107,7 @@ export class AppTester {
   }
 
   static logSystemInfo(): void {
-    console.log('📱 CharmCraft System Info:');
+    console.log('📱 Kissio System Info:');
     console.log(`- Themes available: ${Object.keys(themes).length}`);
     console.log(`- Languages available: ${languages.length}`);
     console.log(`- Theme names: ${Object.keys(themes).join(', ')}`);

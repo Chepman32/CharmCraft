@@ -170,7 +170,7 @@ const HomeScreen: React.FC = () => {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.loadingContainer}>
-          <Text style={styles.loadingTitle}>CharmCraft</Text>
+          <Text style={styles.loadingTitle}>Kissio</Text>
           <Text style={styles.loadingText}>
             Loading your perfect phrases...
           </Text>
@@ -183,7 +183,7 @@ const HomeScreen: React.FC = () => {
     <SafeAreaView style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.title}>CharmCraft</Text>
+        <Text style={styles.title}>Kissio</Text>
         <Text style={styles.subtitle}>Perfect words for every moment</Text>
       </View>
 

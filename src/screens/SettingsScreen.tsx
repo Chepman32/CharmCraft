@@ -152,7 +152,7 @@ const SettingsScreen: React.FC = () => {
         >
           <View style={styles.aboutContent}>
             <Text style={[styles.appName, { color: theme.colors.text }]}>
-              CharmCraft
+              Kissio
             </Text>
             <Text
               style={[styles.appVersion, { color: theme.colors.textSecondary }]}

@@ -26,14 +26,14 @@ export const zh: typeof en = {
   },
   home: {
     ...en.home,
-    title: 'CharmCraft',
+    title: 'Kissio',
     search: '搜索',
     getSuggestion: '获取建议',
     intensity: '强度',
     soft: '柔和',
     neutral: '中性',
     bold: '大胆',
-    loadingTitle: 'CharmCraft',
+    loadingTitle: 'Kissio',
     loadingText: '正在加载您的完美短语...',
   },
   categories: {
@@ -44,6 +44,7 @@ export const zh: typeof en = {
     longDistance: '异地恋',
     everyday: '日常',
     birthday: '生日',
+    goodMorning: '早上好 / 晚安',
   },
   favorites: {
     ...en.favorites,

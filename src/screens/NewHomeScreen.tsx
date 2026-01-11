@@ -109,7 +109,7 @@ const NewHomeScreen: React.FC = () => {
     { key: PhraseCategory.APOLOGY, label: t('categories.apologies') },
     { key: PhraseCategory.ROMANTIC, label: t('categories.longDistance') },
     { key: PhraseCategory.CASUAL, label: t('categories.everyday') },
-    { key: PhraseCategory.GOOD_MORNING, label: t('categories.birthday') },
+    { key: PhraseCategory.GOOD_MORNING, label: t('categories.goodMorning') },
   ], [t]);
 
   const styles = React.useMemo(() => {
@@ -155,7 +155,8 @@ const NewHomeScreen: React.FC = () => {
           flexWrap: 'wrap',
           paddingHorizontal: 20,
           marginBottom: 30,
-          justifyContent: 'space-between',
+          justifyContent: 'flex-start',
+          gap: 10,
         },
         categoryButton: {
           backgroundColor: '#FFFFFF',
@@ -163,7 +164,7 @@ const NewHomeScreen: React.FC = () => {
           paddingHorizontal: 20,
           paddingVertical: 10,
           marginBottom: 10,
-          minWidth: (width - 60) / 2,
+          width: (width - 60) / 2 - 5,
           alignItems: 'center',
           shadowColor: '#000',
           shadowOffset: { width: 0, height: 1 },
@@ -465,7 +466,8 @@ const createStyles = (theme: any) =>
       flexWrap: 'wrap',
       paddingHorizontal: 20,
       marginBottom: 30,
-      justifyContent: 'space-between',
+      justifyContent: 'flex-start',
+      gap: 10,
     },
     categoryButton: {
       backgroundColor: theme.colors.surface,
@@ -473,7 +475,7 @@ const createStyles = (theme: any) =>
       paddingHorizontal: 20,
       paddingVertical: 10,
       marginBottom: 10,
-      minWidth: (width - 60) / 2,
+      width: (width - 60) / 2 - 5,
       alignItems: 'center',
       shadowColor: '#000',
       shadowOffset: { width: 0, height: 1 },

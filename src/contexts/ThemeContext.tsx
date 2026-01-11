@@ -126,7 +126,7 @@ interface ThemeContextType {
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-const THEME_STORAGE_KEY = 'charmcraft_theme';
+const THEME_STORAGE_KEY = 'kissio_theme';
 
 interface ThemeProviderProps {
   children: ReactNode;

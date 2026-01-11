@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Fix Russian translation file mixed-language strings
-RU_FILE="/Users/antonchepur/CharmCraft/src/data/translations-large/ru.json"
+RU_FILE="/Users/antonchepur/Kissio/src/data/translations-large/ru.json"
 
 # Replace all "look stunning" variations with proper Russian translations
 sed -i '' 's/Ты look stunning in that photo—so honestly\./Ты выглядишь потрясающе на этом фото — честно говоря./g' "$RU_FILE"

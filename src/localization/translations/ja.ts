@@ -26,14 +26,14 @@ export const ja: typeof en = {
   },
   home: {
     ...en.home,
-    title: 'CharmCraft',
+    title: 'Kissio',
     search: '検索',
     getSuggestion: '提案を取得',
     intensity: '強度',
     soft: 'ソフト',
     neutral: 'ニュートラル',
     bold: 'ボールド',
-    loadingTitle: 'CharmCraft',
+    loadingTitle: 'Kissio',
     loadingText: '完璧なフレーズを読み込み中...',
   },
   categories: {
@@ -44,6 +44,7 @@ export const ja: typeof en = {
     longDistance: '遠距離',
     everyday: '日常',
     birthday: '誕生日',
+    goodMorning: 'おはよう / おやすみ',
   },
   favorites: {
     ...en.favorites,
