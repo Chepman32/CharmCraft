@@ -7,43 +7,42 @@
         {
           "id": 51401,
           "intensity": "soft",
-          "text": "Мне действительно было приятно. С тобой легко.",
+          "text": "Anoche se sintió muy natural. Espero que podamos repetirlo pronto.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 51402,
           "intensity": "soft",
-          "text": "До сих пор улыбаюсь, вспоминая наш разговор. С тобой приятно.",
+          "text": "Todavía pienso en esa historia que me contaste en la cena.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 51801,
           "intensity": "neutral",
-          "text": "Tú превзошла мои ожидания — спокойно и искренне. Раунд два?",
+          "text": "La pasé muy bien contigo. ¿Estás libre este fin de semana?",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 51802,
           "intensity": "neutral",
-          "text": "Хотел(а) бы увидеться ещё раз. В какие дни удобно на следующей неделе?",
+          "text": "Realmente disfruté conocerte. ¿Quieres tomar un café el jueves?",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 52201,
           "intensity": "bold",
-          "text": "Quiero una segunda cita. Claro y simple. ¿Cuándo?",
-          "quality": 1,
-          "translationType": "manual",
-          "manualTranslation": true
+          "text": "No voy a andarme con rodeos – me encantaría verte otra vez. ¿Te viene bien el viernes?",
+          "translationType": "automated",
+          "manualTranslation": false
         },
         {
           "id": 52202,
           "intensity": "bold",
-          "text": "Между нами есть импульс — не хочу его терять.",
+          "text": "Estuvo increíble. No esperemos demasiado para la segunda ronda.",
           "translationType": "automated",
           "manualTranslation": false
         }
@@ -37694,46 +37693,44 @@
         {
           "id": 58901,
           "intensity": "soft",
-          "text": "We can take this at tu pace—i’m in no rush.",
+          "text": "Sin prisa – vayamos al ritmo que te resulte cómodo.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 58902,
           "intensity": "soft",
-          "text": "Si te need quiet tonight, i’ll meet te there.",
+          "text": "Solo avísame si voy demasiado rápido. Quiero que te sientas cómoda.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 59061,
           "intensity": "neutral",
-          "text": "Name tu pace and i’ll match it.",
+          "text": "Quiero asegurarme de que te sientas cómoda con todo. Solo dime si necesitamos ir más despacio.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 59062,
           "intensity": "neutral",
-          "text": "Si te need space, i’ll honor it—promise.",
+          "text": "Si alguna vez necesitas espacio, solo dilo. No hacen falta explicaciones.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 59221,
           "intensity": "bold",
-          "text": "El consentimiento y comodidad primero—siempre.",
-          "quality": 1,
-          "translationType": "manual",
-          "manualTranslation": true
+          "text": "Tu comodidad es más importante para mí que cualquier otra cosa. Siempre.",
+          "translationType": "automated",
+          "manualTranslation": false
         },
         {
           "id": 59222,
           "intensity": "bold",
-          "text": "Tus límites son mi guía.",
-          "quality": 1,
-          "translationType": "manual",
-          "manualTranslation": true
+          "text": "Necesito que sepas que tus límites se respetan completamente aquí.",
+          "translationType": "automated",
+          "manualTranslation": false
         }
       ]
     },
@@ -92658,42 +92655,42 @@
         {
           "id": 53901,
           "intensity": "soft",
-          "text": "Thanks for being so steady. it means more than i say.",
+          "text": "Gracias por ser tan comprensiva antes. Significa mucho.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 53902,
           "intensity": "soft",
-          "text": "Yo appreciate the way te listen—fully and warmly.",
+          "text": "Realmente aprecio que te hayas tomado el tiempo de escucharme hoy.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 54301,
           "intensity": "neutral",
-          "text": "Yo notice tu effort—even the quiet kind. thank ты.",
+          "text": "Solo quería darte las gracias por estar siempre ahí cuando te necesito.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 54302,
           "intensity": "neutral",
-          "text": "Tú make my life calmer and brighter. i’m grateful for ты.",
+          "text": "Hiciste mi semana mejor sin siquiera intentarlo. Gracias.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 54701,
           "intensity": "bold",
-          "text": "Tú a gift—and i не say that lightly. thank ты.",
+          "text": "No lo digo lo suficiente, pero realmente haces mi vida mejor.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 54702,
           "intensity": "bold",
-          "text": "Yo хочу te to know i won’t take te for granted.",
+          "text": "Gracias por ser exactamente como eres. Lo digo en serio.",
           "translationType": "automated",
           "manualTranslation": false
         }

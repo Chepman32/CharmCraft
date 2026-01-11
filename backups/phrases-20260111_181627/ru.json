@@ -4,46 +4,47 @@
       "description": "Follow-ups that keep momentum going.",
       "phrases": [
         {
+          "id": 51801,
+          "intensity": "нейтрально",
+          "text": "Было даже лучше, чем я ожидал — спокойно и естественно. Повторим?",
+          "translationType": "manual",
+          "manualTranslation": true
+        },
+        {
           "id": 51401,
           "intensity": "мягко",
-          "text": "Вчерашний вечер был таким естественным. Надеюсь, скоро повторим.",
-          "translationType": "automated",
-          "manualTranslation": false
+          "text": "Вчера было по-настоящему приятно. С тобой легко и спокойно.",
+          "translationType": "manual",
+          "manualTranslation": true
         },
         {
           "id": 51402,
           "intensity": "мягко",
-          "text": "Всё ещё думаю о той истории, что ты рассказывала за ужином.",
-          "translationType": "automated",
-          "manualTranslation": false
-        },
-        {
-          "id": 51801,
-          "intensity": "нейтрально",
-          "text": "Отлично провёл время с тобой. Свободна в выходные?",
-          "translationType": "automated",
-          "manualTranslation": false
-        },
-        {
-          "id": 51802,
-          "intensity": "нейтрально",
-          "text": "Мне правда понравилось знакомиться с тобой. Хочешь кофе в четверг?",
-          "translationType": "automated",
-          "manualTranslation": false
-        },
-        {
-          "id": 52201,
-          "intensity": "смело",
-          "text": "Не буду ходить вокруг да около — я бы с удовольствием встретился ещё. Пятница подойдёт?",
-          "translationType": "automated",
-          "manualTranslation": false
+          "text": "До сих пор улыбаюсь, вспоминая наш вечер. Спасибо за атмосферу.",
+          "translationType": "manual",
+          "manualTranslation": true
         },
         {
           "id": 52202,
           "intensity": "смело",
-          "text": "Было потрясающе. Давай не будем долго тянуть со вторым разом.",
-          "translationType": "automated",
-          "manualTranslation": false
+          "text": "Между нами хороший ритм — не хочется его отпускать. Продолжим?",
+          "translationType": "manual",
+          "manualTranslation": true
+        },
+        {
+          "id": 51802,
+          "intensity": "нейтрально",
+          "text": "С радостью встретился бы ещё раз. Когда тебе удобно на следующей неделе?",
+          "translationType": "manual",
+          "manualTranslation": true
+        },
+        {
+          "id": 52201,
+          "intensity": "смело",
+          "text": "Хочу второе свидание. Без экивоков. Когда тебе удобно?",
+          "quality": 1,
+          "translationType": "manual",
+          "manualTranslation": true
         }
       ],
       "title": "After the First Date"
@@ -34598,44 +34599,46 @@
         {
           "id": 58901,
           "intensity": "мягко",
-          "text": "Никуда не спешу — давай двигаться в том темпе, который тебе комфортен.",
-          "translationType": "automated",
-          "manualTranslation": false
-        },
-        {
-          "id": 58902,
-          "intensity": "мягко",
-          "text": "Просто дай мне знать, если я тороплю события. Хочу, чтобы тебе было комфортно.",
-          "translationType": "automated",
-          "manualTranslation": false
-        },
-        {
-          "id": 59061,
-          "intensity": "нейтрально",
-          "text": "Хочу убедиться, что тебе комфортно со всем. Просто скажи, если нужно притормозить.",
-          "translationType": "automated",
-          "manualTranslation": false
+          "text": "Давай двигаться в твоём темпе — я никуда не спешу.",
+          "translationType": "manual",
+          "manualTranslation": true
         },
         {
           "id": 59062,
           "intensity": "нейтрально",
-          "text": "Если тебе когда-нибудь понадобится пространство, просто скажи. Никаких объяснений не нужно.",
-          "translationType": "automated",
-          "manualTranslation": false
+          "text": "Если нужно пространство, я это уважаю — обещаю.",
+          "translationType": "manual",
+          "manualTranslation": true
+        },
+        {
+          "id": 58902,
+          "intensity": "мягко",
+          "text": "Если тебе сегодня хочется тишины, я рядом и не навязываюсь.",
+          "translationType": "manual",
+          "manualTranslation": true
+        },
+        {
+          "id": 59061,
+          "intensity": "нейтрально",
+          "text": "Скажи, какой темп тебе комфортен — я подстроюсь.",
+          "translationType": "manual",
+          "manualTranslation": true
         },
         {
           "id": 59221,
           "intensity": "смело",
-          "text": "Твой комфорт для меня важнее всего остального. Всегда.",
-          "translationType": "automated",
-          "manualTranslation": false
+          "text": "Согласие и комфорт — всегда на первом месте.",
+          "quality": 1,
+          "translationType": "manual",
+          "manualTranslation": true
         },
         {
           "id": 59222,
           "intensity": "смело",
-          "text": "Мне нужно, чтобы ты знала — твои границы полностью уважаются здесь.",
-          "translationType": "automated",
-          "manualTranslation": false
+          "text": "Твои границы — мои ориентиры.",
+          "quality": 1,
+          "translationType": "manual",
+          "manualTranslation": true
         }
       ],
       "title": "Boundaries & Respect"
@@ -79026,44 +79029,44 @@
         {
           "id": 53901,
           "intensity": "мягко",
-          "text": "Спасибо, что была так понимающа сегодня. Это много значит.",
-          "translationType": "automated",
-          "manualTranslation": false
-        },
-        {
-          "id": 53902,
-          "intensity": "мягко",
-          "text": "Я очень ценю, что ты нашла время выслушать меня сегодня.",
-          "translationType": "automated",
-          "manualTranslation": false
-        },
-        {
-          "id": 54301,
-          "intensity": "нейтрально",
-          "text": "Просто хотел сказать спасибо за то, что всегда рядом, когда мне нужна ты.",
-          "translationType": "automated",
-          "manualTranslation": false
+          "text": "Спасибо, что остаёшься таким(ой) надёжным(ой). Это значит больше, чем я говорю.",
+          "translationType": "manual",
+          "manualTranslation": true
         },
         {
           "id": 54302,
           "intensity": "нейтрально",
-          "text": "Ты сделала мою неделю лучше, даже не пытаясь. Спасибо.",
-          "translationType": "automated",
-          "manualTranslation": false
+          "text": "Ты делаешь мою жизнь спокойнее и светлее. Благодарен(на) тебе.",
+          "translationType": "manual",
+          "manualTranslation": true
         },
         {
           "id": 54701,
           "intensity": "смело",
-          "text": "Я говорю это недостаточно часто, но ты действительно делаешь мою жизнь лучше.",
-          "translationType": "automated",
-          "manualTranslation": false
+          "text": "Ты — подарок судьбы, и это не фигура речи. Спасибо.",
+          "translationType": "manual",
+          "manualTranslation": true
         },
         {
           "id": 54702,
           "intensity": "смело",
-          "text": "Спасибо, что ты именно такая, какая есть. Я это серьёзно.",
-          "translationType": "automated",
-          "manualTranslation": false
+          "text": "Хочу, чтобы ты знала: я никогда не буду воспринимать тебя как должное.",
+          "translationType": "manual",
+          "manualTranslation": true
+        },
+        {
+          "id": 53902,
+          "intensity": "мягко",
+          "text": "Ценю, как внимательно ты слушаешь — по-настоящему и тепло.",
+          "translationType": "manual",
+          "manualTranslation": true
+        },
+        {
+          "id": 54301,
+          "intensity": "нейтрально",
+          "text": "Я вижу твои усилия, даже самые тихие. Спасибо.",
+          "translationType": "manual",
+          "manualTranslation": true
         }
       ],
       "title": "Gratitude"

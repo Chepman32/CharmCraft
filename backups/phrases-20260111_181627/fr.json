@@ -7,42 +7,43 @@
         {
           "id": 51401,
           "intensity": "soft",
-          "text": "Hier soir, c'était vraiment naturel. J'espère qu'on pourra se revoir bientôt.",
+          "text": "Мне действительно было приятно. С тобой легко.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 51402,
           "intensity": "soft",
-          "text": "Je pense encore à cette histoire que tu m'as racontée au dîner.",
+          "text": "До сих пор улыбаюсь, вспоминая наш разговор. С тобой приятно.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 51801,
           "intensity": "neutral",
-          "text": "J'ai vraiment passé un bon moment avec toi. Tu es libre ce week-end?",
+          "text": "Tu превзошла мои ожидания — спокойно и искренне. Раунд два?",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 51802,
           "intensity": "neutral",
-          "text": "J'ai vraiment aimé apprendre à te connaître. On prend un café jeudi?",
+          "text": "Хотел(а) бы увидеться ещё раз. В какие дни удобно на следующей неделе?",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 52201,
           "intensity": "bold",
-          "text": "Je ne vais pas tourner autour du pot – j'aimerais beaucoup te revoir. Vendredi, ça te va?",
-          "translationType": "automated",
-          "manualTranslation": false
+          "text": "Je veux un deuxième rendez-vous. Clair et simple. Quand ?",
+          "quality": 1,
+          "translationType": "manual",
+          "manualTranslation": true
         },
         {
           "id": 52202,
           "intensity": "bold",
-          "text": "C'était incroyable. N'attendons pas trop longtemps pour le deuxième round.",
+          "text": "Между нами есть импульс — не хочу его терять.",
           "translationType": "automated",
           "manualTranslation": false
         }
@@ -37693,44 +37694,46 @@
         {
           "id": 58901,
           "intensity": "soft",
-          "text": "Pas de précipitation – allons au rythme qui te convient.",
+          "text": "We can take this at ton pace—i’m in no rush.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 58902,
           "intensity": "soft",
-          "text": "Dis-moi simplement si je vais trop vite. Je veux que tu te sentes à l'aise.",
+          "text": "Si te need quiet tonight, i’ll meet te there.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 59061,
           "intensity": "neutral",
-          "text": "Je veux m'assurer que tu es à l'aise avec tout. Dis-moi juste si on doit ralentir.",
+          "text": "Name ton pace and i’ll match it.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 59062,
           "intensity": "neutral",
-          "text": "Si tu as besoin d'espace un jour, dis-le juste. Aucune explication nécessaire.",
+          "text": "Si te need space, i’ll honor it—promise.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 59221,
           "intensity": "bold",
-          "text": "Ton confort est plus important pour moi que tout le reste. Toujours.",
-          "translationType": "automated",
-          "manualTranslation": false
+          "text": "Consentement et confort d'abord—toujours.",
+          "quality": 1,
+          "translationType": "manual",
+          "manualTranslation": true
         },
         {
           "id": 59222,
           "intensity": "bold",
-          "text": "J'ai besoin que tu saches que tes limites sont complètement respectées ici.",
-          "translationType": "automated",
-          "manualTranslation": false
+          "text": "Tes limites sont ma carte routière.",
+          "quality": 1,
+          "translationType": "manual",
+          "manualTranslation": true
         }
       ]
     },
@@ -92655,42 +92658,42 @@
         {
           "id": 53901,
           "intensity": "soft",
-          "text": "Merci d'avoir été si compréhensive tout à l'heure. Ça compte beaucoup.",
+          "text": "Thanks for being so steady. it means more than i say.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 53902,
           "intensity": "soft",
-          "text": "J'apprécie vraiment que tu aies pris le temps de m'écouter aujourd'hui.",
+          "text": "Je appreciate the way te listen—fully and warmly.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 54301,
           "intensity": "neutral",
-          "text": "Je voulais juste te remercier d'être toujours là quand j'ai besoin de toi.",
+          "text": "Je notice ton effort—even the quiet kind. thank ты.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 54302,
           "intensity": "neutral",
-          "text": "Tu as rendu ma semaine meilleure sans même essayer. Merci.",
+          "text": "Tu make my life calmer and brighter. i’m grateful for ты.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 54701,
           "intensity": "bold",
-          "text": "Je ne le dis pas assez souvent, mais tu rends vraiment ma vie meilleure.",
+          "text": "Tu a gift—and i не say that lightly. thank ты.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 54702,
           "intensity": "bold",
-          "text": "Merci d'être exactement comme tu es. Je le pense vraiment.",
+          "text": "Je хочу te to know i won’t take te for granted.",
           "translationType": "automated",
           "manualTranslation": false
         }

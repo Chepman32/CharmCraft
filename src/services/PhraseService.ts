@@ -44,8 +44,8 @@ class PhraseService {
   private currentLanguage: string | null = null;
   private translationMap: Map<string, string> = new Map();
   private originalTextMap: Map<string, string> = new Map();
-  // Accept automated translations as fallback by default; can be toggled for QA
-  private acceptAutomatedTranslations = true;
+  // Accept automated translations only when they look like the target language
+  private acceptAutomatedTranslations = false;
 
   // Helper: accept only manual translations from JSON dictionaries
   private isManualTranslationEntry(p: any): boolean {
@@ -163,20 +163,51 @@ class PhraseService {
     const looksAcceptableAutomated = (text: string, lang: string): boolean => {
       if (this.acceptAutomatedTranslations) return true;
       if (!text) return false;
+      const count = (re: RegExp) => (text.match(re) || []).length;
+      const latin = count(/[A-Za-z]/g);
+      const cyrillic = count(/[\u0400-\u04FF]/g);
+      const han = count(/[\u3400-\u4DBF\u4E00-\u9FFF]/g);
+      const kana = count(/[\u3040-\u30FF]/g);
+      const hangul = count(/[\uAC00-\uD7A3]/g);
+      const hasAnyLetters = latin + cyrillic + han + kana + hangul > 0;
+      if (!hasAnyLetters) return true;
+
+      const isLatinLang = lang === 'es' || lang === 'pt' || lang === 'fr' || lang === 'de';
+      if (isLatinLang) {
+        return cyrillic === 0 && han === 0 && kana === 0 && hangul === 0;
+      }
+
       // For Cyrillic languages (ru, ua), ensure majority is Cyrillic and avoid obvious English glue
       if (lang === 'ru' || lang === 'ua') {
-        const cyrillic = (text.match(/[\u0400-\u04FF]/g) || []).length;
-        const latin = (text.match(/[A-Za-z]/g) || []).length;
         const total = cyrillic + latin;
         const ratio = total > 0 ? cyrillic / total : 0;
         const hasBadGlue = /\b(also|your|you|is so good)\b/i.test(text);
-        return ratio >= 0.6 && !hasBadGlue;
+        return cyrillic >= 3 && ratio >= 0.6 && !hasBadGlue;
       }
-      // For CJK languages, require some native script presence
-      if (lang === 'ja') return /[\u3040-\u30FF\u4E00-\u9FFF]/.test(text);
-      if (lang === 'zh') return /[\u4E00-\u9FFF]/.test(text);
-      if (lang === 'ko') return /[\uAC00-\uD7A3]/.test(text);
-      // For Latin languages, accept as-is (can't easily detect English vs native reliably)
+
+      // For CJK languages, require the native script to dominate any Latin leftovers
+      if (lang === 'ja') {
+        if (cyrillic > 0 || hangul > 0) return false;
+        const native = han + kana;
+        const total = native + latin;
+        const ratio = total > 0 ? native / total : 0;
+        return native >= 3 && ratio >= 0.5;
+      }
+      if (lang === 'zh') {
+        if (cyrillic > 0 || kana > 0 || hangul > 0) return false;
+        const native = han;
+        const total = native + latin;
+        const ratio = total > 0 ? native / total : 0;
+        return native >= 2 && ratio >= 0.5;
+      }
+      if (lang === 'ko') {
+        if (cyrillic > 0 || kana > 0 || han > 0) return false;
+        const native = hangul;
+        const total = native + latin;
+        const ratio = total > 0 ? native / total : 0;
+        return native >= 2 && ratio >= 0.5;
+      }
+
       return true;
     };
 
@@ -214,8 +245,8 @@ class PhraseService {
    * large translation file exists for the language.
    */
   private canUseLargeDatasetForLanguage(language: string): boolean {
-    // Allow large dataset for all languages; text localizes via manual-only dictionary
-    return true;
+    // Large dataset translations are still mixed/partial; keep non-English on the curated set.
+    return language === 'en';
   }
 
   private async loadPhrasesFromJSON(): Promise<void> {
@@ -223,18 +254,27 @@ class PhraseService {
       const language = await this.getCurrentLanguage();
       this.currentLanguage = language;
       
-      try {
-        // Prefer large dataset for breadth; show manual translations where available,
-        // otherwise the original English phrase text.
-        this.largePhrasesDatabase = require('../data/phrases-large.json') as PhrasesDatabase;
-        this.useLargeDataset = true;
-        console.log('✅ Large dataset enabled (lazy loading)');
-        await this.loadInitialPhrases();
-      } catch (largeError) {
-        console.log('Large dataset not found, using standard dataset');
+      const allowLarge = this.canUseLargeDatasetForLanguage(language);
+
+      if (allowLarge) {
+        try {
+          // Prefer large dataset for breadth; show manual translations where available,
+          // otherwise the original English phrase text.
+          this.largePhrasesDatabase = require('../data/phrases-large.json') as PhrasesDatabase;
+          this.useLargeDataset = true;
+          console.log('✅ Large dataset enabled (lazy loading)');
+          await this.loadInitialPhrases();
+        } catch (largeError) {
+          console.log('Large dataset not found, using standard dataset');
+          this.useLargeDataset = false;
+        }
+      } else {
+        this.useLargeDataset = false;
+      }
+
+      if (!this.useLargeDataset) {
         const phrasesData = require('../data/phrases.json') as PhrasesDatabase;
         this.phrasesDatabase = phrasesData;
-        this.useLargeDataset = false;
         this.phrases = [];
         for (const [categoryKey, categoryData] of Object.entries(this.phrasesDatabase.categories)) {
           for (const phraseData of categoryData.phrases) {

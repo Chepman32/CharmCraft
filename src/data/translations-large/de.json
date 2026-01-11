@@ -7,43 +7,42 @@
         {
           "id": 51401,
           "intensity": "soft",
-          "text": "Мне действительно было приятно. С тобой легко.",
+          "text": "Gestern Abend fühlte sich wirklich natürlich an. Hoffe, wir können das bald wiederholen.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 51402,
           "intensity": "soft",
-          "text": "До сих пор улыбаюсь, вспоминая наш разговор. С тобой приятно.",
+          "text": "Ich denke immer noch an die Geschichte, die du mir beim Abendessen erzählt hast.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 51801,
           "intensity": "neutral",
-          "text": "Du превзошла мои ожидания — спокойно и искренне. Раунд два?",
+          "text": "Hatte eine tolle Zeit mit dir. Hast du am Wochenende Zeit?",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 51802,
           "intensity": "neutral",
-          "text": "Хотел(а) бы увидеться ещё раз. В какие дни удобно на следующей неделе?",
+          "text": "Hat mir wirklich Spaß gemacht, dich kennenzulernen. Lust auf einen Kaffee am Donnerstag?",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 52201,
           "intensity": "bold",
-          "text": "Ich will ein zweites Date. Klar und einfach. Wann?",
-          "quality": 1,
-          "translationType": "manual",
-          "manualTranslation": true
+          "text": "Ich werde nicht um den heißen Brei herumreden – ich würde dich gerne wiedersehen. Passt Freitag?",
+          "translationType": "automated",
+          "manualTranslation": false
         },
         {
           "id": 52202,
           "intensity": "bold",
-          "text": "Между нами есть импульс — не хочу его терять.",
+          "text": "Das war großartig. Lass uns nicht zu lange mit der zweiten Runde warten.",
           "translationType": "automated",
           "manualTranslation": false
         }
@@ -37694,46 +37693,44 @@
         {
           "id": 58901,
           "intensity": "soft",
-          "text": "We can take this at dein pace—i’m in no rush.",
+          "text": "Keine Eile – lass uns das in dem Tempo angehen, das sich für dich richtig anfühlt.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 58902,
           "intensity": "soft",
-          "text": "Wenn dich need quiet tonight, i’ll meet dich there.",
+          "text": "Sag mir einfach Bescheid, wenn ich zu schnell bin. Ich möchte, dass du dich wohl fühlst.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 59061,
           "intensity": "neutral",
-          "text": "Name dein pace and i’ll match it.",
+          "text": "Ich möchte sicherstellen, dass du mit allem einverstanden bist. Sag einfach Bescheid, wenn wir langsamer machen müssen.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 59062,
           "intensity": "neutral",
-          "text": "Wenn dich need space, i’ll honor it—promise.",
+          "text": "Wenn du jemals Abstand brauchst, sag einfach ein Wort. Keine Erklärungen nötig.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 59221,
           "intensity": "bold",
-          "text": "Einverständnis und Komfort zuerst—immer.",
-          "quality": 1,
-          "translationType": "manual",
-          "manualTranslation": true
+          "text": "Dein Wohlbefinden ist mir wichtiger als alles andere. Immer.",
+          "translationType": "automated",
+          "manualTranslation": false
         },
         {
           "id": 59222,
           "intensity": "bold",
-          "text": "Deine Grenzen sind meine Wegweiser.",
-          "quality": 1,
-          "translationType": "manual",
-          "manualTranslation": true
+          "text": "Ich möchte, dass du weißt, dass deine Grenzen hier vollständig respektiert werden.",
+          "translationType": "automated",
+          "manualTranslation": false
         }
       ]
     },
@@ -92658,42 +92655,42 @@
         {
           "id": 53901,
           "intensity": "soft",
-          "text": "Thanks for being so steady. it means more than i say.",
+          "text": "Danke, dass du vorhin so verständnisvoll warst. Bedeutet mir viel.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 53902,
           "intensity": "soft",
-          "text": "Ich appreciate the way dich listen—fully and warmly.",
+          "text": "Ich schätze es wirklich, dass du dir heute die Zeit genommen hast, mir zuzuhören.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 54301,
           "intensity": "neutral",
-          "text": "Ich notice dein effort—even the quiet kind. thank ты.",
+          "text": "Wollte nur danke sagen, dass du immer da bist, wenn ich dich brauche.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 54302,
           "intensity": "neutral",
-          "text": "Du make my life calmer and brighter. i’m grateful for ты.",
+          "text": "Du hast meine Woche besser gemacht, ohne es zu versuchen. Danke.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 54701,
           "intensity": "bold",
-          "text": "Du a gift—and i не say that lightly. thank ты.",
+          "text": "Ich sage es nicht oft genug, aber du machst mein Leben wirklich besser.",
           "translationType": "automated",
           "manualTranslation": false
         },
         {
           "id": 54702,
           "intensity": "bold",
-          "text": "Ich хочу dich to know i won’t take dich for granted.",
+          "text": "Danke, dass du genau so bist, wie du bist. Ich meine das ernst.",
           "translationType": "automated",
           "manualTranslation": false
         }
