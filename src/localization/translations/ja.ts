@@ -13,6 +13,7 @@ export const ja: typeof en = {
     title: '設定',
     theme: 'テーマ',
     language: '言語',
+    languageDescription: '希望の言語を選択してください',
     sound: 'サウンドエフェクト',
     haptics: 'ハプティックフィードバック',
     splashBlobStyle: 'スプラッシュの粒子スタイル',

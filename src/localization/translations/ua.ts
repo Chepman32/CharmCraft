@@ -13,6 +13,7 @@ export const ua: typeof en = {
     title: 'Налаштування',
     theme: 'Тема',
     language: 'Мова',
+    languageDescription: 'Виберіть бажану мову',
     sound: 'Звукові ефекти',
     haptics: "Тактильний зворотний зв'язок",
     splashBlobStyle: 'Стиль крапель',

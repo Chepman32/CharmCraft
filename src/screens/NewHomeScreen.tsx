@@ -60,7 +60,11 @@ const NewHomeScreen: React.FC = () => {
         filters.searchText = searchText.trim();
       }
 
-      const phrase = await PhraseService.getRandomPhrase(filters);
+      let phrase = await PhraseService.getRandomPhrase(filters);
+      if (!phrase && selectedCategory) {
+        const fallbackFilters: SearchFilters = { ...filters, category: undefined };
+        phrase = await PhraseService.getRandomPhrase(fallbackFilters);
+      }
       if (phrase) {
         setCurrentPhrase(phrase.text);
         PhraseService.setCurrentPhraseId(phrase.id);

@@ -13,6 +13,7 @@ export const zh: typeof en = {
     title: '设置',
     theme: '主题',
     language: '语言',
+    languageDescription: '选择您偏好的语言',
     sound: '音效',
     haptics: '触觉反馈',
     splashBlobStyle: '液体粒子风格',

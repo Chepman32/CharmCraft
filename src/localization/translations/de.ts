@@ -13,6 +13,7 @@ export const de: typeof en = {
     title: 'Einstellungen',
     theme: 'Design',
     language: 'Sprache',
+    languageDescription: 'Wähle deine bevorzugte Sprache',
     sound: 'Soundeffekte',
     haptics: 'Haptisches Feedback',
     splashBlobStyle: 'Splash-Blob-Stil',

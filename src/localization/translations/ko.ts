@@ -13,6 +13,7 @@ export const ko: typeof en = {
     title: '설정',
     theme: '테마',
     language: '언어',
+    languageDescription: '선호하는 언어를 선택하세요',
     sound: '사운드 효과',
     haptics: '햅틱 피드백',
     splashBlobStyle: '스플래시 입자 스타일',

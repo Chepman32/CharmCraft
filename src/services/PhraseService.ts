@@ -676,7 +676,7 @@ class PhraseService {
       [PhraseCategory.SUPPORTIVE]: 'support_encouragement',
       [PhraseCategory.FUNNY]: 'playful_challenges',
       [PhraseCategory.APOLOGY]: 'conflict_resolution_light',
-      [PhraseCategory.CASUAL]: 'icebreakers',
+      [PhraseCategory.CASUAL]: 'checking_in',
       [PhraseCategory.RELATIONSHIP_BUILDING]: 'future_plans',
     };
     return reverseMapping[category] || 'icebreakers';
