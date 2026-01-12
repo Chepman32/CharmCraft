@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  Pressable,
+} from 'react-native';
 import { useTheme } from '../contexts/ThemeContext';
 import { useTranslation } from '../contexts/LocalizationContext';
 import SettingsService from '../services/SettingsService';
@@ -7,12 +14,14 @@ import SettingSection from '../components/SettingSection';
 import ThemeSelector from '../components/ThemeSelector';
 import LanguageSelector from '../components/LanguageSelector';
 import ToggleSwitch from '../components/ToggleSwitch';
+import { blobStylePresets } from '../constants/splashStyles';
 
 const SettingsScreen: React.FC = () => {
   const { theme } = useTheme();
   const { t } = useTranslation();
   const [soundEnabled, setSoundEnabled] = useState(true);
   const [hapticsEnabled, setHapticsEnabled] = useState(true);
+  const [splashBlobStyle, setSplashBlobStyle] = useState('aqua');
 
   // Don't render until theme is ready
   if (!theme || !theme.colors) {
@@ -28,6 +37,7 @@ const SettingsScreen: React.FC = () => {
       const settings = SettingsService.getSettings();
       setSoundEnabled(settings.soundEnabled);
       setHapticsEnabled(settings.hapticsEnabled);
+      setSplashBlobStyle(settings.splashBlobStyle || 'aqua');
     } catch (error) {
       console.error('Error loading settings:', error);
     }
@@ -48,6 +58,17 @@ const SettingsScreen: React.FC = () => {
       setHapticsEnabled(enabled);
     } catch (error) {
       console.error('Error updating haptics setting:', error);
+    }
+  };
+
+  const handleSplashBlobStyleChange = async (style: string) => {
+    try {
+      await SettingsService.setSplashBlobStyle(style);
+      SettingsService.triggerHapticFeedback('light');
+      SettingsService.triggerSoundFeedback('tap');
+      setSplashBlobStyle(style);
+    } catch (error) {
+      console.error('Error updating splash blob style:', error);
     }
   };
 
@@ -145,6 +166,55 @@ const SettingsScreen: React.FC = () => {
           </View>
         </SettingSection>
 
+        {/* Splash Blob Style Section */}
+        <SettingSection
+          title={t('settings.splashBlobStyle')}
+          description={t('settings.splashBlobStyleDescription')}
+        >
+          <View style={styles.blobStyleList}>
+            {blobStylePresets.map((preset) => {
+              const isActive = splashBlobStyle === preset.key;
+              return (
+                <Pressable
+                  key={preset.key}
+                  onPress={() => handleSplashBlobStyleChange(preset.key)}
+                  style={[
+                    styles.blobStyleCard,
+                    {
+                      backgroundColor: theme.colors.surface,
+                      borderColor: isActive
+                        ? theme.colors.primary
+                        : 'rgba(0,0,0,0.08)',
+                    },
+                  ]}
+                >
+                  <View
+                    style={[
+                      styles.blobStyleSwatch,
+                      { backgroundColor: preset.background },
+                    ]}
+                  />
+                  <View style={styles.blobStyleText}>
+                    <Text
+                      style={[styles.blobStyleTitle, { color: theme.colors.text }]}
+                    >
+                      {t(preset.labelKey)}
+                    </Text>
+                    <Text
+                      style={[
+                        styles.blobStyleDescription,
+                        { color: theme.colors.textSecondary },
+                      ]}
+                    >
+                      {t(preset.descriptionKey)}
+                    </Text>
+                  </View>
+                </Pressable>
+              );
+            })}
+          </View>
+        </SettingSection>
+
         {/* About Section */}
         <SettingSection
           title={t('settings.about')}
@@ -213,6 +283,35 @@ const styles = StyleSheet.create({
   toggleDescription: {
     fontSize: 14,
     lineHeight: 20,
+  },
+  blobStyleList: {
+    paddingBottom: 4,
+  },
+  blobStyleCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 12,
+    borderRadius: 14,
+    borderWidth: 1,
+    marginBottom: 12,
+  },
+  blobStyleSwatch: {
+    width: 48,
+    height: 48,
+    borderRadius: 16,
+    marginRight: 12,
+  },
+  blobStyleText: {
+    flex: 1,
+  },
+  blobStyleTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    marginBottom: 4,
+  },
+  blobStyleDescription: {
+    fontSize: 13,
+    lineHeight: 18,
   },
   aboutContent: {
     alignItems: 'center',

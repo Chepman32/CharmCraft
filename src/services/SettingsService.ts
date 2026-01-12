@@ -7,6 +7,7 @@ const SETTINGS_KEYS = {
   LANGUAGE: 'kissio_language',
   SOUND_ENABLED: 'kissio_sound_enabled',
   HAPTICS_ENABLED: 'kissio_haptics_enabled',
+  SPLASH_BLOB_STYLE: 'kissio_splash_blob_style',
 };
 
 export interface AppSettings {
@@ -14,6 +15,7 @@ export interface AppSettings {
   language: string;
   soundEnabled: boolean;
   hapticsEnabled: boolean;
+  splashBlobStyle: string;
 }
 
 class SettingsService {
@@ -22,6 +24,7 @@ class SettingsService {
     language: 'en',
     soundEnabled: true,
     hapticsEnabled: true,
+    splashBlobStyle: 'aqua',
   };
 
   async initialize(): Promise<void> {
@@ -36,20 +39,21 @@ class SettingsService {
 
   private async loadAllSettings(): Promise<void> {
     try {
-      const [theme, language, soundEnabled, hapticsEnabled] = await Promise.all(
-        [
+      const [theme, language, soundEnabled, hapticsEnabled, splashBlobStyle] =
+        await Promise.all([
           this.getTheme(),
           this.getLanguage(),
           this.getSoundEnabled(),
           this.getHapticsEnabled(),
-        ],
-      );
+          this.getSplashBlobStyle(),
+        ]);
 
       this.settings = {
         theme,
         language,
         soundEnabled,
         hapticsEnabled,
+        splashBlobStyle,
       };
     } catch (error) {
       console.error('Error loading settings:', error);
@@ -150,6 +154,27 @@ class SettingsService {
     }
   }
 
+  // Splash Blob Style
+  async getSplashBlobStyle(): Promise<string> {
+    try {
+      const style = await AsyncStorage.getItem(SETTINGS_KEYS.SPLASH_BLOB_STYLE);
+      return style || 'aqua';
+    } catch (error) {
+      console.error('Error getting splash blob style:', error);
+      return 'aqua';
+    }
+  }
+
+  async setSplashBlobStyle(style: string): Promise<void> {
+    try {
+      await AsyncStorage.setItem(SETTINGS_KEYS.SPLASH_BLOB_STYLE, style);
+      this.settings.splashBlobStyle = style;
+    } catch (error) {
+      console.error('Error setting splash blob style:', error);
+      throw error;
+    }
+  }
+
   // Get all settings at once
   getSettings(): AppSettings {
     return { ...this.settings };
@@ -170,6 +195,9 @@ class SettingsService {
     }
     if (newSettings.hapticsEnabled !== undefined) {
       updates.push(this.setHapticsEnabled(newSettings.hapticsEnabled));
+    }
+    if (newSettings.splashBlobStyle !== undefined) {
+      updates.push(this.setSplashBlobStyle(newSettings.splashBlobStyle));
     }
 
     try {
@@ -202,6 +230,7 @@ class SettingsService {
         AsyncStorage.removeItem(SETTINGS_KEYS.LANGUAGE),
         AsyncStorage.removeItem(SETTINGS_KEYS.SOUND_ENABLED),
         AsyncStorage.removeItem(SETTINGS_KEYS.HAPTICS_ENABLED),
+        AsyncStorage.removeItem(SETTINGS_KEYS.SPLASH_BLOB_STYLE),
       ]);
 
       this.settings = {
@@ -209,6 +238,7 @@ class SettingsService {
         language: 'en',
         soundEnabled: true,
         hapticsEnabled: true,
+        splashBlobStyle: 'aqua',
       };
     } catch (error) {
       console.error('Error resetting settings:', error);
