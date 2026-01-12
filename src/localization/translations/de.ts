@@ -15,6 +15,20 @@ export const de: typeof en = {
     language: 'Sprache',
     sound: 'Soundeffekte',
     haptics: 'Haptisches Feedback',
+    splashBlobStyle: 'Splash-Blob-Stil',
+    splashBlobStyleDescription:
+      'Wähle, wie sich die flüssigen Partikel bewegen',
+    blobStyleAqua: 'Aqua-Drift',
+    blobStyleAquaDescription: 'Sanfte, luftige Tropfen mit leichtem Wackeln',
+    blobStyleNeon: 'Neon-Pop',
+    blobStyleNeonDescription:
+      'Hohe Energie mit schnellem, knackigem Bewegungsgefühl',
+    blobStyleLava: 'Lavafluss',
+    blobStyleLavaDescription: 'Schwere Tropfen mit langsamer, zäher Bewegung',
+    blobStyleMidnight: 'Mitternachts-Gelee',
+    blobStyleMidnightDescription:
+      'Starker Kontrast mit federndem Wippen',
+    developedBy: 'Entwickelt von Anton Chepur',
     about: 'Über',
   },
   themes: {

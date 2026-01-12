@@ -15,6 +15,22 @@ export const fr: typeof en = {
     language: 'Langue',
     sound: 'Effets sonores',
     haptics: 'Retour haptique',
+    splashBlobStyle: 'Style des gouttes',
+    splashBlobStyleDescription:
+      'Choisissez la manière dont les particules liquides bougent',
+    blobStyleAqua: 'Dérive Aqua',
+    blobStyleAquaDescription:
+      'Gouttes douces et légères avec un léger balancement',
+    blobStyleNeon: 'Pop Néon',
+    blobStyleNeonDescription:
+      'Énergie élevée avec un mouvement rapide et percutant',
+    blobStyleLava: 'Flux de Lave',
+    blobStyleLavaDescription:
+      'Gouttes lourdes avec un mouvement lent et dense',
+    blobStyleMidnight: 'Gelée Nocturne',
+    blobStyleMidnightDescription:
+      'Fort contraste avec un rebond souple',
+    developedBy: 'Développé par Anton Chepur',
     about: 'À propos',
   },
   themes: {
