@@ -29,6 +29,7 @@ export const en = {
     blobStyleMidnightDescription: 'Deep contrast with springy wobble',
     about: 'About',
     aboutDescription: 'App information and version',
+    developedBy: 'Developed by Anton Chepur',
     appDescription: 'Perfect words for every moment in your relationship',
   },
   themes: {

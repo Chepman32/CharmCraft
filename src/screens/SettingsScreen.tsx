@@ -230,6 +230,11 @@ const SettingsScreen: React.FC = () => {
               Version 1.0.0
             </Text>
             <Text
+              style={[styles.appCredit, { color: theme.colors.textSecondary }]}
+            >
+              {t('settings.developedBy')}
+            </Text>
+            <Text
               style={[
                 styles.appDescription,
                 { color: theme.colors.textSecondary },
@@ -325,6 +330,10 @@ const styles = StyleSheet.create({
   appVersion: {
     fontSize: 14,
     marginBottom: 8,
+  },
+  appCredit: {
+    fontSize: 13,
+    marginBottom: 10,
   },
   appDescription: {
     fontSize: 14,
