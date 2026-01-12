@@ -63,6 +63,7 @@ const NewHomeScreen: React.FC = () => {
       const phrase = await PhraseService.getRandomPhrase(filters);
       if (phrase) {
         setCurrentPhrase(phrase.text);
+        PhraseService.setCurrentPhraseId(phrase.id);
         await PhraseService.recordUsage(phrase.id);
       }
     } catch (error) {

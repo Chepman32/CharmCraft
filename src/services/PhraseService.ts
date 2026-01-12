@@ -14,9 +14,10 @@ import {
   handleDatabaseError,
 } from '../utils/errorHandler';
 
-const PHRASES_STORAGE_KEY = 'kissio_phrases';
 const FAVORITES_STORAGE_KEY = 'kissio_favorites';
 const USAGE_STATS_KEY = 'kissio_usage_stats';
+const USED_PHRASES_KEY = 'kissio_used_phrases';
+const CURRENT_PHRASE_ID_KEY = 'kissio_current_phrase_id';
 
 export interface SearchFilters {
   category?: PhraseCategory;
@@ -39,6 +40,8 @@ class PhraseService {
   private loadedCategories: Set<string> = new Set();
   private favorites: string[] = [];
   private usageStats: Map<string, UsageStats> = new Map();
+  private usedPhrases: Set<string> = new Set();
+  private currentPhraseId: string | null = null;
   private initialized = false;
   private useLargeDataset = false;
   private currentLanguage: string | null = null;
@@ -391,6 +394,16 @@ class PhraseService {
         );
       }
 
+      // Load used phrases
+      const storedUsedPhrases = await AsyncStorage.getItem(USED_PHRASES_KEY);
+      if (storedUsedPhrases) {
+        this.usedPhrases = new Set(JSON.parse(storedUsedPhrases));
+      }
+
+      // Load current phrase ID
+      const storedCurrentPhraseId = await AsyncStorage.getItem(CURRENT_PHRASE_ID_KEY);
+      this.currentPhraseId = storedCurrentPhraseId;
+
       this.initialized = true;
     } catch (error) {
       handleAsyncStorageError(error);
@@ -407,6 +420,11 @@ class PhraseService {
   private async ensureLanguageSynced(): Promise<void> {
     const lang = await this.getCurrentLanguage();
     if (this.currentLanguage !== lang) {
+      // Save current phrase ID before switching languages
+      if (this.currentPhraseId) {
+        await this.saveCurrentPhraseId();
+      }
+      
       // Reset state tied to dataset to avoid mixing data
       this.loadedCategories.clear();
       this.phrases = [];
@@ -416,6 +434,35 @@ class PhraseService {
       this.translationMap.clear();
       this.originalTextMap.clear();
       await this.loadPhrasesFromJSON();
+      
+      // Try to load the same phrase in the new language
+      await this.loadSamePhraseInNewLanguage();
+    }
+  }
+
+  /**
+   * Try to find and load the same phrase in the new language
+   */
+  private async loadSamePhraseInNewLanguage(): Promise<void> {
+    if (!this.currentPhraseId) return;
+    
+    try {
+      // Get the phrase in the new language
+      const lang = await this.getCurrentLanguage();
+      const translatedText = await this.getLocalizedPhraseText(this.currentPhraseId, lang);
+      
+      if (translatedText) {
+        // Update the current phrase text while keeping the same ID
+        const phraseIndex = this.phrases.findIndex(p => p.id === this.currentPhraseId);
+        if (phraseIndex !== -1) {
+          this.phrases[phraseIndex] = {
+            ...this.phrases[phraseIndex],
+            text: translatedText
+          };
+        }
+      }
+    } catch (error) {
+      console.warn('Could not load same phrase in new language:', error);
     }
   }
 
@@ -650,8 +697,48 @@ class PhraseService {
     const phrases = await this.searchPhrases(filters);
     if (phrases.length === 0) return null;
 
-    const randomIndex = Math.floor(Math.random() * phrases.length);
-    return phrases[randomIndex];
+    // Filter out already used phrases
+    const unusedPhrases = phrases.filter(phrase => !this.usedPhrases.has(phrase.id));
+    
+    let selectedPhrase: Phrase;
+    
+    if (unusedPhrases.length > 0) {
+      // Select from unused phrases
+      const randomIndex = Math.floor(Math.random() * unusedPhrases.length);
+      selectedPhrase = unusedPhrases[randomIndex];
+    } else {
+      // All phrases have been used - reset the cycle
+      console.log('All phrases used, resetting cycle');
+      this.usedPhrases.clear();
+      await this.saveUsedPhrases();
+      
+      // Select from all phrases
+      const randomIndex = Math.floor(Math.random() * phrases.length);
+      selectedPhrase = phrases[randomIndex];
+    }
+
+    // Mark as used
+    this.usedPhrases.add(selectedPhrase.id);
+    this.currentPhraseId = selectedPhrase.id;
+    await this.saveUsedPhrases();
+    await this.saveCurrentPhraseId();
+    
+    return selectedPhrase;
+  }
+
+  /**
+   * Set the current phrase ID (called from UI when displaying a phrase)
+   */
+  setCurrentPhraseId(phraseId: string): void {
+    this.currentPhraseId = phraseId;
+    this.saveCurrentPhraseId();
+  }
+
+  /**
+   * Get the current phrase ID
+   */
+  getCurrentPhraseId(): string | null {
+    return this.currentPhraseId;
   }
 
   async addToFavorites(phraseId: string): Promise<void> {
@@ -769,6 +856,31 @@ class PhraseService {
       await AsyncStorage.setItem(USAGE_STATS_KEY, JSON.stringify(statsArray));
     } catch (error) {
       console.error('Error saving usage stats:', error);
+    }
+  }
+
+  private async saveUsedPhrases(): Promise<void> {
+    try {
+      if (!AsyncStorage) {
+        console.warn('AsyncStorage not available, skipping save');
+        return;
+      }
+      const usedPhrasesArray = Array.from(this.usedPhrases);
+      await AsyncStorage.setItem(USED_PHRASES_KEY, JSON.stringify(usedPhrasesArray));
+    } catch (error) {
+      console.error('Error saving used phrases:', error);
+    }
+  }
+
+  private async saveCurrentPhraseId(): Promise<void> {
+    try {
+      if (!AsyncStorage) {
+        console.warn('AsyncStorage not available, skipping save');
+        return;
+      }
+      await AsyncStorage.setItem(CURRENT_PHRASE_ID_KEY, this.currentPhraseId || '');
+    } catch (error) {
+      console.error('Error saving current phrase ID:', error);
     }
   }
 }
