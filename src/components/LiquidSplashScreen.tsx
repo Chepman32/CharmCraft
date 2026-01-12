@@ -11,7 +11,7 @@ import { blobStylePresets } from '../constants/splashStyles';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 const ICON_SIZE = 160;
-const NUM_PARTICLES = 220;
+const NUM_PARTICLES = 140;
 const CENTER_X = SCREEN_WIDTH / 2;
 const CENTER_Y = SCREEN_HEIGHT / 2;
 
@@ -97,7 +97,7 @@ const LiquidSplashScreen: React.FC<LiquidSplashScreenProps> = ({
 
     const nextSeed = createRng(42);
     const list: LiquidParticle[] = [];
-    const maxHeroes = Math.max(24, Math.round(NUM_PARTICLES * 0.25));
+    const maxHeroes = Math.max(12, Math.round(NUM_PARTICLES * 0.2));
     let heroCount = 0;
 
     for (let i = 0; i < NUM_PARTICLES; i++) {
