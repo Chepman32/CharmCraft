@@ -6,6 +6,8 @@ import {
   StyleSheet,
   SafeAreaView,
   FlatList,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useTheme } from '../contexts/ThemeContext';
@@ -68,6 +70,9 @@ const SearchScreen: React.FC = () => {
   }
 
   const styles = StyleSheet.create({
+    keyboardAvoidingView: {
+      flex: 1,
+    },
     container: {
       flex: 1,
       backgroundColor: theme.colors.background,
@@ -159,35 +164,40 @@ const SearchScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>{t('search.title')}</Text>
-      </View>
-      <View style={styles.searchContainer}>
-        <View style={styles.searchInputContainer}>
-          <Icon name="search" size={20} color="#999" style={styles.searchIcon} />
-          <TextInput
-            style={styles.searchInput}
-            placeholder={t('search.placeholder')}
-            placeholderTextColor={theme.colors.textSecondary}
-            value={searchText}
-            onChangeText={setSearchText}
-            returnKeyType="search"
-          />
+    <KeyboardAvoidingView
+      style={styles.keyboardAvoidingView}
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+    >
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.title}>{t('search.title')}</Text>
         </View>
-      </View>
-      <FlatList
-        data={phrases}
-        renderItem={renderPhraseItem}
-        keyExtractor={item => item.id}
-        refreshing={loading}
-        onRefresh={loadPhrases}
-        onEndReachedThreshold={0.5}
-        onEndReached={loadMore}
-        showsVerticalScrollIndicator={false}
-        ListEmptyComponent={renderEmptyState}
-      />
-    </SafeAreaView>
+        <View style={styles.searchContainer}>
+          <View style={styles.searchInputContainer}>
+            <Icon name="search" size={20} color="#999" style={styles.searchIcon} />
+            <TextInput
+              style={styles.searchInput}
+              placeholder={t('search.placeholder')}
+              placeholderTextColor={theme.colors.textSecondary}
+              value={searchText}
+              onChangeText={setSearchText}
+              returnKeyType="search"
+            />
+          </View>
+        </View>
+        <FlatList
+          data={phrases}
+          renderItem={renderPhraseItem}
+          keyExtractor={item => item.id}
+          refreshing={loading}
+          onRefresh={loadPhrases}
+          onEndReachedThreshold={0.5}
+          onEndReached={loadMore}
+          showsVerticalScrollIndicator={false}
+          ListEmptyComponent={renderEmptyState}
+        />
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 

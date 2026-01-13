@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import HapticService, { HapticType } from './HapticService';
+import SoundService from './SoundService';
 
 const SETTINGS_KEYS = {
   THEME: 'kissio_theme',
@@ -28,6 +29,7 @@ class SettingsService {
     try {
       await this.loadAllSettings();
       await HapticService.initialize();
+      await SoundService.initialize();
     } catch (error) {
       console.error('Error initializing SettingsService:', error);
     }
@@ -203,6 +205,12 @@ class SettingsService {
     if (this.settings.hapticsEnabled) {
       HapticService.triggerHaptic(type);
     }
+  }
+
+  triggerSoundFeedback(
+    type: 'tap' | 'success' | 'error' | 'notification' = 'tap',
+  ): void {
+    void SoundService.playSound(type);
   }
 
   // Reset all settings to defaults
