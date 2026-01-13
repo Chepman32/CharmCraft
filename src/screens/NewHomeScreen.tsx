@@ -353,8 +353,8 @@ const NewHomeScreen: React.FC = () => {
           <TouchableOpacity
             style={styles.suggestionButton}
             onPress={() => {
-              playButtonTap();
-              generateNewPhrase();
+              void playButtonTap();
+              void generateNewPhrase();
             }}
           >
             <Text style={styles.suggestionButtonText}>

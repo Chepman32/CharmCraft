@@ -10,6 +10,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useTheme } from '../contexts/ThemeContext';
 import { useTranslation } from '../contexts/LocalizationContext';
+import { useFeedback } from '../hooks/useFeedback';
 import SettingsService from '../services/SettingsService';
 
 interface LanguageSelectorProps {
@@ -21,10 +22,10 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
 }) => {
   const { theme } = useTheme();
   const { language, setLanguage, availableLanguages } = useTranslation();
+  const { playMediumImpact } = useFeedback();
 
   const handleLanguageSelect = async (selectedLanguage: string) => {
     console.log('Language selection triggered for:', selectedLanguage);
-    SettingsService.triggerHapticFeedback('medium');
     SettingsService.triggerSoundFeedback('tap');
     await setLanguage(selectedLanguage);
     onLanguageChange(selectedLanguage);
@@ -49,6 +50,9 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
           },
         ]}
         onPress={() => handleLanguageSelect(lang.code)}
+        onPressIn={() => {
+          void playMediumImpact();
+        }}
       >
         <View style={styles.languageInfo}>
           <Text

@@ -1,4 +1,5 @@
 import { Vibration, Platform } from 'react-native';
+import HapticFeedback from 'react-native-haptic-feedback';
 
 export type HapticType =
   | 'light'
@@ -7,6 +8,20 @@ export type HapticType =
   | 'success'
   | 'warning'
   | 'error';
+
+const IOS_HAPTIC_MAP: Record<HapticType, string> = {
+  light: 'impactLight',
+  medium: 'impactMedium',
+  heavy: 'impactHeavy',
+  success: 'notificationSuccess',
+  warning: 'notificationWarning',
+  error: 'notificationError',
+};
+
+const HAPTIC_OPTIONS = {
+  enableVibrateFallback: true,
+  ignoreAndroidSystemSettings: false,
+};
 
 class HapticService {
   private initialized = false;
@@ -43,8 +58,16 @@ class HapticService {
 
   private triggerIOSHaptic(type: HapticType): void {
     try {
-      // For iOS, we would use react-native-haptic-feedback or similar
-      // This is a placeholder implementation using basic vibration
+      const feedbackType = IOS_HAPTIC_MAP[type] ?? IOS_HAPTIC_MAP.light;
+      HapticFeedback.trigger(feedbackType, HAPTIC_OPTIONS);
+    } catch (error) {
+      console.error('Error triggering iOS haptic:', error);
+      this.triggerIOSVibration(type);
+    }
+  }
+
+  private triggerIOSVibration(type: HapticType): void {
+    try {
       switch (type) {
         case 'light':
           Vibration.vibrate(10);
@@ -68,7 +91,7 @@ class HapticService {
           Vibration.vibrate(10);
       }
     } catch (error) {
-      console.error('Error triggering iOS haptic:', error);
+      console.error('Error triggering iOS vibration fallback:', error);
     }
   }
 

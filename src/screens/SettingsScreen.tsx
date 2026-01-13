@@ -58,7 +58,6 @@ const SettingsScreen: React.FC = () => {
   const handleSplashBlobStyleChange = async (style: string) => {
     try {
       await SettingsService.setSplashBlobStyle(style);
-      SettingsService.triggerHapticFeedback('light');
       setSplashBlobStyle(style);
     } catch (error) {
       console.error('Error updating splash blob style:', error);
@@ -144,6 +143,9 @@ const SettingsScreen: React.FC = () => {
               return (
                 <Pressable
                   key={preset.key}
+                  onPressIn={() => {
+                    void playSelectionChange();
+                  }}
                   onPress={() => handleSplashBlobStyleChange(preset.key)}
                   style={[
                     styles.blobStyleCard,

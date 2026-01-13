@@ -26,9 +26,14 @@ const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
     }).start();
   }, [value, animatedValue]);
 
+  const handlePressIn = () => {
+    if (!disabled) {
+      void playSelectionChange();
+    }
+  };
+
   const handlePress = () => {
     if (!disabled) {
-      playSelectionChange();
       onValueChange(!value);
     }
   };
@@ -46,6 +51,7 @@ const ToggleSwitch: React.FC<ToggleSwitchProps> = ({
   return (
     <TouchableOpacity
       onPress={handlePress}
+      onPressIn={handlePressIn}
       disabled={disabled}
       activeOpacity={0.7}
       style={[styles.container, disabled && styles.disabled]}

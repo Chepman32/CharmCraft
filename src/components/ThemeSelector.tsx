@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { useTheme, themes } from '../contexts/ThemeContext';
 import { useTranslation } from '../contexts/LocalizationContext';
+import { useFeedback } from '../hooks/useFeedback';
 import SettingsService from '../services/SettingsService';
 
 interface ThemeSelectorProps {
@@ -11,9 +12,9 @@ interface ThemeSelectorProps {
 const ThemeSelector: React.FC<ThemeSelectorProps> = ({ onThemeChange }) => {
   const { theme, themeName, setTheme } = useTheme();
   const { t } = useTranslation();
+  const { playMediumImpact } = useFeedback();
 
   const handleThemeSelect = (selectedTheme: string) => {
-    SettingsService.triggerHapticFeedback('medium');
     SettingsService.triggerSoundFeedback('tap');
     setTheme(selectedTheme);
     onThemeChange(selectedTheme);
@@ -39,6 +40,9 @@ const ThemeSelector: React.FC<ThemeSelectorProps> = ({ onThemeChange }) => {
           },
         ]}
         onPress={() => handleThemeSelect(themeKey)}
+        onPressIn={() => {
+          void playMediumImpact();
+        }}
         activeOpacity={0.7}
       >
         <View style={styles.themePreview}>

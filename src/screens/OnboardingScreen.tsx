@@ -98,7 +98,6 @@ const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onFinish }) => {
   };
 
   const handleNext = () => {
-    playButtonTap();
     const index = getSafeIndex();
     if (index >= slides.length - 1) {
       onFinish();
@@ -112,7 +111,6 @@ const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onFinish }) => {
   };
 
   const handleBack = () => {
-    playButtonTap();
     const index = getSafeIndex();
     if (index <= 0) {
       return;
@@ -125,7 +123,6 @@ const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onFinish }) => {
   };
 
   const handleSkip = () => {
-    playButtonTap();
     onFinish();
   };
 
@@ -295,7 +292,10 @@ const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onFinish }) => {
         <View style={styles.topBar}>
           {currentIndex < slides.length - 1 && (
             <TouchableOpacity
-              onPress={handleSkip}
+              onPress={() => {
+                void playButtonTap();
+                handleSkip();
+              }}
               style={styles.skipButton}
               activeOpacity={0.8}
             >
@@ -404,7 +404,10 @@ const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onFinish }) => {
           >
             {currentIndex > 0 && (
               <TouchableOpacity
-                onPress={handleBack}
+                onPress={() => {
+                  void playButtonTap();
+                  handleBack();
+                }}
                 style={styles.ghostButton}
                 activeOpacity={0.8}
               >
@@ -412,7 +415,10 @@ const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onFinish }) => {
               </TouchableOpacity>
             )}
             <TouchableOpacity
-              onPress={handleNext}
+              onPress={() => {
+                void playButtonTap();
+                handleNext();
+              }}
               style={[
                 styles.primaryButton,
                 currentIndex === 0
