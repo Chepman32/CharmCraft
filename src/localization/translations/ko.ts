@@ -4,6 +4,7 @@ export const ko: typeof en = {
   navigation: {
     ...en.navigation,
     home: '홈',
+    search: '검색',
     favorites: '즐겨찾기',
     collections: '컬렉션',
     settings: '설정',
@@ -26,8 +27,44 @@ export const ko: typeof en = {
     blobStyleLavaDescription: '무겁고 느린 흐름',
     blobStyleMidnight: '미드나이트 젤리',
     blobStyleMidnightDescription: '강한 대비와 탄성 있는 흔들림',
+    onboardingReset: '온보딩',
+    onboardingResetDescription: '다음 실행 시 온보딩을 다시 표시합니다',
+    onboardingResetButton: '온보딩 재설정',
     developedBy: '개발: Anton Chepur',
     about: '정보',
+  },
+  onboarding: {
+    slides: {
+      findWords: {
+        title: '딱 맞는 말을 찾아요',
+        subtitle: '순간과 분위기에 맞는 문구를 빠르게 찾아요.',
+      },
+      makePersonal: {
+        title: '더 내 이야기처럼',
+        subtitle: '부드럽고 진심 어린, 혹은 자신감 있는 톤으로 조절하세요.',
+      },
+      stayReady: {
+        title: '항상 준비 완료',
+        subtitle:
+          '즐겨찾기에 저장해 완벽한 한마디를 언제든 꺼내 보세요.',
+      },
+      buildCollections: {
+        title: '컬렉션 만들기',
+        subtitle: '사람, 상황, 스타일별로 문구를 정리하세요.',
+      },
+      setVibe: {
+        title: '분위기 설정',
+        subtitle: '딱 맞는 테마와 햅틱을 선택하세요.',
+      },
+      startConfidence: {
+        title: '자신 있게 시작하세요',
+        subtitle: '말을 잘 전하면 매 순간이 더 좋아져요.',
+      },
+    },
+    skip: '건너뛰기',
+    back: '뒤로',
+    next: '다음',
+    getStarted: '시작하기',
   },
   themes: {
     ...en.themes,
@@ -47,6 +84,15 @@ export const ko: typeof en = {
     bold: '대담하게',
     loadingTitle: 'Kissio',
     loadingText: '완벽한 문구를 로딩 중...',
+  },
+  search: {
+    ...en.search,
+    title: '검색',
+    placeholder: '문구 검색...',
+    helperTitle: '문구 검색',
+    helperDescription: '입력을 시작하면 결과가 표시됩니다.',
+    emptyTitle: '문구를 찾을 수 없습니다',
+    emptyDescription: '다른 키워드를 시도해 보세요.',
   },
   categories: {
     ...en.categories,

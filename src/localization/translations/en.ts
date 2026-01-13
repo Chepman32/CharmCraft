@@ -1,6 +1,7 @@
 export const en = {
   navigation: {
     home: 'Home',
+    search: 'Search',
     favorites: 'Favorites',
     collections: 'Collections',
     settings: 'Settings',
@@ -27,10 +28,46 @@ export const en = {
     blobStyleLavaDescription: 'Heavy blobs with slower, molten movement',
     blobStyleMidnight: 'Midnight Jelly',
     blobStyleMidnightDescription: 'Deep contrast with springy wobble',
+    onboardingReset: 'Onboarding',
+    onboardingResetDescription:
+      'Show the onboarding screens again the next time you open the app',
+    onboardingResetButton: 'Reset onboarding',
     about: 'About',
     aboutDescription: 'App information and version',
     developedBy: 'Developed by Anton Chepur',
     appDescription: 'Perfect words for every moment in your relationship',
+  },
+  onboarding: {
+    slides: {
+      findWords: {
+        title: 'Find the right words',
+        subtitle: 'Quickly discover phrases that match the moment and mood.',
+      },
+      makePersonal: {
+        title: 'Make it personal',
+        subtitle: 'Adjust the tone to sound gentle, sincere, or confident.',
+      },
+      stayReady: {
+        title: 'Stay ready',
+        subtitle: 'Save favorites so the perfect line is always close.',
+      },
+      buildCollections: {
+        title: 'Build collections',
+        subtitle: 'Organize phrases by person, occasion, or style.',
+      },
+      setVibe: {
+        title: 'Set your vibe',
+        subtitle: 'Pick themes and haptics that feel just right.',
+      },
+      startConfidence: {
+        title: 'Start with confidence',
+        subtitle: 'Every moment feels better when you say it well.',
+      },
+    },
+    skip: 'Skip',
+    back: 'Back',
+    next: 'Next',
+    getStarted: 'Get started',
   },
   themes: {
     light: 'Light',
@@ -48,6 +85,14 @@ export const en = {
     bold: 'Bold',
     loadingTitle: 'Kissio',
     loadingText: 'Loading your perfect phrases...',
+  },
+  search: {
+    title: 'Search',
+    placeholder: 'Search phrases...',
+    helperTitle: 'Search your phrases',
+    helperDescription: 'Start typing to see matching phrases.',
+    emptyTitle: 'No phrases found',
+    emptyDescription: 'Try a different keyword.',
   },
   categories: {
     icebreakers: 'Icebreakers',

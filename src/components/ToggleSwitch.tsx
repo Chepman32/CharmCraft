@@ -2,7 +2,6 @@ import React from 'react';
 import { TouchableOpacity, View, StyleSheet, Animated } from 'react-native';
 import { useTheme } from '../contexts/ThemeContext';
 import { useFeedback } from '../hooks/useFeedback';
-import SettingsService from '../services/SettingsService';
 
 interface ToggleSwitchProps {
   value: boolean;

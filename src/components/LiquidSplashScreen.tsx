@@ -5,6 +5,8 @@ import {
   Easing,
   Image,
   StyleSheet,
+  UIManager,
+  View,
 } from 'react-native';
 import Svg, { G, Path, Circle } from 'react-native-svg';
 import { blobStylePresets } from '../constants/splashStyles';
@@ -161,6 +163,16 @@ const LiquidSplashScreen: React.FC<LiquidSplashScreenProps> = ({
 
     return list;
   }, [preset]);
+  const isSvgAvailable = useMemo(() => {
+    if (!UIManager.getViewManagerConfig) {
+      return false;
+    }
+    try {
+      return Boolean(UIManager.getViewManagerConfig('RNSVGSvgView'));
+    } catch {
+      return false;
+    }
+  }, []);
 
   const progressAnim = useRef(new Animated.Value(0)).current;
   const swimAnim = useRef(new Animated.Value(0)).current;
@@ -278,6 +290,204 @@ const LiquidSplashScreen: React.FC<LiquidSplashScreenProps> = ({
     outputRange: [1, 0.85, 1.12, 1],
   });
 
+  const particleNodes = particles.map((particle) => {
+    const arriveStart = particle.delay;
+    const arriveMid = Math.min(1, particle.delay + 0.6);
+    const arriveEnd = Math.min(1, particle.delay + 0.78);
+    const arriveMidClamped = Math.min(arriveMid, arriveEnd);
+
+    const overshootX = particle.isHero
+      ? particle.targetX +
+        (particle.targetX - particle.startX) * preset.overshoot
+      : particle.targetX;
+    const overshootY = particle.isHero
+      ? particle.targetY +
+        (particle.targetY - particle.startY) * preset.overshoot
+      : particle.targetY;
+
+    const translateX = progressAnim.interpolate({
+      inputRange: [0, arriveStart, arriveMidClamped, arriveEnd, 1],
+      outputRange: [
+        particle.startX,
+        particle.startX,
+        overshootX,
+        particle.targetX,
+        particle.targetX,
+      ],
+      extrapolate: 'clamp',
+    });
+
+    const translateY = progressAnim.interpolate({
+      inputRange: [0, arriveStart, arriveMidClamped, arriveEnd, 1],
+      outputRange: [
+        particle.startY,
+        particle.startY,
+        overshootY,
+        particle.targetY,
+        particle.targetY,
+      ],
+      extrapolate: 'clamp',
+    });
+
+    const opacity = progressAnim.interpolate({
+      inputRange: [0, arriveStart, Math.min(1, particle.delay + 0.1), 1],
+      outputRange: [0, 0, 1, 1],
+      extrapolate: 'clamp',
+    });
+
+    if (isSvgAvailable) {
+      if (!particle.isHero) {
+        return (
+          <AnimatedCircle
+            key={particle.id}
+            cx={translateX}
+            cy={translateY}
+            r={particle.radius}
+            fill={particle.color}
+            opacity={opacity}
+          />
+        );
+      }
+
+      const swimX = swimAnim.interpolate({
+        inputRange: [0, 0.5, 1],
+        outputRange: [
+          -particle.wobbleAmplitude,
+          particle.wobbleAmplitude,
+          -particle.wobbleAmplitude,
+        ],
+      });
+
+      const swimY = swimAnim.interpolate({
+        inputRange: [0, 0.25, 0.5, 0.75, 1],
+        outputRange: [
+          0,
+          particle.wobbleAmplitude * 0.5,
+          0,
+          -particle.wobbleAmplitude * 0.5,
+          0,
+        ],
+      });
+
+      const arrivalSquash = progressAnim.interpolate({
+        inputRange: [
+          arriveMidClamped,
+          Math.min(1, particle.delay + 0.72),
+          Math.min(1, particle.delay + 0.82),
+          1,
+        ],
+        outputRange: [1, 1.25, 0.9, 1],
+        extrapolate: 'clamp',
+      });
+
+      const arrivalStretch = progressAnim.interpolate({
+        inputRange: [
+          arriveMidClamped,
+          Math.min(1, particle.delay + 0.72),
+          Math.min(1, particle.delay + 0.82),
+          1,
+        ],
+        outputRange: [1, 0.85, 1.15, 1],
+        extrapolate: 'clamp',
+      });
+
+      return (
+        <AnimatedG
+          key={particle.id}
+          opacity={opacity}
+          transform={[
+            { translateX: Animated.add(translateX, swimX) },
+            { translateY: Animated.add(translateY, swimY) },
+            { scaleX: arrivalSquash },
+            { scaleY: arrivalStretch },
+          ]}
+        >
+          <Path d={particle.blobPath} fill={particle.color} opacity={0.85} />
+        </AnimatedG>
+      );
+    }
+
+    const swimX = particle.isHero
+      ? swimAnim.interpolate({
+          inputRange: [0, 0.5, 1],
+          outputRange: [
+            -particle.wobbleAmplitude,
+            particle.wobbleAmplitude,
+            -particle.wobbleAmplitude,
+          ],
+        })
+      : 0;
+
+    const swimY = particle.isHero
+      ? swimAnim.interpolate({
+          inputRange: [0, 0.25, 0.5, 0.75, 1],
+          outputRange: [
+            0,
+            particle.wobbleAmplitude * 0.5,
+            0,
+            -particle.wobbleAmplitude * 0.5,
+            0,
+          ],
+        })
+      : 0;
+
+    const arrivalSquash = particle.isHero
+      ? progressAnim.interpolate({
+          inputRange: [
+            arriveMidClamped,
+            Math.min(1, particle.delay + 0.72),
+            Math.min(1, particle.delay + 0.82),
+            1,
+          ],
+          outputRange: [1, 1.25, 0.9, 1],
+          extrapolate: 'clamp',
+        })
+      : 1;
+
+    const arrivalStretch = particle.isHero
+      ? progressAnim.interpolate({
+          inputRange: [
+            arriveMidClamped,
+            Math.min(1, particle.delay + 0.72),
+            Math.min(1, particle.delay + 0.82),
+            1,
+          ],
+          outputRange: [1, 0.85, 1.15, 1],
+          extrapolate: 'clamp',
+        })
+      : 1;
+
+    const size = particle.isHero ? particle.size * 2 : particle.radius * 2;
+    const halfSize = size / 2;
+    const fallbackOpacity = particle.isHero
+      ? Animated.multiply(opacity, 0.85)
+      : opacity;
+
+    return (
+      <Animated.View
+        key={particle.id}
+        style={[
+          styles.fallbackParticle,
+          {
+            width: size,
+            height: size,
+            borderRadius: size / 2,
+            backgroundColor: particle.color,
+            opacity: fallbackOpacity,
+            transform: [
+              { translateX: Animated.add(translateX, swimX) },
+              { translateY: Animated.add(translateY, swimY) },
+              { translateX: -halfSize },
+              { translateY: -halfSize },
+              { scaleX: arrivalSquash },
+              { scaleY: arrivalStretch },
+            ],
+          },
+        ]}
+      />
+    );
+  });
+
   return (
     <Animated.View
       style={[
@@ -285,144 +495,19 @@ const LiquidSplashScreen: React.FC<LiquidSplashScreenProps> = ({
         { backgroundColor: preset.background, opacity: splashOpacity },
       ]}
     >
-      <Svg
-        width={SCREEN_WIDTH}
-        height={SCREEN_HEIGHT}
-        style={StyleSheet.absoluteFill}
-      >
-        {particles.map((particle) => {
-          const arriveStart = particle.delay;
-          const arriveMid = Math.min(1, particle.delay + 0.6);
-          const arriveEnd = Math.min(1, particle.delay + 0.78);
-          const arriveMidClamped = Math.min(arriveMid, arriveEnd);
-
-          const overshootX = particle.isHero
-            ? particle.targetX +
-              (particle.targetX - particle.startX) * preset.overshoot
-            : particle.targetX;
-          const overshootY = particle.isHero
-            ? particle.targetY +
-              (particle.targetY - particle.startY) * preset.overshoot
-            : particle.targetY;
-
-          const translateX = progressAnim.interpolate({
-            inputRange: [
-              0,
-              arriveStart,
-              arriveMidClamped,
-              arriveEnd,
-              1,
-            ],
-            outputRange: [
-              particle.startX,
-              particle.startX,
-              overshootX,
-              particle.targetX,
-              particle.targetX,
-            ],
-            extrapolate: 'clamp',
-          });
-
-          const translateY = progressAnim.interpolate({
-            inputRange: [
-              0,
-              arriveStart,
-              arriveMidClamped,
-              arriveEnd,
-              1,
-            ],
-            outputRange: [
-              particle.startY,
-              particle.startY,
-              overshootY,
-              particle.targetY,
-              particle.targetY,
-            ],
-            extrapolate: 'clamp',
-          });
-
-          const opacity = progressAnim.interpolate({
-            inputRange: [
-              0,
-              arriveStart,
-              Math.min(1, particle.delay + 0.1),
-              1,
-            ],
-            outputRange: [0, 0, 1, 1],
-            extrapolate: 'clamp',
-          });
-
-          if (!particle.isHero) {
-            return (
-              <AnimatedCircle
-                key={particle.id}
-                cx={translateX}
-                cy={translateY}
-                r={particle.radius}
-                fill={particle.color}
-                opacity={opacity}
-              />
-            );
-          }
-
-          const swimX = swimAnim.interpolate({
-            inputRange: [0, 0.5, 1],
-            outputRange: [
-              -particle.wobbleAmplitude,
-              particle.wobbleAmplitude,
-              -particle.wobbleAmplitude,
-            ],
-          });
-
-          const swimY = swimAnim.interpolate({
-            inputRange: [0, 0.25, 0.5, 0.75, 1],
-            outputRange: [
-              0,
-              particle.wobbleAmplitude * 0.5,
-              0,
-              -particle.wobbleAmplitude * 0.5,
-              0,
-            ],
-          });
-
-          const arrivalSquash = progressAnim.interpolate({
-            inputRange: [
-              arriveMidClamped,
-              Math.min(1, particle.delay + 0.72),
-              Math.min(1, particle.delay + 0.82),
-              1,
-            ],
-            outputRange: [1, 1.25, 0.9, 1],
-            extrapolate: 'clamp',
-          });
-
-          const arrivalStretch = progressAnim.interpolate({
-            inputRange: [
-              arriveMidClamped,
-              Math.min(1, particle.delay + 0.72),
-              Math.min(1, particle.delay + 0.82),
-              1,
-            ],
-            outputRange: [1, 0.85, 1.15, 1],
-            extrapolate: 'clamp',
-          });
-
-          return (
-            <AnimatedG
-              key={particle.id}
-              opacity={opacity}
-              transform={[
-                { translateX: Animated.add(translateX, swimX) },
-                { translateY: Animated.add(translateY, swimY) },
-                { scaleX: arrivalSquash },
-                { scaleY: arrivalStretch },
-              ]}
-            >
-              <Path d={particle.blobPath} fill={particle.color} opacity={0.85} />
-            </AnimatedG>
-          );
-        })}
-      </Svg>
+      {isSvgAvailable ? (
+        <Svg
+          width={SCREEN_WIDTH}
+          height={SCREEN_HEIGHT}
+          style={StyleSheet.absoluteFill}
+        >
+          {particleNodes}
+        </Svg>
+      ) : (
+        <View style={styles.fallbackLayer} pointerEvents="none">
+          {particleNodes}
+        </View>
+      )}
 
       <Animated.View
         style={[
@@ -464,6 +549,12 @@ const styles = StyleSheet.create({
   icon: {
     width: ICON_SIZE,
     height: ICON_SIZE,
+  },
+  fallbackLayer: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  fallbackParticle: {
+    position: 'absolute',
   },
 });
 

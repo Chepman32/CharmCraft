@@ -470,43 +470,56 @@ class PhraseService {
     await this.initialize();
     await this.ensureLanguageSynced();
 
-    let filteredPhrases = [...this.phrases];
-
-    // Keep full breadth of phrases; manual translations are applied where available
-
-    // Apply filters first so we can decide whether to load more based on filtered count
-    if (filters.category) {
-      filteredPhrases = filteredPhrases.filter(
-        phrase => phrase.category === filters.category,
+    const lang = await this.getCurrentLanguage();
+    const normalizeSearchText = (value: string): string => value.toLocaleLowerCase();
+    const searchLower = filters.searchText ? normalizeSearchText(filters.searchText) : '';
+    const getSearchableTexts = (phrase: Phrase): string[] => {
+      const baseText = this.originalTextMap.get(phrase.id) || phrase.text || '';
+      if (lang === 'en') return [baseText];
+      const localizedText = this.translationMap.get(phrase.id) || baseText;
+      return localizedText === baseText ? [baseText] : [localizedText, baseText];
+    };
+    const matchesSearch = (phrase: Phrase): boolean => {
+      if (!filters.searchText) return true;
+      if (phrase.tags.some(tag => normalizeSearchText(tag).includes(searchLower))) {
+        return true;
+      }
+      return getSearchableTexts(phrase).some(text =>
+        normalizeSearchText(text).includes(searchLower),
       );
-    }
+    };
+    const applyFilters = (phrases: Phrase[]): Phrase[] => {
+      let result = phrases;
 
-    if (filters.situation) {
-      filteredPhrases = filteredPhrases.filter(
-        phrase => phrase.situation === filters.situation,
-      );
-    }
+      // Keep full breadth of phrases; manual translations are applied where available
 
-    if (filters.tone) {
-      filteredPhrases = filteredPhrases.filter(
-        phrase => phrase.tone === filters.tone,
-      );
-    }
+      // Apply filters first so we can decide whether to load more based on filtered count
+      if (filters.category) {
+        result = result.filter(phrase => phrase.category === filters.category);
+      }
 
-    if (filters.tags && filters.tags.length > 0) {
-      filteredPhrases = filteredPhrases.filter(phrase =>
-        filters.tags!.some(tag => phrase.tags.includes(tag)),
-      );
-    }
+      if (filters.situation) {
+        result = result.filter(phrase => phrase.situation === filters.situation);
+      }
 
-    if (filters.searchText) {
-      const searchLower = filters.searchText.toLowerCase();
-      filteredPhrases = filteredPhrases.filter(
-        phrase =>
-          phrase.text.toLowerCase().includes(searchLower) ||
-          phrase.tags.some(tag => tag.toLowerCase().includes(searchLower)),
-      );
-    }
+      if (filters.tone) {
+        result = result.filter(phrase => phrase.tone === filters.tone);
+      }
+
+      if (filters.tags && filters.tags.length > 0) {
+        result = result.filter(phrase =>
+          filters.tags!.some(tag => phrase.tags.includes(tag)),
+        );
+      }
+
+      if (filters.searchText) {
+        result = result.filter(matchesSearch);
+      }
+
+      return result;
+    };
+
+    let filteredPhrases = applyFilters([...this.phrases]);
 
     // If using large dataset and filtered results look sparse, load more from relevant category
     if (this.useLargeDataset && loadMore) {
@@ -522,40 +535,11 @@ class PhraseService {
           await this.loadMorePhrases(undefined);
         }
         // Recompute after loading more
-        filteredPhrases = [...this.phrases];
-        if (filters.category) {
-          filteredPhrases = filteredPhrases.filter(
-            phrase => phrase.category === filters.category,
-          );
-        }
-        if (filters.situation) {
-          filteredPhrases = filteredPhrases.filter(
-            phrase => phrase.situation === filters.situation,
-          );
-        }
-        if (filters.tone) {
-          filteredPhrases = filteredPhrases.filter(
-            phrase => phrase.tone === filters.tone,
-          );
-        }
-        if (filters.tags && filters.tags.length > 0) {
-          filteredPhrases = filteredPhrases.filter(phrase =>
-            filters.tags!.some(tag => phrase.tags.includes(tag)),
-          );
-        }
-        if (filters.searchText) {
-          const searchLower = filters.searchText.toLowerCase();
-          filteredPhrases = filteredPhrases.filter(
-            phrase =>
-              phrase.text.toLowerCase().includes(searchLower) ||
-              phrase.tags.some(tag => tag.toLowerCase().includes(searchLower)),
-          );
-        }
+        filteredPhrases = applyFilters([...this.phrases]);
       }
     }
 
     // Apply localization
-    const lang = await this.getCurrentLanguage();
     const localizedPhrases = await Promise.all(
       filteredPhrases.map(async p => ({
         ...p,

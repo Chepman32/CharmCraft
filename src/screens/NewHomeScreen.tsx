@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import {
   View,
   Text,
-  TextInput,
   TouchableOpacity,
   StyleSheet,
   SafeAreaView,
@@ -10,7 +9,6 @@ import {
   Dimensions,
   Alert,
 } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useTheme } from '../contexts/ThemeContext';
 import { useTranslation } from '../contexts/LocalizationContext';
 import { useFeedback } from '../hooks/useFeedback';
@@ -24,7 +22,6 @@ const NewHomeScreen: React.FC = () => {
   const { theme } = useTheme();
   const { t, language } = useTranslation();
   const { playButtonTap, playSuccess } = useFeedback();
-  const [searchText, setSearchText] = useState('');
   const [selectedCategory, setSelectedCategory] =
     useState<PhraseCategory | null>(null);
   const [intensity, setIntensity] = useState<'soft' | 'neutral' | 'bold'>(
@@ -56,10 +53,6 @@ const NewHomeScreen: React.FC = () => {
 
       filters.tone = intensityToTone(intensity);
 
-      if (searchText.trim()) {
-        filters.searchText = searchText.trim();
-      }
-
       let phrase = await PhraseService.getRandomPhrase(filters);
       if (!phrase && selectedCategory) {
         const fallbackFilters: SearchFilters = { ...filters, category: undefined };
@@ -73,7 +66,7 @@ const NewHomeScreen: React.FC = () => {
     } catch (error) {
       console.error('Error generating phrase:', error);
     }
-  }, [selectedCategory, intensity, searchText]);
+  }, [selectedCategory, intensity]);
 
   const initializeApp = useCallback(async () => {
     try {
@@ -103,7 +96,7 @@ const NewHomeScreen: React.FC = () => {
     if (!initializing) {
       generateNewPhrase();
     }
-  }, [selectedCategory, intensity, searchText, initializing, generateNewPhrase]);
+  }, [selectedCategory, intensity, initializing, generateNewPhrase]);
 
   const categoryButtons = React.useMemo(() => [
     {
@@ -139,22 +132,6 @@ const NewHomeScreen: React.FC = () => {
         loadingText: { fontSize: 16, color: '#E3F2FD' },
         header: { alignItems: 'center', paddingTop: 16, paddingBottom: 20 },
         title: { fontSize: 32, fontWeight: 'bold', color: '#333333' },
-        searchContainer: { paddingHorizontal: 20, marginBottom: 20 },
-        searchInputContainer: {
-          flexDirection: 'row',
-          alignItems: 'center',
-          backgroundColor: '#FFFFFF',
-          borderRadius: 25,
-          paddingHorizontal: 20,
-          paddingVertical: 12,
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.1,
-          shadowRadius: 4,
-          elevation: 3,
-        },
-        searchIcon: { marginRight: 10 },
-        searchInput: { flex: 1, fontSize: 16, color: '#333333' },
         categoryContainer: {
           flexDirection: 'row',
           flexWrap: 'wrap',
@@ -294,25 +271,6 @@ const NewHomeScreen: React.FC = () => {
             <Text style={styles.title}>{t('home.title')}</Text>
           </View>
 
-          {/* Search Bar */}
-          <View style={styles.searchContainer}>
-            <View style={styles.searchInputContainer}>
-              <Icon
-                name="search"
-                size={20}
-                color="#999"
-                style={styles.searchIcon}
-              />
-              <TextInput
-                style={styles.searchInput}
-                placeholder={t('home.search')}
-                value={searchText}
-                onChangeText={setSearchText}
-                placeholderTextColor={theme?.colors?.textSecondary || '#999'}
-              />
-            </View>
-          </View>
-
           {/* Category Buttons */}
           <View style={styles.categoryContainer}>
             {categoryButtons.map((category) => (
@@ -446,31 +404,6 @@ const createStyles = (theme: any) =>
     title: {
       fontSize: 32,
       fontWeight: 'bold',
-      color: theme.colors.text,
-    },
-    searchContainer: {
-      paddingHorizontal: 20,
-      marginBottom: 20,
-    },
-    searchInputContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      backgroundColor: theme.colors.surface,
-      borderRadius: 25,
-      paddingHorizontal: 20,
-      paddingVertical: 12,
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.1,
-      shadowRadius: 4,
-      elevation: 3,
-    },
-    searchIcon: {
-      marginRight: 10,
-    },
-    searchInput: {
-      flex: 1,
-      fontSize: 16,
       color: theme.colors.text,
     },
     categoryContainer: {

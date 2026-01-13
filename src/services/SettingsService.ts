@@ -1,19 +1,17 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import SoundService from './SoundService';
-import HapticService from './HapticService';
+import HapticService, { HapticType } from './HapticService';
 
 const SETTINGS_KEYS = {
   THEME: 'kissio_theme',
   LANGUAGE: 'kissio_language',
-  SOUND_ENABLED: 'kissio_sound_enabled',
   HAPTICS_ENABLED: 'kissio_haptics_enabled',
   SPLASH_BLOB_STYLE: 'kissio_splash_blob_style',
+  ONBOARDING_COMPLETE: 'kissio_onboarding_complete',
 };
 
 export interface AppSettings {
   theme: string;
   language: string;
-  soundEnabled: boolean;
   hapticsEnabled: boolean;
   splashBlobStyle: string;
 }
@@ -22,7 +20,6 @@ class SettingsService {
   private settings: AppSettings = {
     theme: 'light',
     language: 'en',
-    soundEnabled: true,
     hapticsEnabled: true,
     splashBlobStyle: 'aqua',
   };
@@ -30,7 +27,6 @@ class SettingsService {
   async initialize(): Promise<void> {
     try {
       await this.loadAllSettings();
-      await SoundService.initialize();
       await HapticService.initialize();
     } catch (error) {
       console.error('Error initializing SettingsService:', error);
@@ -39,11 +35,10 @@ class SettingsService {
 
   private async loadAllSettings(): Promise<void> {
     try {
-      const [theme, language, soundEnabled, hapticsEnabled, splashBlobStyle] =
+      const [theme, language, hapticsEnabled, splashBlobStyle] =
         await Promise.all([
           this.getTheme(),
           this.getLanguage(),
-          this.getSoundEnabled(),
           this.getHapticsEnabled(),
           this.getSplashBlobStyle(),
         ]);
@@ -51,7 +46,6 @@ class SettingsService {
       this.settings = {
         theme,
         language,
-        soundEnabled,
         hapticsEnabled,
         splashBlobStyle,
       };
@@ -98,32 +92,6 @@ class SettingsService {
       this.settings.language = language;
     } catch (error) {
       console.error('Error setting language:', error);
-      throw error;
-    }
-  }
-
-  // Sound Settings
-  async getSoundEnabled(): Promise<boolean> {
-    try {
-      const soundEnabled = await AsyncStorage.getItem(
-        SETTINGS_KEYS.SOUND_ENABLED,
-      );
-      return soundEnabled !== null ? JSON.parse(soundEnabled) : true;
-    } catch (error) {
-      console.error('Error getting sound enabled:', error);
-      return true;
-    }
-  }
-
-  async setSoundEnabled(enabled: boolean): Promise<void> {
-    try {
-      await AsyncStorage.setItem(
-        SETTINGS_KEYS.SOUND_ENABLED,
-        JSON.stringify(enabled),
-      );
-      this.settings.soundEnabled = enabled;
-    } catch (error) {
-      console.error('Error setting sound enabled:', error);
       throw error;
     }
   }
@@ -175,6 +143,31 @@ class SettingsService {
     }
   }
 
+  // Onboarding
+  async getOnboardingComplete(): Promise<boolean> {
+    try {
+      const value = await AsyncStorage.getItem(
+        SETTINGS_KEYS.ONBOARDING_COMPLETE,
+      );
+      return value !== null ? JSON.parse(value) : false;
+    } catch (error) {
+      console.error('Error getting onboarding status:', error);
+      return false;
+    }
+  }
+
+  async setOnboardingComplete(complete: boolean): Promise<void> {
+    try {
+      await AsyncStorage.setItem(
+        SETTINGS_KEYS.ONBOARDING_COMPLETE,
+        JSON.stringify(complete),
+      );
+    } catch (error) {
+      console.error('Error setting onboarding status:', error);
+      throw error;
+    }
+  }
+
   // Get all settings at once
   getSettings(): AppSettings {
     return { ...this.settings };
@@ -189,9 +182,6 @@ class SettingsService {
     }
     if (newSettings.language !== undefined) {
       updates.push(this.setLanguage(newSettings.language));
-    }
-    if (newSettings.soundEnabled !== undefined) {
-      updates.push(this.setSoundEnabled(newSettings.soundEnabled));
     }
     if (newSettings.hapticsEnabled !== undefined) {
       updates.push(this.setHapticsEnabled(newSettings.hapticsEnabled));
@@ -209,16 +199,9 @@ class SettingsService {
   }
 
   // Utility methods for feedback
-  triggerHapticFeedback(type: 'light' | 'medium' | 'heavy' = 'light'): void {
+  triggerHapticFeedback(type: HapticType = 'light'): void {
     if (this.settings.hapticsEnabled) {
       HapticService.triggerHaptic(type);
-    }
-  }
-
-  // Sound feedback
-  triggerSoundFeedback(soundType: 'tap' | 'success' | 'error' = 'tap'): void {
-    if (this.settings.soundEnabled) {
-      SoundService.playSound(soundType);
     }
   }
 
@@ -228,15 +211,14 @@ class SettingsService {
       await Promise.all([
         AsyncStorage.removeItem(SETTINGS_KEYS.THEME),
         AsyncStorage.removeItem(SETTINGS_KEYS.LANGUAGE),
-        AsyncStorage.removeItem(SETTINGS_KEYS.SOUND_ENABLED),
         AsyncStorage.removeItem(SETTINGS_KEYS.HAPTICS_ENABLED),
         AsyncStorage.removeItem(SETTINGS_KEYS.SPLASH_BLOB_STYLE),
+        AsyncStorage.removeItem(SETTINGS_KEYS.ONBOARDING_COMPLETE),
       ]);
 
       this.settings = {
         theme: 'light',
         language: 'en',
-        soundEnabled: true,
         hapticsEnabled: true,
         splashBlobStyle: 'aqua',
       };

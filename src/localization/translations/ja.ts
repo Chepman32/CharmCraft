@@ -4,6 +4,7 @@ export const ja: typeof en = {
   navigation: {
     ...en.navigation,
     home: 'ホーム',
+    search: '検索',
     favorites: 'お気に入り',
     collections: 'コレクション',
     settings: '設定',
@@ -26,8 +27,44 @@ export const ja: typeof en = {
     blobStyleLavaDescription: '重めでゆったりした動き',
     blobStyleMidnight: 'ミッドナイト・ジェリー',
     blobStyleMidnightDescription: '強いコントラストと弾む揺れ',
+    onboardingReset: 'オンボーディング',
+    onboardingResetDescription:
+      '次回起動時にオンボーディングを再表示します',
+    onboardingResetButton: 'オンボーディングをリセット',
     developedBy: '開発: Anton Chepur',
     about: 'について',
+  },
+  onboarding: {
+    slides: {
+      findWords: {
+        title: 'ぴったりの言葉を見つけよう',
+        subtitle: 'その瞬間と気分に合うフレーズをすぐに見つけられます。',
+      },
+      makePersonal: {
+        title: '自分らしく',
+        subtitle: '優しく、誠実に、自信のある雰囲気へトーンを調整できます。',
+      },
+      stayReady: {
+        title: 'いつでも準備万端',
+        subtitle: 'お気に入りに保存して、最高の一言をいつでもすぐに。',
+      },
+      buildCollections: {
+        title: 'コレクションを作ろう',
+        subtitle: '相手・シーン・スタイル別に整理できます。',
+      },
+      setVibe: {
+        title: '雰囲気を整える',
+        subtitle: 'テーマや触覚フィードバックを好みに合わせて選べます。',
+      },
+      startConfidence: {
+        title: '自信を持って始めよう',
+        subtitle: '上手に言えれば、どんな瞬間ももっと素敵に。',
+      },
+    },
+    skip: 'スキップ',
+    back: '戻る',
+    next: '次へ',
+    getStarted: 'はじめる',
   },
   themes: {
     ...en.themes,
@@ -47,6 +84,15 @@ export const ja: typeof en = {
     bold: 'ボールド',
     loadingTitle: 'Kissio',
     loadingText: '完璧なフレーズを読み込み中...',
+  },
+  search: {
+    ...en.search,
+    title: '検索',
+    placeholder: 'フレーズを検索...',
+    helperTitle: 'フレーズを検索',
+    helperDescription: '入力を始めると結果が表示されます。',
+    emptyTitle: 'フレーズが見つかりません',
+    emptyDescription: '別のキーワードを試してください。',
   },
   categories: {
     ...en.categories,

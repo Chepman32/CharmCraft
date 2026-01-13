@@ -16,12 +16,15 @@ import HapticService from './src/services/HapticService';
 import AppNavigator from './src/navigation/AppNavigator';
 import SimpleTest from './src/components/SimpleTest';
 import LiquidSplashScreen from './src/components/LiquidSplashScreen';
+import OnboardingScreen from './src/screens/OnboardingScreen';
 import './src/utils/AppTester'; // Auto-run tests in development
 
 const AppContent: React.FC = () => {
   const { theme } = useTheme();
   const [splashComplete, setSplashComplete] = useState(false);
   const [splashBlobStyle, setSplashBlobStyle] = useState('aqua');
+  const [onboardingComplete, setOnboardingComplete] = useState(false);
+  const [onboardingReady, setOnboardingReady] = useState(false);
 
   useEffect(() => {
     const initializeServices = async () => {
@@ -31,8 +34,12 @@ const AppContent: React.FC = () => {
         await HapticService.initialize();
         const settings = SettingsService.getSettings();
         setSplashBlobStyle(settings.splashBlobStyle || 'aqua');
+        const onboardingStatus = await SettingsService.getOnboardingComplete();
+        setOnboardingComplete(onboardingStatus);
+        setOnboardingReady(true);
       } catch (error) {
         console.error('Error initializing services:', error);
+        setOnboardingReady(true);
       }
     };
 
@@ -53,7 +60,22 @@ const AppContent: React.FC = () => {
         barStyle={safeTheme.name === 'dark' ? 'light-content' : 'dark-content'}
         backgroundColor={safeTheme.colors.statusBarBackground}
       />
-      <AppNavigator />
+      {onboardingReady &&
+        (onboardingComplete ? (
+          <AppNavigator />
+        ) : (
+          <OnboardingScreen
+            onFinish={async () => {
+              try {
+                await SettingsService.setOnboardingComplete(true);
+              } catch (error) {
+                console.error('Error saving onboarding status:', error);
+              } finally {
+                setOnboardingComplete(true);
+              }
+            }}
+          />
+        ))}
       {!splashComplete && (
         <LiquidSplashScreen
           blobStyle={splashBlobStyle}

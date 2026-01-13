@@ -4,6 +4,7 @@ export const fr: typeof en = {
   navigation: {
     ...en.navigation,
     home: 'Accueil',
+    search: 'Rechercher',
     favorites: 'Favoris',
     collections: 'Collections',
     settings: 'Paramètres',
@@ -31,8 +32,48 @@ export const fr: typeof en = {
     blobStyleMidnight: 'Gelée Nocturne',
     blobStyleMidnightDescription:
       'Fort contraste avec un rebond souple',
+    onboardingReset: 'Onboarding',
+    onboardingResetDescription:
+      'Affiche à nouveau l’onboarding au prochain lancement de l’app',
+    onboardingResetButton: 'Réinitialiser l’onboarding',
     developedBy: 'Développé par Anton Chepur',
     about: 'À propos',
+  },
+  onboarding: {
+    slides: {
+      findWords: {
+        title: 'Trouvez les bons mots',
+        subtitle:
+          'Découvrez rapidement des phrases qui correspondent au moment et à l’humeur.',
+      },
+      makePersonal: {
+        title: 'Personnalisez-le',
+        subtitle: 'Ajustez le ton pour paraître doux, sincère ou assuré.',
+      },
+      stayReady: {
+        title: 'Restez prêt',
+        subtitle:
+          'Enregistrez vos favoris pour avoir la phrase parfaite toujours à portée de main.',
+      },
+      buildCollections: {
+        title: 'Créez des collections',
+        subtitle: 'Organisez les phrases par personne, occasion ou style.',
+      },
+      setVibe: {
+        title: 'Définissez votre ambiance',
+        subtitle:
+          'Choisissez des thèmes et des retours haptiques qui vous conviennent parfaitement.',
+      },
+      startConfidence: {
+        title: 'Commencez avec confiance',
+        subtitle:
+          'Chaque moment est plus agréable quand vous trouvez les bons mots.',
+      },
+    },
+    skip: 'Passer',
+    back: 'Retour',
+    next: 'Suivant',
+    getStarted: 'Commencer',
   },
   themes: {
     ...en.themes,
@@ -52,6 +93,15 @@ export const fr: typeof en = {
     bold: 'Audacieux',
     loadingTitle: 'Kissio',
     loadingText: 'Chargement de vos phrases parfaites...',
+  },
+  search: {
+    ...en.search,
+    title: 'Rechercher',
+    placeholder: 'Rechercher des phrases...',
+    helperTitle: 'Rechercher des phrases',
+    helperDescription: 'Commencez à saisir pour voir les résultats.',
+    emptyTitle: 'Aucune phrase trouvée',
+    emptyDescription: 'Essayez un autre mot-clé.',
   },
   categories: {
     ...en.categories,

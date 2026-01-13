@@ -4,6 +4,7 @@ export const zh: typeof en = {
   navigation: {
     ...en.navigation,
     home: '首页',
+    search: '搜索',
     favorites: '收藏',
     collections: '合集',
     settings: '设置',
@@ -26,8 +27,43 @@ export const zh: typeof en = {
     blobStyleLavaDescription: '厚重、缓慢的流动感',
     blobStyleMidnight: '午夜果冻',
     blobStyleMidnightDescription: '高对比、弹性十足',
+    onboardingReset: '新手引导',
+    onboardingResetDescription: '下次打开应用时再次显示引导页面',
+    onboardingResetButton: '重置引导',
     developedBy: '开发者：Anton Chepur',
     about: '关于',
+  },
+  onboarding: {
+    slides: {
+      findWords: {
+        title: '找到合适的表达',
+        subtitle: '快速发现符合当下时刻和心情的表达。',
+      },
+      makePersonal: {
+        title: '更贴合你',
+        subtitle: '调整语气，让表达更温柔、真诚或自信。',
+      },
+      stayReady: {
+        title: '随时准备',
+        subtitle: '收藏常用语句，让完美表达随手可得。',
+      },
+      buildCollections: {
+        title: '创建合集',
+        subtitle: '按对象、场合或风格整理短语。',
+      },
+      setVibe: {
+        title: '设定氛围',
+        subtitle: '选择合适的主题和触感反馈。',
+      },
+      startConfidence: {
+        title: '自信开始',
+        subtitle: '说得恰到好处，时刻都更美好。',
+      },
+    },
+    skip: '跳过',
+    back: '返回',
+    next: '下一步',
+    getStarted: '开始使用',
   },
   themes: {
     ...en.themes,
@@ -47,6 +83,15 @@ export const zh: typeof en = {
     bold: '大胆',
     loadingTitle: 'Kissio',
     loadingText: '正在加载您的完美短语...',
+  },
+  search: {
+    ...en.search,
+    title: '搜索',
+    placeholder: '搜索短语...',
+    helperTitle: '搜索短语',
+    helperDescription: '开始输入以查看结果。',
+    emptyTitle: '未找到短语',
+    emptyDescription: '尝试其他关键词。',
   },
   categories: {
     ...en.categories,

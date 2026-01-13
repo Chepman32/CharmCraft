@@ -5,6 +5,7 @@ import React, {
   useEffect,
   ReactNode,
 } from 'react';
+import { NativeModules, Platform, I18nManager } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   translations,
@@ -25,6 +26,58 @@ const LocalizationContext = createContext<LocalizationContextType | undefined>(
 );
 
 const LANGUAGE_STORAGE_KEY = 'kissio_language';
+const ONBOARDING_STORAGE_KEY = 'kissio_onboarding_complete';
+
+const getSupportedLanguage = (locale?: string | null): string | null => {
+  if (!locale) return null;
+  const normalized = locale.replace(/_/g, '-').toLowerCase();
+  const base = normalized.split('-')[0];
+  const mapped = base === 'uk' ? 'ua' : base;
+  return languages.some((lang) => lang.code === mapped) ? mapped : null;
+};
+
+const getLocaleFromI18nManager = (): string | null => {
+  const i18nManager = NativeModules.I18nManager;
+  return (
+    i18nManager?.localeIdentifier ||
+    i18nManager?.getConstants?.().localeIdentifier ||
+    I18nManager.getConstants?.().localeIdentifier ||
+    null
+  );
+};
+
+const getDeviceLocale = (): string | null => {
+  try {
+    if (Platform.OS === 'ios') {
+      const settingsManager = NativeModules.SettingsManager;
+      const settings =
+        settingsManager?.settings || settingsManager?.getConstants?.().settings;
+      const locale =
+        settings?.AppleLocale ||
+        (Array.isArray(settings?.AppleLanguages)
+          ? settings?.AppleLanguages?.[0]
+          : null);
+      if (locale) {
+        return locale;
+      }
+    }
+    return getLocaleFromI18nManager();
+  } catch {
+    return null;
+  }
+};
+
+const getDeviceLanguage = (): string | null => {
+  const nativeLocale = getDeviceLocale();
+  const nativeMatch = getSupportedLanguage(nativeLocale);
+  if (nativeMatch) return nativeMatch;
+  try {
+    const intlLocale = Intl.DateTimeFormat().resolvedOptions().locale;
+    return getSupportedLanguage(intlLocale);
+  } catch {
+    return null;
+  }
+};
 
 interface LocalizationProviderProps {
   children: ReactNode;
@@ -44,15 +97,35 @@ export const LocalizationProvider: React.FC<LocalizationProviderProps> = ({
 
   const loadLanguage = async () => {
     try {
-      const savedLanguage = await AsyncStorage.getItem(LANGUAGE_STORAGE_KEY);
-      if (
+      const [savedLanguage, onboardingStatus] = await Promise.all([
+        AsyncStorage.getItem(LANGUAGE_STORAGE_KEY),
+        AsyncStorage.getItem(ONBOARDING_STORAGE_KEY),
+      ]);
+      const onboardingComplete =
+        onboardingStatus !== null ? JSON.parse(onboardingStatus) : false;
+      const savedIsValid =
         savedLanguage &&
-        translations[savedLanguage as keyof typeof translations]
-      ) {
+        translations[savedLanguage as keyof typeof translations];
+
+      if (savedIsValid && onboardingComplete) {
         setLanguageState(savedLanguage);
         setCurrentTranslations({
           ...translations[savedLanguage as keyof typeof translations],
         });
+        return;
+      }
+
+      const deviceLanguage = getDeviceLanguage();
+      const nextLanguage =
+        deviceLanguage || (savedIsValid ? savedLanguage : null) || 'en';
+
+      setLanguageState(nextLanguage);
+      setCurrentTranslations({
+        ...translations[nextLanguage as keyof typeof translations],
+      });
+
+      if (nextLanguage !== savedLanguage) {
+        await AsyncStorage.setItem(LANGUAGE_STORAGE_KEY, nextLanguage);
       }
     } catch (error) {
       console.error('Error loading language:', error);

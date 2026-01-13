@@ -4,6 +4,7 @@ export const ru: typeof en = {
   navigation: {
     ...en.navigation,
     home: 'Главная',
+    search: 'Поиск',
     favorites: 'Избранное',
     collections: 'Коллекции',
     settings: 'Настройки',
@@ -31,10 +32,48 @@ export const ru: typeof en = {
     blobStyleLavaDescription: 'Тяжелые капли с медленным потоком',
     blobStyleMidnight: 'Midnight Jelly',
     blobStyleMidnightDescription: 'Контрастные капли с пружинящим дрожанием',
+    onboardingReset: 'Онбординг',
+    onboardingResetDescription:
+      'Показывать онбординг снова при следующем запуске',
+    onboardingResetButton: 'Сбросить онбординг',
     developedBy: 'Разработал Anton Chepur',
     about: 'О приложении',
     aboutDescription: 'Информация о приложении и версия',
     appDescription: 'Идеальные слова для каждого момента в ваших отношениях',
+  },
+  onboarding: {
+    slides: {
+      findWords: {
+        title: 'Подберите нужные слова',
+        subtitle: 'Быстро находите фразы, которые подходят моменту и настроению.',
+      },
+      makePersonal: {
+        title: 'Сделайте по-своему',
+        subtitle: 'Настройте тон, чтобы звучать мягко, искренне или уверенно.',
+      },
+      stayReady: {
+        title: 'Будьте наготове',
+        subtitle:
+          'Сохраняйте избранное, чтобы идеальная фраза была всегда под рукой.',
+      },
+      buildCollections: {
+        title: 'Создавайте коллекции',
+        subtitle: 'Сортируйте фразы по человеку, случаю или стилю.',
+      },
+      setVibe: {
+        title: 'Задайте настроение',
+        subtitle:
+          'Выбирайте темы и тактильный отклик, которые подходят именно вам.',
+      },
+      startConfidence: {
+        title: 'Начните уверенно',
+        subtitle: 'Каждый момент становится лучше, когда вы говорите это правильно.',
+      },
+    },
+    skip: 'Пропустить',
+    back: 'Назад',
+    next: 'Далее',
+    getStarted: 'Начать',
   },
   themes: {
     ...en.themes,
@@ -54,6 +93,15 @@ export const ru: typeof en = {
     bold: 'Смелая',
     loadingTitle: 'Kissio',
     loadingText: 'Загружаем ваши идеальные фразы...',
+  },
+  search: {
+    ...en.search,
+    title: 'Поиск',
+    placeholder: 'Поиск фраз...',
+    helperTitle: 'Поиск фраз',
+    helperDescription: 'Начните вводить, чтобы увидеть результаты.',
+    emptyTitle: 'Фразы не найдены',
+    emptyDescription: 'Попробуйте другое слово.',
   },
   categories: {
     ...en.categories,

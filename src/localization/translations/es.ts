@@ -4,6 +4,7 @@ export const es: typeof en = {
   navigation: {
     ...en.navigation,
     home: 'Inicio',
+    search: 'Buscar',
     favorites: 'Favoritos',
     collections: 'Colecciones',
     settings: 'Configuración',
@@ -27,8 +28,46 @@ export const es: typeof en = {
     blobStyleLavaDescription: 'Gotas pesadas con movimiento lento y denso',
     blobStyleMidnight: 'Gelatina Nocturna',
     blobStyleMidnightDescription: 'Alto contraste con rebote elástico',
+    onboardingReset: 'Onboarding',
+    onboardingResetDescription:
+      'Muestra el onboarding de nuevo la próxima vez que abras la app',
+    onboardingResetButton: 'Restablecer onboarding',
     developedBy: 'Desarrollado por Anton Chepur',
     about: 'Acerca de',
+  },
+  onboarding: {
+    slides: {
+      findWords: {
+        title: 'Encuentra las palabras correctas',
+        subtitle:
+          'Descubre rápidamente frases que se ajusten al momento y al estado de ánimo.',
+      },
+      makePersonal: {
+        title: 'Hazlo personal',
+        subtitle: 'Ajusta el tono para sonar suave, sincero o seguro.',
+      },
+      stayReady: {
+        title: 'Mantente listo',
+        subtitle:
+          'Guarda favoritos para que la frase perfecta esté siempre a mano.',
+      },
+      buildCollections: {
+        title: 'Crea colecciones',
+        subtitle: 'Organiza las frases por persona, ocasión o estilo.',
+      },
+      setVibe: {
+        title: 'Define tu vibra',
+        subtitle: 'Elige temas y hápticos que se sientan perfectos.',
+      },
+      startConfidence: {
+        title: 'Empieza con confianza',
+        subtitle: 'Cada momento se siente mejor cuando lo dices bien.',
+      },
+    },
+    skip: 'Saltar',
+    back: 'Atrás',
+    next: 'Siguiente',
+    getStarted: 'Empezar',
   },
   themes: {
     ...en.themes,
@@ -48,6 +87,15 @@ export const es: typeof en = {
     bold: 'Audaz',
     loadingTitle: 'Kissio',
     loadingText: 'Cargando tus frases perfectas...',
+  },
+  search: {
+    ...en.search,
+    title: 'Buscar',
+    placeholder: 'Buscar frases...',
+    helperTitle: 'Buscar frases',
+    helperDescription: 'Empieza a escribir para ver resultados.',
+    emptyTitle: 'No se encontraron frases',
+    emptyDescription: 'Prueba con otra palabra clave.',
   },
   categories: {
     ...en.categories,

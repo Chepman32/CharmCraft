@@ -4,7 +4,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useTheme } from '../contexts/ThemeContext';
 import { useTranslation } from '../contexts/LocalizationContext';
+import { useFeedback } from '../hooks/useFeedback';
 import NewHomeScreen from '../screens/NewHomeScreen';
+import SearchScreen from '../screens/SearchScreen';
 import FavoritesScreen from '../screens/FavoritesScreen';
 import CollectionsScreen from '../screens/CollectionsScreen';
 import SettingsScreen from '../screens/SettingsScreen';
@@ -14,6 +16,7 @@ const Tab = createBottomTabNavigator();
 const AppNavigator: React.FC = () => {
   const { theme } = useTheme();
   const { t } = useTranslation();
+  const { playButtonTap } = useFeedback();
 
   // Don't render until theme is ready
   if (!theme || !theme.colors) {
@@ -23,6 +26,11 @@ const AppNavigator: React.FC = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator
+        screenListeners={{
+          tabPress: () => {
+            void playButtonTap();
+          },
+        }}
         screenOptions={{
           headerShown: false,
           tabBarActiveTintColor: theme.colors.primary,
@@ -48,6 +56,14 @@ const AppNavigator: React.FC = () => {
           options={{
             tabBarLabel: t('navigation.home'),
             tabBarIcon: ({ color }) => <HomeIcon color={color} />,
+          }}
+        />
+        <Tab.Screen
+          name="Search"
+          component={SearchScreen}
+          options={{
+            tabBarLabel: t('navigation.search'),
+            tabBarIcon: ({ color }) => <SearchIcon color={color} />,
           }}
         />
         <Tab.Screen
@@ -86,6 +102,10 @@ const HomeIcon: React.FC<{ color: string }> = ({ color }) => (
 
 const FavoritesIcon: React.FC<{ color: string }> = ({ color }) => (
   <Icon name="favorite" size={24} color={color} />
+);
+
+const SearchIcon: React.FC<{ color: string }> = ({ color }) => (
+  <Icon name="search" size={24} color={color} />
 );
 
 const CollectionsIcon: React.FC<{ color: string }> = ({ color }) => (

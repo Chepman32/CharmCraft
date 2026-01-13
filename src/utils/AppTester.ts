@@ -70,10 +70,7 @@ export class AppTester {
       await SettingsService.initialize();
 
       const settings = SettingsService.getSettings();
-      if (
-        typeof settings.soundEnabled !== 'boolean' ||
-        typeof settings.hapticsEnabled !== 'boolean'
-      ) {
+      if (typeof settings.hapticsEnabled !== 'boolean') {
         throw new Error('Invalid settings structure');
       }
 

@@ -4,6 +4,7 @@ export const ua: typeof en = {
   navigation: {
     ...en.navigation,
     home: 'Головна',
+    search: 'Пошук',
     favorites: 'Улюблені',
     collections: 'Колекції',
     settings: 'Налаштування',
@@ -26,8 +27,47 @@ export const ua: typeof en = {
     blobStyleLavaDescription: 'Важкі краплі з повільним плином',
     blobStyleMidnight: 'Midnight Jelly',
     blobStyleMidnightDescription: 'Контрастні краплі з пружним хитанням',
+    onboardingReset: 'Онбординг',
+    onboardingResetDescription:
+      'Показувати онбординг знову під час наступного запуску',
+    onboardingResetButton: 'Скинути онбординг',
     developedBy: 'Розробив Anton Chepur',
     about: 'Про додаток',
+  },
+  onboarding: {
+    slides: {
+      findWords: {
+        title: 'Знайдіть правильні слова',
+        subtitle: 'Швидко знаходьте фрази, що відповідають моменту й настрою.',
+      },
+      makePersonal: {
+        title: 'Зробіть це особистим',
+        subtitle: 'Налаштуйте тон, щоб звучати ніжно, щиро або впевнено.',
+      },
+      stayReady: {
+        title: 'Будьте напоготові',
+        subtitle:
+          'Зберігайте улюблене, щоб ідеальна фраза завжди була поруч.',
+      },
+      buildCollections: {
+        title: 'Створюйте добірки',
+        subtitle: 'Упорядковуйте фрази за людиною, подією чи стилем.',
+      },
+      setVibe: {
+        title: 'Задайте настрій',
+        subtitle:
+          'Обирайте теми та тактильний відгук, що підходять саме вам.',
+      },
+      startConfidence: {
+        title: 'Почніть упевнено',
+        subtitle:
+          'Кожна мить стає кращою, коли ви підбираєте правильні слова.',
+      },
+    },
+    skip: 'Пропустити',
+    back: 'Назад',
+    next: 'Далі',
+    getStarted: 'Почати',
   },
   themes: {
     ...en.themes,
@@ -47,6 +87,15 @@ export const ua: typeof en = {
     bold: 'Смілива',
     loadingTitle: 'Kissio',
     loadingText: 'Завантажуємо ваші ідеальні фрази...',
+  },
+  search: {
+    ...en.search,
+    title: 'Пошук',
+    placeholder: 'Пошук фраз...',
+    helperTitle: 'Пошук фраз',
+    helperDescription: 'Почніть вводити, щоб побачити результати.',
+    emptyTitle: 'Фрази не знайдені',
+    emptyDescription: 'Спробуйте інше слово.',
   },
   categories: {
     ...en.categories,

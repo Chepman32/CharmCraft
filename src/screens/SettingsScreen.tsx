@@ -19,7 +19,6 @@ import { blobStylePresets } from '../constants/splashStyles';
 const SettingsScreen: React.FC = () => {
   const { theme } = useTheme();
   const { t } = useTranslation();
-  const [soundEnabled, setSoundEnabled] = useState(true);
   const [hapticsEnabled, setHapticsEnabled] = useState(true);
   const [splashBlobStyle, setSplashBlobStyle] = useState('aqua');
 
@@ -35,20 +34,10 @@ const SettingsScreen: React.FC = () => {
   const loadSettings = async () => {
     try {
       const settings = SettingsService.getSettings();
-      setSoundEnabled(settings.soundEnabled);
       setHapticsEnabled(settings.hapticsEnabled);
       setSplashBlobStyle(settings.splashBlobStyle || 'aqua');
     } catch (error) {
       console.error('Error loading settings:', error);
-    }
-  };
-
-  const handleSoundToggle = async (enabled: boolean) => {
-    try {
-      await SettingsService.setSoundEnabled(enabled);
-      setSoundEnabled(enabled);
-    } catch (error) {
-      console.error('Error updating sound setting:', error);
     }
   };
 
@@ -65,10 +54,18 @@ const SettingsScreen: React.FC = () => {
     try {
       await SettingsService.setSplashBlobStyle(style);
       SettingsService.triggerHapticFeedback('light');
-      SettingsService.triggerSoundFeedback('tap');
       setSplashBlobStyle(style);
     } catch (error) {
       console.error('Error updating splash blob style:', error);
+    }
+  };
+
+  const handleResetOnboarding = async () => {
+    try {
+      await SettingsService.setOnboardingComplete(false);
+      SettingsService.triggerHapticFeedback('light');
+    } catch (error) {
+      console.error('Error resetting onboarding status:', error);
     }
   };
 
@@ -112,32 +109,6 @@ const SettingsScreen: React.FC = () => {
           description={t('settings.languageDescription')}
         >
           <LanguageSelector onLanguageChange={handleLanguageChange} />
-        </SettingSection>
-
-        {/* Sound Section */}
-        <SettingSection
-          title={t('settings.sound')}
-          description={t('settings.soundDescription')}
-        >
-          <View style={styles.toggleRow}>
-            <View style={styles.toggleInfo}>
-              <Text style={[styles.toggleLabel, { color: theme.colors.text }]}>
-                {t('settings.sound')}
-              </Text>
-              <Text
-                style={[
-                  styles.toggleDescription,
-                  { color: theme.colors.textSecondary },
-                ]}
-              >
-                {t('settings.soundToggleDescription')}
-              </Text>
-            </View>
-            <ToggleSwitch
-              value={soundEnabled}
-              onValueChange={handleSoundToggle}
-            />
-          </View>
         </SettingSection>
 
         {/* Haptics Section */}
@@ -213,6 +184,36 @@ const SettingsScreen: React.FC = () => {
               );
             })}
           </View>
+        </SettingSection>
+
+        {/* Onboarding Section */}
+        <SettingSection
+          title={t('settings.onboardingReset')}
+          description={t('settings.onboardingResetDescription')}
+        >
+          <Pressable
+            onPress={handleResetOnboarding}
+            style={({ pressed }) => [
+              styles.resetButton,
+              {
+                backgroundColor: pressed
+                  ? theme.colors.primary
+                  : theme.colors.surface,
+                borderColor: theme.colors.primary,
+              },
+            ]}
+          >
+            {({ pressed }) => (
+              <Text
+                style={[
+                  styles.resetButtonText,
+                  { color: pressed ? '#FFFFFF' : theme.colors.primary },
+                ]}
+              >
+                {t('settings.onboardingResetButton')}
+              </Text>
+            )}
+          </Pressable>
         </SettingSection>
 
         {/* About Section */}
@@ -317,6 +318,16 @@ const styles = StyleSheet.create({
   blobStyleDescription: {
     fontSize: 13,
     lineHeight: 18,
+  },
+  resetButton: {
+    borderWidth: 1,
+    paddingVertical: 12,
+    borderRadius: 14,
+    alignItems: 'center',
+  },
+  resetButtonText: {
+    fontSize: 15,
+    fontWeight: '600',
   },
   aboutContent: {
     alignItems: 'center',

@@ -4,6 +4,7 @@ export const pt: typeof en = {
   navigation: {
     ...en.navigation,
     home: 'Início',
+    search: 'Pesquisar',
     favorites: 'Favoritos',
     collections: 'Coleções',
     settings: 'Configurações',
@@ -28,8 +29,47 @@ export const pt: typeof en = {
     blobStyleMidnight: 'Gelatina da Meia-Noite',
     blobStyleMidnightDescription:
       'Alto contraste com balanço elástico',
+    onboardingReset: 'Onboarding',
+    onboardingResetDescription:
+      'Mostre o onboarding novamente na próxima vez que abrir o app',
+    onboardingResetButton: 'Redefinir onboarding',
     developedBy: 'Desenvolvido por Anton Chepur',
     about: 'Sobre',
+  },
+  onboarding: {
+    slides: {
+      findWords: {
+        title: 'Encontre as palavras certas',
+        subtitle:
+          'Descubra rapidamente frases que combinam com o momento e o clima.',
+      },
+      makePersonal: {
+        title: 'Torne pessoal',
+        subtitle: 'Ajuste o tom para soar suave, sincero ou confiante.',
+      },
+      stayReady: {
+        title: 'Esteja pronto',
+        subtitle:
+          'Salve favoritos para que a frase perfeita esteja sempre por perto.',
+      },
+      buildCollections: {
+        title: 'Crie coleções',
+        subtitle: 'Organize frases por pessoa, ocasião ou estilo.',
+      },
+      setVibe: {
+        title: 'Defina seu clima',
+        subtitle:
+          'Escolha temas e feedback háptico que sejam perfeitos para você.',
+      },
+      startConfidence: {
+        title: 'Comece com confiança',
+        subtitle: 'Cada momento fica melhor quando você diz bem.',
+      },
+    },
+    skip: 'Pular',
+    back: 'Voltar',
+    next: 'Próximo',
+    getStarted: 'Começar',
   },
   themes: {
     ...en.themes,
@@ -49,6 +89,15 @@ export const pt: typeof en = {
     bold: 'Ousado',
     loadingTitle: 'Kissio',
     loadingText: 'Carregando suas frases perfeitas...',
+  },
+  search: {
+    ...en.search,
+    title: 'Pesquisar',
+    placeholder: 'Pesquisar frases...',
+    helperTitle: 'Pesquisar frases',
+    helperDescription: 'Comece a digitar para ver resultados.',
+    emptyTitle: 'Nenhuma frase encontrada',
+    emptyDescription: 'Tente outra palavra-chave.',
   },
   categories: {
     ...en.categories,
