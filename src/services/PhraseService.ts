@@ -309,9 +309,10 @@ class PhraseService {
    * current language. We only use it for English or when a corresponding
    * large translation file exists for the language.
    */
-  private canUseLargeDatasetForLanguage(language: string): boolean {
-    // Large dataset translations are still mixed/partial; keep non-English on the curated set.
-    return language === 'en';
+  private canUseLargeDatasetForLanguage(_language: string): boolean {
+    // Enable large dataset for all languages to ensure funny category works
+    // The funny category (playful_challenges) only exists in the large dataset
+    return true;
   }
 
   private async loadPhrasesFromJSON(): Promise<void> {

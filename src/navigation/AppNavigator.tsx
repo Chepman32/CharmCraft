@@ -3,6 +3,7 @@ import { TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../contexts/ThemeContext';
 import { useTranslation } from '../contexts/LocalizationContext';
 import { useFeedback } from '../hooks/useFeedback';
@@ -18,6 +19,7 @@ const AppNavigator: React.FC = () => {
   const { theme } = useTheme();
   const { t } = useTranslation();
   const { playButtonTap } = useFeedback();
+  const insets = useSafeAreaInsets();
 
   // Don't render until theme is ready
   if (!theme || !theme.colors) {
@@ -45,13 +47,14 @@ const AppNavigator: React.FC = () => {
             backgroundColor: theme.colors.tabBarBackground,
             borderTopWidth: 1,
             borderTopColor: theme.colors.border,
-            paddingBottom: 8,
+            paddingBottom: 8 + insets.bottom,
             paddingTop: 8,
-            height: 70,
+            height: 50 + insets.bottom,
           },
           tabBarLabelStyle: {
             fontSize: 11,
             fontWeight: '500',
+            lineHeight: 14,
             marginTop: 2,
           },
         }}
