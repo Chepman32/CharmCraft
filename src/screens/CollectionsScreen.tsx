@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { useTheme } from '../contexts/ThemeContext';
 import { useTranslation } from '../contexts/LocalizationContext';
+import { useFeedback } from '../hooks/useFeedback';
 import { Phrase, PhraseCategory } from '../data/phraseTypes';
 import PhraseService from '../services/PhraseService';
 import PhraseCard from '../components/PhraseCard';
@@ -16,6 +17,7 @@ import PhraseCard from '../components/PhraseCard';
 const CollectionsScreen: React.FC = () => {
   const { theme } = useTheme();
   const { t } = useTranslation();
+  const { playSelectionChange } = useFeedback();
   const [phrases, setPhrases] = useState<Phrase[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<PhraseCategory>(
     PhraseCategory.COMPLIMENT,
@@ -203,7 +205,10 @@ const CollectionsScreen: React.FC = () => {
                 styles.categoryTab,
                 selectedCategory === item.key && styles.categoryTabActive,
               ]}
-              onPress={() => setSelectedCategory(item.key)}
+              onPress={() => {
+                playSelectionChange();
+                setSelectedCategory(item.key);
+              }}
             >
               <Text
                 style={[

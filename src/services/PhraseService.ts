@@ -49,6 +49,7 @@ class PhraseService {
   private originalTextMap: Map<string, string> = new Map();
   // Accept automated translations only when they look like the target language
   private acceptAutomatedTranslations = false;
+  private largeTranslationCategoriesLoaded: Set<string> = new Set();
 
   // Helper: accept only manual translations from JSON dictionaries
   private isManualTranslationEntry(p: any): boolean {
@@ -95,11 +96,123 @@ class PhraseService {
     }
   }
 
+  private getLargeTranslationDict(language: string): any | null {
+    switch (language) {
+      case 'ru':
+        return require('../data/translations-large/ru.json');
+      case 'es':
+        return require('../data/translations-large/es.json');
+      case 'de':
+        return require('../data/translations-large/de.json');
+      case 'fr':
+        return require('../data/translations-large/fr.json');
+      case 'pt':
+        return require('../data/translations-large/pt.json');
+      case 'ja':
+        return require('../data/translations-large/ja.json');
+      case 'zh':
+        return require('../data/translations-large/zh.json');
+      case 'ko':
+        return require('../data/translations-large/ko.json');
+      case 'ua':
+        // Skip large UA file (invalid JSON); only include small dictionary
+        return null;
+      default:
+        return null;
+    }
+  }
+
+  private looksAcceptableAutomated(text: string, lang: string): boolean {
+    if (this.acceptAutomatedTranslations) return true;
+    if (!text) return false;
+    const count = (re: RegExp) => (text.match(re) || []).length;
+    const latin = count(/[A-Za-z]/g);
+    const cyrillic = count(/[\u0400-\u04FF]/g);
+    const han = count(/[\u3400-\u4DBF\u4E00-\u9FFF]/g);
+    const kana = count(/[\u3040-\u30FF]/g);
+    const hangul = count(/[\uAC00-\uD7A3]/g);
+    const hasAnyLetters = latin + cyrillic + han + kana + hangul > 0;
+    if (!hasAnyLetters) return true;
+
+    const isLatinLang = lang === 'es' || lang === 'pt' || lang === 'fr' || lang === 'de';
+    if (isLatinLang) {
+      return cyrillic === 0 && han === 0 && kana === 0 && hangul === 0;
+    }
+
+    // For Cyrillic languages (ru, ua), ensure majority is Cyrillic and avoid obvious English glue
+    if (lang === 'ru' || lang === 'ua') {
+      const total = cyrillic + latin;
+      const ratio = total > 0 ? cyrillic / total : 0;
+      const hasBadGlue = /\b(also|your|you|is so good)\b/i.test(text);
+      return cyrillic >= 3 && ratio >= 0.6 && !hasBadGlue;
+    }
+
+    // For CJK languages, require the native script to dominate any Latin leftovers
+    if (lang === 'ja') {
+      if (cyrillic > 0 || hangul > 0) return false;
+      const native = han + kana;
+      const total = native + latin;
+      const ratio = total > 0 ? native / total : 0;
+      return native >= 3 && ratio >= 0.5;
+    }
+    if (lang === 'zh') {
+      if (cyrillic > 0 || kana > 0 || hangul > 0) return false;
+      const native = han;
+      const total = native + latin;
+      const ratio = total > 0 ? native / total : 0;
+      return native >= 2 && ratio >= 0.5;
+    }
+    if (lang === 'ko') {
+      if (cyrillic > 0 || kana > 0 || han > 0) return false;
+      const native = hangul;
+      const total = native + latin;
+      const ratio = total > 0 ? native / total : 0;
+      return native >= 2 && ratio >= 0.5;
+    }
+
+    return true;
+  }
+
+  private addLargeCategoryTranslations(language: string, categoryKeys: string[]): void {
+    if (categoryKeys.length === 0) return;
+    const dict = this.getLargeTranslationDict(language);
+    if (!dict || !dict.categories) return;
+
+    const keysToLoad = categoryKeys.filter(key => !this.largeTranslationCategoriesLoaded.has(key));
+    if (keysToLoad.length === 0) return;
+
+    const addEntries = (acceptAutomated: boolean) => {
+      for (const categoryKey of keysToLoad) {
+        const categoryData = dict.categories[categoryKey];
+        if (!categoryData || !Array.isArray(categoryData.phrases)) continue;
+        for (const p of categoryData.phrases as PhraseData[]) {
+          const id = `${categoryKey}_${(p as any).id}`;
+          const isManual = this.isManualTranslationEntry(p);
+          if (acceptAutomated ? !isManual : isManual) {
+            if (!this.translationMap.has(id)) {
+              const text = (p as any).text as string;
+              if (!acceptAutomated || this.looksAcceptableAutomated(text, language)) {
+                this.translationMap.set(id, text);
+              }
+            }
+          }
+        }
+      }
+    };
+
+    // Manual first, then automated fallback for gaps
+    addEntries(false);
+    addEntries(true);
+
+    keysToLoad.forEach(key => this.largeTranslationCategoriesLoaded.add(key));
+  }
+
   /**
    * Build a translation index for the active language, preferring large files.
    */
   private async buildTranslationIndex(language: string): Promise<void> {
     this.translationMap.clear();
+    this.largeTranslationCategoriesLoaded.clear();
     if (language === 'en') return; // English uses source text
 
     let dict: any = null;
@@ -163,57 +276,6 @@ class PhraseService {
       }
     };
 
-    const looksAcceptableAutomated = (text: string, lang: string): boolean => {
-      if (this.acceptAutomatedTranslations) return true;
-      if (!text) return false;
-      const count = (re: RegExp) => (text.match(re) || []).length;
-      const latin = count(/[A-Za-z]/g);
-      const cyrillic = count(/[\u0400-\u04FF]/g);
-      const han = count(/[\u3400-\u4DBF\u4E00-\u9FFF]/g);
-      const kana = count(/[\u3040-\u30FF]/g);
-      const hangul = count(/[\uAC00-\uD7A3]/g);
-      const hasAnyLetters = latin + cyrillic + han + kana + hangul > 0;
-      if (!hasAnyLetters) return true;
-
-      const isLatinLang = lang === 'es' || lang === 'pt' || lang === 'fr' || lang === 'de';
-      if (isLatinLang) {
-        return cyrillic === 0 && han === 0 && kana === 0 && hangul === 0;
-      }
-
-      // For Cyrillic languages (ru, ua), ensure majority is Cyrillic and avoid obvious English glue
-      if (lang === 'ru' || lang === 'ua') {
-        const total = cyrillic + latin;
-        const ratio = total > 0 ? cyrillic / total : 0;
-        const hasBadGlue = /\b(also|your|you|is so good)\b/i.test(text);
-        return cyrillic >= 3 && ratio >= 0.6 && !hasBadGlue;
-      }
-
-      // For CJK languages, require the native script to dominate any Latin leftovers
-      if (lang === 'ja') {
-        if (cyrillic > 0 || hangul > 0) return false;
-        const native = han + kana;
-        const total = native + latin;
-        const ratio = total > 0 ? native / total : 0;
-        return native >= 3 && ratio >= 0.5;
-      }
-      if (lang === 'zh') {
-        if (cyrillic > 0 || kana > 0 || hangul > 0) return false;
-        const native = han;
-        const total = native + latin;
-        const ratio = total > 0 ? native / total : 0;
-        return native >= 2 && ratio >= 0.5;
-      }
-      if (lang === 'ko') {
-        if (cyrillic > 0 || kana > 0 || han > 0) return false;
-        const native = hangul;
-        const total = native + latin;
-        const ratio = total > 0 ? native / total : 0;
-        return native >= 2 && ratio >= 0.5;
-      }
-
-      return true;
-    };
-
     const addToIndexAutomatedFallback = (translations: any) => {
       if (!translations || !translations.categories) return;
       for (const [categoryKey, categoryData] of Object.entries(translations.categories)) {
@@ -224,7 +286,7 @@ class PhraseService {
           // Only fill if we don't already have a manual translation
           if (!this.translationMap.has(id) && !this.isManualTranslationEntry(p)) {
             const text = (p as any).text as string;
-            if (looksAcceptableAutomated(text, language)) {
+            if (this.looksAcceptableAutomated(text, language)) {
               this.translationMap.set(id, text);
             }
           }
@@ -432,6 +494,7 @@ class PhraseService {
       this.largePhrasesDatabase = null;
       this.useLargeDataset = false;
       this.translationMap.clear();
+      this.largeTranslationCategoriesLoaded.clear();
       this.originalTextMap.clear();
       await this.loadPhrasesFromJSON();
       
@@ -559,7 +622,14 @@ class PhraseService {
       return true;
     };
 
-    const localizedFiltered = localizedPhrases.filter(p => looksLocalized(p.text, lang));
+    let localizedFiltered = localizedPhrases.filter(p => looksLocalized(p.text, lang));
+    if (
+      localizedFiltered.length === 0 &&
+      filters.category === PhraseCategory.FUNNY &&
+      (lang === 'ru' || lang === 'ua')
+    ) {
+      localizedFiltered = localizedPhrases;
+    }
 
     // Deduplicate by normalized text to avoid near-identical repeats in UI
     const seen = new Set<string>();
@@ -611,7 +681,22 @@ class PhraseService {
   async ensureMinPhrases(minCount: number, category?: PhraseCategory): Promise<void> {
     await this.initialize();
     await this.ensureLanguageSynced();
-    if (!this.useLargeDataset || !this.largePhrasesDatabase) return;
+    const wantsFunnyFallback =
+      category === PhraseCategory.FUNNY && !this.useLargeDataset;
+    if (!this.useLargeDataset && !wantsFunnyFallback) return;
+    if (!this.largePhrasesDatabase) {
+      try {
+        this.largePhrasesDatabase = require('../data/phrases-large.json') as PhrasesDatabase;
+      } catch (error) {
+        console.warn('Large dataset not available for fallback:', error);
+        return;
+      }
+    }
+    if (wantsFunnyFallback) {
+      const lang = await this.getCurrentLanguage();
+      const keys = this.getAllLargeKeysForLegacy(PhraseCategory.FUNNY);
+      this.addLargeCategoryTranslations(lang, keys);
+    }
 
     const countFor = (): number => {
       if (!category) return this.phrases.length;
@@ -636,7 +721,22 @@ class PhraseService {
 
   // New method to load more phrases on demand
   async loadMorePhrasesOnDemand(category?: PhraseCategory): Promise<void> {
-    if (!this.useLargeDataset) return;
+    const wantsFunnyFallback =
+      category === PhraseCategory.FUNNY && !this.useLargeDataset;
+    if (!this.useLargeDataset && !wantsFunnyFallback) return;
+    if (!this.largePhrasesDatabase) {
+      try {
+        this.largePhrasesDatabase = require('../data/phrases-large.json') as PhrasesDatabase;
+      } catch (error) {
+        console.warn('Large dataset not available for fallback:', error);
+        return;
+      }
+    }
+    if (wantsFunnyFallback) {
+      const lang = await this.getCurrentLanguage();
+      const keys = this.getAllLargeKeysForLegacy(PhraseCategory.FUNNY);
+      this.addLargeCategoryTranslations(lang, keys);
+    }
     if (category) {
       const keys = this.getAllLargeKeysForLegacy(category);
       const perKey = Math.max(1, Math.floor(this.CHUNK_SIZE / Math.max(1, keys.length)));

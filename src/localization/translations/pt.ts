@@ -119,6 +119,15 @@ export const pt: typeof en = {
   collections: {
     ...en.collections,
     title: 'Coleções',
+    tabs: {
+      ...en.collections.tabs,
+      compliments: 'Elogios',
+      romantic: 'Romântico',
+      flirty: 'Flertes',
+      supportive: 'Apoio',
+      funny: 'Engraçado',
+      conversation: 'Conversa',
+    },
   },
   common: {
     ...en.common,

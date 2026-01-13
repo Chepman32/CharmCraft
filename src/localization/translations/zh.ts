@@ -112,6 +112,15 @@ export const zh: typeof en = {
   collections: {
     ...en.collections,
     title: '合集',
+    tabs: {
+      ...en.collections.tabs,
+      compliments: '夸赞',
+      romantic: '浪漫',
+      flirty: '调情',
+      supportive: '鼓励',
+      funny: '好笑',
+      conversation: '对话',
+    },
   },
   common: {
     ...en.common,

@@ -15,6 +15,7 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import { useTheme } from '../contexts/ThemeContext';
 import { useTranslation } from '../contexts/LocalizationContext';
+import { useFeedback } from '../hooks/useFeedback';
 
 const { width, height } = Dimensions.get('window');
 
@@ -32,6 +33,7 @@ interface OnboardingScreenProps {
 const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onFinish }) => {
   const { theme } = useTheme();
   const { t } = useTranslation();
+  const { playButtonTap } = useFeedback();
   const slides = useMemo<Slide[]>(
     () => [
       {
@@ -96,6 +98,7 @@ const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onFinish }) => {
   };
 
   const handleNext = () => {
+    playButtonTap();
     const index = getSafeIndex();
     if (index >= slides.length - 1) {
       onFinish();
@@ -109,6 +112,7 @@ const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onFinish }) => {
   };
 
   const handleBack = () => {
+    playButtonTap();
     const index = getSafeIndex();
     if (index <= 0) {
       return;
@@ -121,6 +125,7 @@ const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onFinish }) => {
   };
 
   const handleSkip = () => {
+    playButtonTap();
     onFinish();
   };
 

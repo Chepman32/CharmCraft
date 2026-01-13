@@ -1,4 +1,5 @@
 import React from 'react';
+import { TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
@@ -26,13 +27,18 @@ const AppNavigator: React.FC = () => {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        screenListeners={{
-          tabPress: () => {
-            void playButtonTap();
-          },
-        }}
         screenOptions={{
           headerShown: false,
+          tabBarButton: (props) => (
+            <TouchableOpacity
+              {...props}
+              activeOpacity={0.7}
+              onPress={(event) => {
+                void playButtonTap();
+                props.onPress?.(event);
+              }}
+            />
+          ),
           tabBarActiveTintColor: theme.colors.primary,
           tabBarInactiveTintColor: theme.colors.textSecondary,
           tabBarStyle: {
