@@ -3,8 +3,6 @@ const path = require('path');
 
 // Generate exactly 1,500 phrases per category for 18,000 total phrases
 function generateMassivePhraseDatabase() {
-  console.log('🚀 Generating massive phrase database with 18,000 phrases...');
-
   const categories = [
     'conversation_starter',
     'compliment',
@@ -579,8 +577,6 @@ function generateMassivePhraseDatabase() {
   const allPhrases = [];
 
   categories.forEach(category => {
-    console.log(`Generating 1,500 phrases for ${category}...`);
-
     const basePhrasesForCategory = basePhrases[category] || [
       `This is a heartfelt ${category} message that brings connection.`,
       `A meaningful ${category} phrase that expresses genuine emotion.`,
@@ -840,8 +836,6 @@ function generateSmartTags(text, category) {
 }
 
 // Execute the massive generation
-console.log('🚀 Starting massive phrase database generation...');
-const startTime = Date.now();
 const massivePhrases = generateMassivePhraseDatabase();
 
 // Create TypeScript content
@@ -868,26 +862,4 @@ const outputPath = path.join(
 );
 fs.writeFileSync(outputPath, tsContent);
 
-const endTime = Date.now();
-const fileSize = fs.statSync(outputPath).size;
-
-console.log(`\n✅ Successfully generated ${massivePhrases.length} phrases!`);
-console.log(`📁 File size: ${(fileSize / 1024 / 1024).toFixed(2)} MB`);
-console.log(
-  `⏱️  Generation time: ${((endTime - startTime) / 1000).toFixed(2)} seconds`,
-);
-console.log(`💾 Saved to: ${outputPath}`);
-
-// Generate summary by category
-const categoryCount = {};
-massivePhrases.forEach(phrase => {
-  categoryCount[phrase.category] = (categoryCount[phrase.category] || 0) + 1;
-});
-
-console.log('\n📊 Phrases per category:');
-Object.entries(categoryCount).forEach(([category, count]) => {
-  console.log(`  ${category}: ${count} phrases`);
-});
-
-console.log('\n🎯 Target achieved: 18,000 phrases generated successfully!');
-console.log('🔄 Next: Run translation generation script...');
+fs.statSync(outputPath);

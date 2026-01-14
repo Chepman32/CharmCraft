@@ -204,7 +204,6 @@ function main() {
   }
 
   fs.writeFileSync(path, JSON.stringify(data, null, 2));
-  console.log('Updated voice note prompts and date planning lines.');
 }
 
 main();

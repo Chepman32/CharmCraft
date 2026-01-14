@@ -29,12 +29,7 @@ class HapticService {
   async initialize(): Promise<void> {
     if (this.initialized) return;
 
-    try {
-      console.log('HapticService initialized');
-      this.initialized = true;
-    } catch (error) {
-      console.error('Error initializing HapticService:', error);
-    }
+    this.initialized = true;
   }
 
   async triggerHaptic(type: HapticType = 'light'): Promise<void> {
@@ -47,12 +42,8 @@ class HapticService {
       } else if (Platform.OS === 'android') {
         // Android uses vibration patterns
         this.triggerAndroidVibration(type);
-      } else {
-        // Fallback for other platforms
-        console.log(`Haptic feedback: ${type}`);
       }
-    } catch (error) {
-      console.error('Error triggering haptic feedback:', error);
+    } catch {
     }
   }
 
@@ -60,8 +51,7 @@ class HapticService {
     try {
       const feedbackType = IOS_HAPTIC_MAP[type] ?? IOS_HAPTIC_MAP.light;
       HapticFeedback.trigger(feedbackType, HAPTIC_OPTIONS);
-    } catch (error) {
-      console.error('Error triggering iOS haptic:', error);
+    } catch {
       this.triggerIOSVibration(type);
     }
   }
@@ -90,8 +80,7 @@ class HapticService {
         default:
           Vibration.vibrate(10);
       }
-    } catch (error) {
-      console.error('Error triggering iOS vibration fallback:', error);
+    } catch {
     }
   }
 
@@ -119,8 +108,7 @@ class HapticService {
         default:
           Vibration.vibrate(15);
       }
-    } catch (error) {
-      console.error('Error triggering Android vibration:', error);
+    } catch {
     }
   }
 
@@ -174,8 +162,7 @@ class HapticService {
   cancelHaptic(): void {
     try {
       Vibration.cancel();
-    } catch (error) {
-      console.error('Error canceling haptic feedback:', error);
+    } catch {
     }
   }
 

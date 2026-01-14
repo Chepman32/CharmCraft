@@ -83,15 +83,13 @@ class PhraseService {
       if (this.translationMap.size === 0) {
         try {
           await this.buildTranslationIndex(language);
-        } catch (e) {
-          console.warn('Translation index build failed:', e);
+        } catch {
         }
       }
       const hit = this.translationMap.get(phraseId);
       if (hit) return hit;
       return this.originalTextMap.get(phraseId) || '';
-    } catch (error) {
-      console.warn('Failed to load translation:', error);
+    } catch {
       return this.originalTextMap.get(phraseId) || '';
     }
   }
@@ -328,10 +326,8 @@ class PhraseService {
           // otherwise the original English phrase text.
           this.largePhrasesDatabase = require('../data/phrases-large.json') as PhrasesDatabase;
           this.useLargeDataset = true;
-          console.log('✅ Large dataset enabled (lazy loading)');
           await this.loadInitialPhrases();
-        } catch (largeError) {
-          console.log('Large dataset not found, using standard dataset');
+        } catch {
           this.useLargeDataset = false;
         }
       } else {
@@ -354,9 +350,7 @@ class PhraseService {
       // Build translation index for current language
       await this.buildTranslationIndex(language);
       
-      console.log(`✅ Loaded ${this.phrases.length} phrases from JSON database`);
     } catch (error) {
-      console.error('Failed to load phrases from JSON:', error);
       handleDatabaseError(error);
       this.phrases = [];
       this.phrasesDatabase = null;
@@ -525,8 +519,7 @@ class PhraseService {
           };
         }
       }
-    } catch (error) {
-      console.warn('Could not load same phrase in new language:', error);
+    } catch {
     }
   }
 
@@ -688,8 +681,7 @@ class PhraseService {
     if (!this.largePhrasesDatabase) {
       try {
         this.largePhrasesDatabase = require('../data/phrases-large.json') as PhrasesDatabase;
-      } catch (error) {
-        console.warn('Large dataset not available for fallback:', error);
+      } catch {
         return;
       }
     }
@@ -728,8 +720,7 @@ class PhraseService {
     if (!this.largePhrasesDatabase) {
       try {
         this.largePhrasesDatabase = require('../data/phrases-large.json') as PhrasesDatabase;
-      } catch (error) {
-        console.warn('Large dataset not available for fallback:', error);
+      } catch {
         return;
       }
     }
@@ -793,7 +784,6 @@ class PhraseService {
       selectedPhrase = unusedPhrases[randomIndex];
     } else {
       // All phrases have been used - reset the cycle
-      console.log('All phrases used, resetting cycle');
       this.usedPhrases.clear();
       await this.saveUsedPhrases();
       
@@ -913,22 +903,19 @@ class PhraseService {
   private async saveFavorites(): Promise<void> {
     try {
       if (!AsyncStorage) {
-        console.warn('AsyncStorage not available, skipping save');
         return;
       }
       await AsyncStorage.setItem(
         FAVORITES_STORAGE_KEY,
         JSON.stringify(this.favorites),
       );
-    } catch (error) {
-      console.error('Error saving favorites:', error);
+    } catch {
     }
   }
 
   private async saveUsageStats(): Promise<void> {
     try {
       if (!AsyncStorage) {
-        console.warn('AsyncStorage not available, skipping save');
         return;
       }
       const statsArray = Array.from(this.usageStats.entries()).map(
@@ -939,33 +926,28 @@ class PhraseService {
         }),
       );
       await AsyncStorage.setItem(USAGE_STATS_KEY, JSON.stringify(statsArray));
-    } catch (error) {
-      console.error('Error saving usage stats:', error);
+    } catch {
     }
   }
 
   private async saveUsedPhrases(): Promise<void> {
     try {
       if (!AsyncStorage) {
-        console.warn('AsyncStorage not available, skipping save');
         return;
       }
       const usedPhrasesArray = Array.from(this.usedPhrases);
       await AsyncStorage.setItem(USED_PHRASES_KEY, JSON.stringify(usedPhrasesArray));
-    } catch (error) {
-      console.error('Error saving used phrases:', error);
+    } catch {
     }
   }
 
   private async saveCurrentPhraseId(): Promise<void> {
     try {
       if (!AsyncStorage) {
-        console.warn('AsyncStorage not available, skipping save');
         return;
       }
       await AsyncStorage.setItem(CURRENT_PHRASE_ID_KEY, this.currentPhraseId || '');
-    } catch (error) {
-      console.error('Error saving current phrase ID:', error);
+    } catch {
     }
   }
 }

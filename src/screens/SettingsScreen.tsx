@@ -38,8 +38,7 @@ const SettingsScreen: React.FC = () => {
       const settings = SettingsService.getSettings();
       setHapticsEnabled(settings.hapticsEnabled);
       setSplashBlobStyle(settings.splashBlobStyle || 'aqua');
-    } catch (error) {
-      console.error('Error loading settings:', error);
+    } catch {
     }
   };
 
@@ -50,8 +49,7 @@ const SettingsScreen: React.FC = () => {
       if (enabled && !hapticsEnabled) {
         playSelectionChange();
       }
-    } catch (error) {
-      console.error('Error updating haptics setting:', error);
+    } catch {
     }
   };
 
@@ -59,19 +57,16 @@ const SettingsScreen: React.FC = () => {
     try {
       await SettingsService.setSplashBlobStyle(style);
       setSplashBlobStyle(style);
-    } catch (error) {
-      console.error('Error updating splash blob style:', error);
+    } catch {
     }
   };
 
-  const handleThemeChange = (themeName: string) => {
+  const handleThemeChange = (_themeName: string) => {
     // Theme change is handled by ThemeSelector
-    console.log('Theme changed to:', themeName);
   };
 
-  const handleLanguageChange = (language: string) => {
+  const handleLanguageChange = (_language: string) => {
     // Language change is handled by LanguageSelector
-    console.log('Language changed to:', language);
   };
 
   return (

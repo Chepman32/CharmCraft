@@ -23,8 +23,7 @@ const FavoritesScreen: React.FC = () => {
       setLoading(true);
       const result = await PhraseService.getFavorites();
       setFavorites(result);
-    } catch (error) {
-      console.error('Error loading favorites:', error);
+    } catch {
     } finally {
       setLoading(false);
     }

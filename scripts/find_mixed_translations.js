@@ -45,5 +45,3 @@ for (const lang of langs){
 }
 
 fs.writeFileSync('mixed-translation-report.json', JSON.stringify(report, null, 2));
-console.log('Report written to mixed-translation-report.json');
-

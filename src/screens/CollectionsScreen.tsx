@@ -135,8 +135,7 @@ const CollectionsScreen: React.FC = () => {
       const unique: Record<string, boolean> = {};
       const deduped = result.filter(p => (unique[p.id] ? false : (unique[p.id] = true)));
       setPhrases(deduped);
-    } catch (error) {
-      console.error('Error loading phrases:', error);
+    } catch {
     } finally {
       setLoading(false);
     }
@@ -175,8 +174,7 @@ const CollectionsScreen: React.FC = () => {
         setPhrases(merged);
       }
       setLimit(2000);
-    } catch (e) {
-      console.error('Error loading more phrases:', e);
+    } catch {
     } finally {
       setLoadingMore(false);
     }

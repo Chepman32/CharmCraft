@@ -354,7 +354,6 @@ function generateLargePhraseDatabase() {
 }
 
 // Generate the database
-console.log('Generating large phrase database...');
 const generatedPhrases = generateLargePhraseDatabase();
 
 // Create the TypeScript file
@@ -380,9 +379,3 @@ const outputPath = path.join(
   'largePhraseDatabase.ts',
 );
 fs.writeFileSync(outputPath, tsContent);
-
-console.log(`Generated ${generatedPhrases.length} phrases`);
-console.log(
-  `File size: ${(fs.statSync(outputPath).size / 1024 / 1024).toFixed(2)} MB`,
-);
-console.log(`Saved to: ${outputPath}`);

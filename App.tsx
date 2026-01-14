@@ -14,10 +14,8 @@ import SettingsService from './src/services/SettingsService';
 import SoundService from './src/services/SoundService';
 import HapticService from './src/services/HapticService';
 import AppNavigator from './src/navigation/AppNavigator';
-import SimpleTest from './src/components/SimpleTest';
 import LiquidSplashScreen from './src/components/LiquidSplashScreen';
 import OnboardingScreen from './src/screens/OnboardingScreen';
-import './src/utils/AppTester'; // Auto-run tests in development
 
 const AppContent: React.FC = () => {
   const { theme } = useTheme();
@@ -37,8 +35,7 @@ const AppContent: React.FC = () => {
         const onboardingStatus = await SettingsService.getOnboardingComplete();
         setOnboardingComplete(onboardingStatus);
         setOnboardingReady(true);
-      } catch (error) {
-        console.error('Error initializing services:', error);
+      } catch {
         setOnboardingReady(true);
       }
     };
@@ -68,8 +65,6 @@ const AppContent: React.FC = () => {
             onFinish={async () => {
               try {
                 await SettingsService.setOnboardingComplete(true);
-              } catch (error) {
-                console.error('Error saving onboarding status:', error);
               } finally {
                 setOnboardingComplete(true);
               }

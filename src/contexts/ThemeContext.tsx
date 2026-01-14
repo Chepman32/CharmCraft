@@ -147,10 +147,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
         setThemeName(savedTheme);
         setThemeState(themes[savedTheme]);
       }
-    } catch (error) {
-      console.error('Error loading theme:', error);
-      // Use default light theme - already set in initial state
-      console.warn('Using default light theme due to loading error');
+    } catch {
     }
   };
 
@@ -160,16 +157,10 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
         await AsyncStorage.setItem(THEME_STORAGE_KEY, newThemeName);
         setThemeName(newThemeName);
         setThemeState(themes[newThemeName]);
-      } catch (error) {
-        console.error('Error saving theme:', error);
-        // Still apply theme in memory even if saving fails
+      } catch {
         setThemeName(newThemeName);
         setThemeState(themes[newThemeName]);
-        console.warn('Theme applied in memory only due to storage error');
       }
-    } else {
-      console.error(`Invalid theme name: ${newThemeName}`);
-      console.warn('Theme not changed due to invalid name');
     }
   };
 
@@ -188,7 +179,6 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
 export const useTheme = (): ThemeContextType => {
   const context = useContext(ThemeContext);
   if (!context) {
-    console.error('useTheme called outside of ThemeProvider');
     throw new Error('useTheme must be used within a ThemeProvider');
   }
   return context;

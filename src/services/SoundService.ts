@@ -9,14 +9,9 @@ class SoundService {
   async initialize(): Promise<void> {
     if (this.initialized) return;
 
-    try {
-      // Placeholder for sound initialization
-      // In a real implementation, you would load sound files here
-      console.log('SoundService initialized');
-      this.initialized = true;
-    } catch (error) {
-      console.error('Error initializing SoundService:', error);
-    }
+    // Placeholder for sound initialization
+    // In a real implementation, you would load sound files here
+    this.initialized = true;
   }
 
   async playSound(
@@ -26,14 +21,11 @@ class SoundService {
       // Settings check is handled by SettingsService before calling this method
       // Placeholder implementation
       // In a real app, you would play actual sound files
-      console.log(`Playing sound: ${soundType}`);
-
       // For web/development, you could use the Web Audio API
       if (Platform.OS === 'web') {
         this.playWebSound(soundType);
       }
-    } catch (error) {
-      console.error('Error playing sound:', error);
+    } catch {
     }
   }
 
@@ -76,14 +68,12 @@ class SoundService {
 
       oscillator.start(audioContext.currentTime);
       oscillator.stop(audioContext.currentTime + 0.1);
-    } catch (error) {
-      console.error('Error playing web sound:', error);
+    } catch {
     }
   }
 
   async preloadSounds(): Promise<void> {
     // Placeholder for preloading sound files
-    console.log('Preloading sounds...');
   }
 
   async releaseResources(): Promise<void> {
@@ -96,14 +86,12 @@ class SoundService {
       });
       this.sounds = {};
       this.initialized = false;
-    } catch (error) {
-      console.error('Error releasing sound resources:', error);
+    } catch {
     }
   }
 
-  setVolume(volume: number): void {
+  setVolume(_volume: number): void {
     // Set global volume (0.0 to 1.0)
-    console.log(`Setting volume to: ${volume}`);
   }
 
   // Convenience methods for specific sound types

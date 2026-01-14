@@ -45,8 +45,7 @@ const HomeScreen: React.FC = () => {
       await PhraseService.initialize();
       const totalCount = await PhraseService.getTotalPhraseCount();
       setTotalPhraseCount(totalCount);
-    } catch (error) {
-      console.error('Error initializing app:', error);
+    } catch {
     } finally {
       setInitializing(false);
     }
@@ -70,8 +69,7 @@ const HomeScreen: React.FC = () => {
       }
 
       setPhrases(result);
-    } catch (error) {
-      console.error('Error loading phrases:', error);
+    } catch {
       Alert.alert('Error', 'Failed to load phrases');
     } finally {
       setLoading(false);
@@ -92,8 +90,7 @@ const HomeScreen: React.FC = () => {
       }
       const result = await PhraseService.searchPhrases(searchFilters);
       setPhrases(result);
-    } catch (error) {
-      console.error('Error loading more phrases:', error);
+    } catch {
       Alert.alert('Error', 'Failed to load more phrases');
     } finally {
       setLoadingMore(false);
@@ -120,8 +117,7 @@ const HomeScreen: React.FC = () => {
     try {
       await PhraseService.recordUsage(phrase.id);
       // Copy functionality is handled in PhraseCard
-    } catch (error) {
-      console.error('Error recording usage:', error);
+    } catch {
     }
   };
 

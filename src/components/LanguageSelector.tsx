@@ -25,11 +25,9 @@ const LanguageSelector: React.FC<LanguageSelectorProps> = ({
   const { playMediumImpact } = useFeedback();
 
   const handleLanguageSelect = async (selectedLanguage: string) => {
-    console.log('Language selection triggered for:', selectedLanguage);
     SettingsService.triggerSoundFeedback('tap');
     await setLanguage(selectedLanguage);
     onLanguageChange(selectedLanguage);
-    console.log('Language change completed for:', selectedLanguage);
   };
 
   const renderLanguageOption = (lang: (typeof availableLanguages)[0]) => {
@@ -103,7 +101,6 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 4,
     minHeight: 44, // Minimum touch target size for iOS
-    backgroundColor: 'rgba(255, 0, 0, 0.1)', // Temporary background to see if elements are rendered
   },
   languageInfo: {
     flex: 1,

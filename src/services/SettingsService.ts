@@ -30,8 +30,7 @@ class SettingsService {
       await this.loadAllSettings();
       await HapticService.initialize();
       await SoundService.initialize();
-    } catch (error) {
-      console.error('Error initializing SettingsService:', error);
+    } catch {
     }
   }
 
@@ -51,8 +50,7 @@ class SettingsService {
         hapticsEnabled,
         splashBlobStyle,
       };
-    } catch (error) {
-      console.error('Error loading settings:', error);
+    } catch {
     }
   }
 
@@ -61,8 +59,7 @@ class SettingsService {
     try {
       const theme = await AsyncStorage.getItem(SETTINGS_KEYS.THEME);
       return theme || 'light';
-    } catch (error) {
-      console.error('Error getting theme:', error);
+    } catch {
       return 'light';
     }
   }
@@ -72,7 +69,6 @@ class SettingsService {
       await AsyncStorage.setItem(SETTINGS_KEYS.THEME, theme);
       this.settings.theme = theme;
     } catch (error) {
-      console.error('Error setting theme:', error);
       throw error;
     }
   }
@@ -82,8 +78,7 @@ class SettingsService {
     try {
       const language = await AsyncStorage.getItem(SETTINGS_KEYS.LANGUAGE);
       return language || 'en';
-    } catch (error) {
-      console.error('Error getting language:', error);
+    } catch {
       return 'en';
     }
   }
@@ -93,7 +88,6 @@ class SettingsService {
       await AsyncStorage.setItem(SETTINGS_KEYS.LANGUAGE, language);
       this.settings.language = language;
     } catch (error) {
-      console.error('Error setting language:', error);
       throw error;
     }
   }
@@ -105,8 +99,7 @@ class SettingsService {
         SETTINGS_KEYS.HAPTICS_ENABLED,
       );
       return hapticsEnabled !== null ? JSON.parse(hapticsEnabled) : true;
-    } catch (error) {
-      console.error('Error getting haptics enabled:', error);
+    } catch {
       return true;
     }
   }
@@ -119,7 +112,6 @@ class SettingsService {
       );
       this.settings.hapticsEnabled = enabled;
     } catch (error) {
-      console.error('Error setting haptics enabled:', error);
       throw error;
     }
   }
@@ -129,8 +121,7 @@ class SettingsService {
     try {
       const style = await AsyncStorage.getItem(SETTINGS_KEYS.SPLASH_BLOB_STYLE);
       return style || 'aqua';
-    } catch (error) {
-      console.error('Error getting splash blob style:', error);
+    } catch {
       return 'aqua';
     }
   }
@@ -140,7 +131,6 @@ class SettingsService {
       await AsyncStorage.setItem(SETTINGS_KEYS.SPLASH_BLOB_STYLE, style);
       this.settings.splashBlobStyle = style;
     } catch (error) {
-      console.error('Error setting splash blob style:', error);
       throw error;
     }
   }
@@ -152,8 +142,7 @@ class SettingsService {
         SETTINGS_KEYS.ONBOARDING_COMPLETE,
       );
       return value !== null ? JSON.parse(value) : false;
-    } catch (error) {
-      console.error('Error getting onboarding status:', error);
+    } catch {
       return false;
     }
   }
@@ -165,7 +154,6 @@ class SettingsService {
         JSON.stringify(complete),
       );
     } catch (error) {
-      console.error('Error setting onboarding status:', error);
       throw error;
     }
   }
@@ -195,7 +183,6 @@ class SettingsService {
     try {
       await Promise.all(updates);
     } catch (error) {
-      console.error('Error updating settings:', error);
       throw error;
     }
   }
@@ -231,7 +218,6 @@ class SettingsService {
         splashBlobStyle: 'aqua',
       };
     } catch (error) {
-      console.error('Error resetting settings:', error);
       throw error;
     }
   }

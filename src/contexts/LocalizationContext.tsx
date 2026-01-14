@@ -127,10 +127,7 @@ export const LocalizationProvider: React.FC<LocalizationProviderProps> = ({
       if (nextLanguage !== savedLanguage) {
         await AsyncStorage.setItem(LANGUAGE_STORAGE_KEY, nextLanguage);
       }
-    } catch (error) {
-      console.error('Error loading language:', error);
-      console.warn('Using default English language due to loading error');
-      // Use default English - already set in initial state
+    } catch {
     }
   };
 
@@ -143,18 +140,12 @@ export const LocalizationProvider: React.FC<LocalizationProviderProps> = ({
         setCurrentTranslations({
           ...translations[newLanguage as keyof typeof translations],
         });
-      } catch (error) {
-        console.error('Error saving language:', error);
-        // Still apply language in memory even if saving fails
+      } catch {
         setLanguageState(newLanguage);
         setCurrentTranslations({
           ...translations[newLanguage as keyof typeof translations],
         });
-        console.warn('Language applied in memory only due to storage error');
       }
-    } else {
-      console.error(`Invalid language code: ${newLanguage}`);
-      console.warn('Language not changed due to invalid code');
     }
   };
 

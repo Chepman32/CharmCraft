@@ -63,8 +63,7 @@ const NewHomeScreen: React.FC = () => {
         PhraseService.setCurrentPhraseId(phrase.id);
         await PhraseService.recordUsage(phrase.id);
       }
-    } catch (error) {
-      console.error('Error generating phrase:', error);
+    } catch {
     }
   }, [selectedCategory, intensity]);
 
@@ -72,8 +71,7 @@ const NewHomeScreen: React.FC = () => {
     try {
       await PhraseService.initialize();
       await generateNewPhrase();
-    } catch (error) {
-      console.error('Error initializing app:', error);
+    } catch {
     } finally {
       setInitializing(false);
     }

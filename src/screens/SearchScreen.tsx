@@ -35,8 +35,7 @@ const SearchScreen: React.FC = () => {
       setLoading(true);
       const result = await PhraseService.searchPhrases({ searchText: query });
       setPhrases(result);
-    } catch (error) {
-      console.error('Error loading search phrases:', error);
+    } catch {
     } finally {
       setLoading(false);
     }
@@ -54,8 +53,7 @@ const SearchScreen: React.FC = () => {
         false,
       );
       setPhrases(result);
-    } catch (error) {
-      console.error('Error loading more search phrases:', error);
+    } catch {
     } finally {
       setLoadingMore(false);
     }
